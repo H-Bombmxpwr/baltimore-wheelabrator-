@@ -1,0 +1,887 @@
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_fea278dee39cd0214730855b4a7e1120 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+
+            &lt;style&gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &lt;/style&gt;
+
+            &lt;style&gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &lt;/style&gt;
+
+            &lt;script&gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &lt;/script&gt;
+
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+    &lt;div style=&quot;position:fixed; bottom:30px; left:30px; z-index:1000;
+                background:white; padding:10px 14px; border-radius:8px;
+                border:1px solid #ccc; font:13px/1.6 sans-serif;&quot;&gt;
+        &lt;b&gt;Study Areas&lt;/b&gt;&lt;br&gt;
+        &lt;i class=&quot;fa fa-industry&quot; style=&quot;color:#8b0000&quot;&gt;&lt;/i&gt; Wheelabrator&lt;br&gt;
+        &lt;span style=&quot;color:#ef4444&quot;&gt;&amp;#9679;&lt;/span&gt; Near Both (WB + I-95)&lt;br&gt;
+        &lt;span style=&quot;color:#f59e0b&quot;&gt;&amp;#9679;&lt;/span&gt; I-95 Corridor Only&lt;br&gt;
+        &lt;span style=&quot;color:#6b7280&quot;&gt;&amp;#9679;&lt;/span&gt; Control&lt;br&gt;
+        &lt;span style=&quot;color:#3b82f6&quot;&gt;&amp;#9679;&lt;/span&gt; EPA AQS Monitor
+    &lt;/div&gt;
+    
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_fea278dee39cd0214730855b4a7e1120&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_fea278dee39cd0214730855b4a7e1120 = L.map(
+                &quot;map_fea278dee39cd0214730855b4a7e1120&quot;,
+                {
+                    center: [39.28, -76.6],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 10,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f2115619924dbacb69bf60216748a09c = L.tileLayer(
+                &quot;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 20,
+  &quot;maxNativeZoom&quot;: 20,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\&quot;https://carto.com/attributions\&quot;\u003eCARTO\u003c/a\u003e&quot;,
+  &quot;subdomains&quot;: &quot;abcd&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_f2115619924dbacb69bf60216748a09c.addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+            var circle_marker_5c530993bd165452b59b6200aec9a05d = L.circleMarker(
+                [39.2631, -76.6324],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_139c89f60bb0fbbd37f6768c2e898fc8 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_c0cfcceb790416cdd2eb7077ee598763 = $(`&lt;div id=&quot;html_c0cfcceb790416cdd2eb7077ee598763&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Westport&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_139c89f60bb0fbbd37f6768c2e898fc8.setContent(html_c0cfcceb790416cdd2eb7077ee598763);
+            
+        
+
+        circle_marker_5c530993bd165452b59b6200aec9a05d.bindPopup(popup_139c89f60bb0fbbd37f6768c2e898fc8)
+        ;
+
+        
+    
+    
+            circle_marker_5c530993bd165452b59b6200aec9a05d.bindTooltip(
+                `&lt;div&gt;
+                     Westport
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_036f2d7ad2bed31d0e9ae0622a9f472f = L.circleMarker(
+                [39.2507, -76.6269],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_f23a0b3112a35700b915c0943111b8eb = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_eded991a79e706fc40d9eb6cb5e0ca9b = $(`&lt;div id=&quot;html_eded991a79e706fc40d9eb6cb5e0ca9b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Cherry Hill&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_f23a0b3112a35700b915c0943111b8eb.setContent(html_eded991a79e706fc40d9eb6cb5e0ca9b);
+            
+        
+
+        circle_marker_036f2d7ad2bed31d0e9ae0622a9f472f.bindPopup(popup_f23a0b3112a35700b915c0943111b8eb)
+        ;
+
+        
+    
+    
+            circle_marker_036f2d7ad2bed31d0e9ae0622a9f472f.bindTooltip(
+                `&lt;div&gt;
+                     Cherry Hill
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_75b9874dd606a3919edb8fc8e7117bed = L.circleMarker(
+                [39.2361, -76.6039],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_758ab5693f04ce6341ab5c55df407ae7 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_6b966ce93f8c0785854066ea84c322ee = $(`&lt;div id=&quot;html_6b966ce93f8c0785854066ea84c322ee&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Brooklyn&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_758ab5693f04ce6341ab5c55df407ae7.setContent(html_6b966ce93f8c0785854066ea84c322ee);
+            
+        
+
+        circle_marker_75b9874dd606a3919edb8fc8e7117bed.bindPopup(popup_758ab5693f04ce6341ab5c55df407ae7)
+        ;
+
+        
+    
+    
+            circle_marker_75b9874dd606a3919edb8fc8e7117bed.bindTooltip(
+                `&lt;div&gt;
+                     Brooklyn
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_86a7bfe31833a89caff34fcebc03f698 = L.circleMarker(
+                [39.2241, -76.5883],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_01be9f97e4be544f6e524e3bbb2c1101 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_54df337a7bdd5ae90b2b5d02133842f6 = $(`&lt;div id=&quot;html_54df337a7bdd5ae90b2b5d02133842f6&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Curtis Bay&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_01be9f97e4be544f6e524e3bbb2c1101.setContent(html_54df337a7bdd5ae90b2b5d02133842f6);
+            
+        
+
+        circle_marker_86a7bfe31833a89caff34fcebc03f698.bindPopup(popup_01be9f97e4be544f6e524e3bbb2c1101)
+        ;
+
+        
+    
+    
+            circle_marker_86a7bfe31833a89caff34fcebc03f698.bindTooltip(
+                `&lt;div&gt;
+                     Curtis Bay
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_a4e09bc67c4149a8f97b734ad8de1d25 = L.circleMarker(
+                [39.269, -76.595],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_bf7efed5e5df05f7fc68f8a564026a9d = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_2d0360676517dee1cba5c75e24e95ac5 = $(`&lt;div id=&quot;html_2d0360676517dee1cba5c75e24e95ac5&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;South Baltimore&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_bf7efed5e5df05f7fc68f8a564026a9d.setContent(html_2d0360676517dee1cba5c75e24e95ac5);
+            
+        
+
+        circle_marker_a4e09bc67c4149a8f97b734ad8de1d25.bindPopup(popup_bf7efed5e5df05f7fc68f8a564026a9d)
+        ;
+
+        
+    
+    
+            circle_marker_a4e09bc67c4149a8f97b734ad8de1d25.bindTooltip(
+                `&lt;div&gt;
+                     South Baltimore
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_460a167e1216377839c02bfff319f4e0 = L.circleMarker(
+                [39.278, -76.613],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#ef4444&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ef4444&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_2691656c46f644d4ce9a232b1a540669 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_dc5bc358c8dcd0b2e56ba6e4b61dad25 = $(`&lt;div id=&quot;html_dc5bc358c8dcd0b2e56ba6e4b61dad25&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Federal Hill&lt;/b&gt;&lt;br&gt;Near Wheelabrator &amp; I-95&lt;/div&gt;`)[0];
+                popup_2691656c46f644d4ce9a232b1a540669.setContent(html_dc5bc358c8dcd0b2e56ba6e4b61dad25);
+            
+        
+
+        circle_marker_460a167e1216377839c02bfff319f4e0.bindPopup(popup_2691656c46f644d4ce9a232b1a540669)
+        ;
+
+        
+    
+    
+            circle_marker_460a167e1216377839c02bfff319f4e0.bindTooltip(
+                `&lt;div&gt;
+                     Federal Hill
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_9b9069f604ef7a31cf3874dec48c69e6 = L.circleMarker(
+                [39.2127, -76.7136],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_777d505066d3e81c1ddd786a934d85b6 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_34c2d736bf9c6a957ecb03affa6a7e76 = $(`&lt;div id=&quot;html_34c2d736bf9c6a957ecb03affa6a7e76&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Elkridge&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_777d505066d3e81c1ddd786a934d85b6.setContent(html_34c2d736bf9c6a957ecb03affa6a7e76);
+            
+        
+
+        circle_marker_9b9069f604ef7a31cf3874dec48c69e6.bindPopup(popup_777d505066d3e81c1ddd786a934d85b6)
+        ;
+
+        
+    
+    
+            circle_marker_9b9069f604ef7a31cf3874dec48c69e6.bindTooltip(
+                `&lt;div&gt;
+                     Elkridge
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_b75a0f3f4cf6a8221fbc0658f5360946 = L.circleMarker(
+                [39.138, -76.823],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_1b987a9aa2733368fc0e64551e1bed71 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_f5840a18b58791dd19ce1b37fbfeef28 = $(`&lt;div id=&quot;html_f5840a18b58791dd19ce1b37fbfeef28&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Savage&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_1b987a9aa2733368fc0e64551e1bed71.setContent(html_f5840a18b58791dd19ce1b37fbfeef28);
+            
+        
+
+        circle_marker_b75a0f3f4cf6a8221fbc0658f5360946.bindPopup(popup_1b987a9aa2733368fc0e64551e1bed71)
+        ;
+
+        
+    
+    
+            circle_marker_b75a0f3f4cf6a8221fbc0658f5360946.bindTooltip(
+                `&lt;div&gt;
+                     Savage
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_af3766f9b4666403c95c8009b064c603 = L.circleMarker(
+                [39.0993, -76.8483],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_2cd5efe58a409be030669bc7ee521515 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_a64abd7e4da5a2ef0d660f4a139cb5dd = $(`&lt;div id=&quot;html_a64abd7e4da5a2ef0d660f4a139cb5dd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Laurel&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_2cd5efe58a409be030669bc7ee521515.setContent(html_a64abd7e4da5a2ef0d660f4a139cb5dd);
+            
+        
+
+        circle_marker_af3766f9b4666403c95c8009b064c603.bindPopup(popup_2cd5efe58a409be030669bc7ee521515)
+        ;
+
+        
+    
+    
+            circle_marker_af3766f9b4666403c95c8009b064c603.bindTooltip(
+                `&lt;div&gt;
+                     Laurel
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_d4f5265dfd59051ceb10cc6f5122679f = L.circleMarker(
+                [39.338, -76.479],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_459f98d9ed30be8e63ead61613c7175a = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_3c764730808391aae489e710215f37a7 = $(`&lt;div id=&quot;html_3c764730808391aae489e710215f37a7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Rossville&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_459f98d9ed30be8e63ead61613c7175a.setContent(html_3c764730808391aae489e710215f37a7);
+            
+        
+
+        circle_marker_d4f5265dfd59051ceb10cc6f5122679f.bindPopup(popup_459f98d9ed30be8e63ead61613c7175a)
+        ;
+
+        
+    
+    
+            circle_marker_d4f5265dfd59051ceb10cc6f5122679f.bindTooltip(
+                `&lt;div&gt;
+                     Rossville
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_09fec1d7b8f465afa058537e91eb613b = L.circleMarker(
+                [39.383, -76.431],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_5df37f98d76c878fdd7136cc5e0bd052 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_fba6e1b6b699406e4d6e32e72f90cd85 = $(`&lt;div id=&quot;html_fba6e1b6b699406e4d6e32e72f90cd85&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;White Marsh&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_5df37f98d76c878fdd7136cc5e0bd052.setContent(html_fba6e1b6b699406e4d6e32e72f90cd85);
+            
+        
+
+        circle_marker_09fec1d7b8f465afa058537e91eb613b.bindPopup(popup_5df37f98d76c878fdd7136cc5e0bd052)
+        ;
+
+        
+    
+    
+            circle_marker_09fec1d7b8f465afa058537e91eb613b.bindTooltip(
+                `&lt;div&gt;
+                     White Marsh
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_eaa032b12bd764f5f5766b5c61c8ce5d = L.circleMarker(
+                [39.5096, -76.1641],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f59e0b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f59e0b&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_16f3f7a6b88132ccb604efbc6667ab74 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_73a54609ec0235f3b92093a24908ef9a = $(`&lt;div id=&quot;html_73a54609ec0235f3b92093a24908ef9a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Aberdeen&lt;/b&gt;&lt;br&gt;I-95 Corridor Only&lt;/div&gt;`)[0];
+                popup_16f3f7a6b88132ccb604efbc6667ab74.setContent(html_73a54609ec0235f3b92093a24908ef9a);
+            
+        
+
+        circle_marker_eaa032b12bd764f5f5766b5c61c8ce5d.bindPopup(popup_16f3f7a6b88132ccb604efbc6667ab74)
+        ;
+
+        
+    
+    
+            circle_marker_eaa032b12bd764f5f5766b5c61c8ce5d.bindTooltip(
+                `&lt;div&gt;
+                     Aberdeen
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_92eb5c4e96c58e2959dcb251e909e2be = L.circleMarker(
+                [39.283, -76.573],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#6b7280&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#6b7280&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_dddaecee13837f5bbe1b547af2d55e5b = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_04945177581ca4433e84bbb53c82673d = $(`&lt;div id=&quot;html_04945177581ca4433e84bbb53c82673d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Canton&lt;/b&gt;&lt;br&gt;Control Area&lt;/div&gt;`)[0];
+                popup_dddaecee13837f5bbe1b547af2d55e5b.setContent(html_04945177581ca4433e84bbb53c82673d);
+            
+        
+
+        circle_marker_92eb5c4e96c58e2959dcb251e909e2be.bindPopup(popup_dddaecee13837f5bbe1b547af2d55e5b)
+        ;
+
+        
+    
+    
+            circle_marker_92eb5c4e96c58e2959dcb251e909e2be.bindTooltip(
+                `&lt;div&gt;
+                     Canton
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_f45dc71ab61c2b000c99bc502ce035f0 = L.circleMarker(
+                [39.282, -76.592],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#6b7280&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#6b7280&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_2d2f7a2d8aff1853c2806d3f218884d0 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_8d06b837cf082c78831381f06db8747d = $(`&lt;div id=&quot;html_8d06b837cf082c78831381f06db8747d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Fells Point&lt;/b&gt;&lt;br&gt;Control Area&lt;/div&gt;`)[0];
+                popup_2d2f7a2d8aff1853c2806d3f218884d0.setContent(html_8d06b837cf082c78831381f06db8747d);
+            
+        
+
+        circle_marker_f45dc71ab61c2b000c99bc502ce035f0.bindPopup(popup_2d2f7a2d8aff1853c2806d3f218884d0)
+        ;
+
+        
+    
+    
+            circle_marker_f45dc71ab61c2b000c99bc502ce035f0.bindTooltip(
+                `&lt;div&gt;
+                     Fells Point
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_bbcb64b9d89c40aeaa9925507aaade60 = L.circleMarker(
+                [39.25, -76.52],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#6b7280&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#6b7280&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_a5e1055cb51f5770bb5aa0e5e6690666 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_3bf1c70d0499b6099efd2d60a3b23cbd = $(`&lt;div id=&quot;html_3bf1c70d0499b6099efd2d60a3b23cbd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Dundalk&lt;/b&gt;&lt;br&gt;Control Area&lt;/div&gt;`)[0];
+                popup_a5e1055cb51f5770bb5aa0e5e6690666.setContent(html_3bf1c70d0499b6099efd2d60a3b23cbd);
+            
+        
+
+        circle_marker_bbcb64b9d89c40aeaa9925507aaade60.bindPopup(popup_a5e1055cb51f5770bb5aa0e5e6690666)
+        ;
+
+        
+    
+    
+            circle_marker_bbcb64b9d89c40aeaa9925507aaade60.bindTooltip(
+                `&lt;div&gt;
+                     Dundalk
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_772a095983d0a3414f6cbccd7fb52379 = L.circleMarker(
+                [39.331, -76.636],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#6b7280&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#6b7280&quot;, &quot;fillOpacity&quot;: 0.7, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_dfb4033c6466a4f5c85f8be441fa937f = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_e4e00585284577a9042604f74d37267f = $(`&lt;div id=&quot;html_e4e00585284577a9042604f74d37267f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Hampden&lt;/b&gt;&lt;br&gt;Control Area&lt;/div&gt;`)[0];
+                popup_dfb4033c6466a4f5c85f8be441fa937f.setContent(html_e4e00585284577a9042604f74d37267f);
+            
+        
+
+        circle_marker_772a095983d0a3414f6cbccd7fb52379.bindPopup(popup_dfb4033c6466a4f5c85f8be441fa937f)
+        ;
+
+        
+    
+    
+            circle_marker_772a095983d0a3414f6cbccd7fb52379.bindTooltip(
+                `&lt;div&gt;
+                     Hampden
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_9cb3faa0b326716e546aff40e1c4b30c = L.marker(
+                [39.27003765823886, -76.62914374046485],
+                {
+}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+            var icon_651d01e5f6ce68b1e28d13d274499da0 = L.AwesomeMarkers.icon(
+                {
+  &quot;markerColor&quot;: &quot;darkred&quot;,
+  &quot;iconColor&quot;: &quot;white&quot;,
+  &quot;icon&quot;: &quot;industry&quot;,
+  &quot;prefix&quot;: &quot;fa&quot;,
+  &quot;extraClasses&quot;: &quot;fa-rotate-0&quot;,
+}
+            );
+        
+    
+        var popup_99257cefe6512aaf0a56be8e9851168b = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_0de489b8bb05aef981980a8c6f551b85 = $(`&lt;div id=&quot;html_0de489b8bb05aef981980a8c6f551b85&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Wheelabrator Baltimore (WIN Waste)&lt;/b&gt;&lt;br&gt;1801 Annapolis Rd, Baltimore, MD 21230&lt;/div&gt;`)[0];
+                popup_99257cefe6512aaf0a56be8e9851168b.setContent(html_0de489b8bb05aef981980a8c6f551b85);
+            
+        
+
+        marker_9cb3faa0b326716e546aff40e1c4b30c.bindPopup(popup_99257cefe6512aaf0a56be8e9851168b)
+        ;
+
+        
+    
+    
+            marker_9cb3faa0b326716e546aff40e1c4b30c.bindTooltip(
+                `&lt;div&gt;
+                     Wheelabrator Baltimore
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+                marker_9cb3faa0b326716e546aff40e1c4b30c.setIcon(icon_651d01e5f6ce68b1e28d13d274499da0);
+            
+    
+            var circle_marker_4b20fe7fc3a27eb74300548d6a497a4d = L.circleMarker(
+                [39.297733, -76.604603],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_98018beb3021fb06792883cb62fbc119 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_ec6de9b777eab37e415490e7e3fb828a = $(`&lt;div id=&quot;html_ec6de9b777eab37e415490e7e3fb828a&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.2977, -76.6046&lt;br&gt;Nearest: Fells Point (2.1 km)&lt;/div&gt;`)[0];
+                popup_98018beb3021fb06792883cb62fbc119.setContent(html_ec6de9b777eab37e415490e7e3fb828a);
+            
+        
+
+        circle_marker_4b20fe7fc3a27eb74300548d6a497a4d.bindPopup(popup_98018beb3021fb06792883cb62fbc119)
+        ;
+
+        
+    
+    
+            circle_marker_4b20fe7fc3a27eb74300548d6a497a4d.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Fells Point)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_37308cb4039e3ec90001cac11d938fe2 = L.circleMarker(
+                [39.33746, -76.58905],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_72cddc28e50a0471b0ef1ab0d74c378c = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_e47e8a3086c3449da857663a4fa1ad6d = $(`&lt;div id=&quot;html_e47e8a3086c3449da857663a4fa1ad6d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.3375, -76.5891&lt;br&gt;Nearest: Hampden (4.1 km)&lt;/div&gt;`)[0];
+                popup_72cddc28e50a0471b0ef1ab0d74c378c.setContent(html_e47e8a3086c3449da857663a4fa1ad6d);
+            
+        
+
+        circle_marker_37308cb4039e3ec90001cac11d938fe2.bindPopup(popup_72cddc28e50a0471b0ef1ab0d74c378c)
+        ;
+
+        
+    
+    
+            circle_marker_37308cb4039e3ec90001cac11d938fe2.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Hampden)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_131ea51288c2afbb1cab62b1159ac40e = L.circleMarker(
+                [39.328807, -76.553075],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_02ac5086fc2e5a1ef432307f58322279 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_7a7829c2c9826c90f3e85b94e56656cd = $(`&lt;div id=&quot;html_7a7829c2c9826c90f3e85b94e56656cd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.3288, -76.5531&lt;br&gt;Nearest: Canton (5.4 km)&lt;/div&gt;`)[0];
+                popup_02ac5086fc2e5a1ef432307f58322279.setContent(html_7a7829c2c9826c90f3e85b94e56656cd);
+            
+        
+
+        circle_marker_131ea51288c2afbb1cab62b1159ac40e.bindPopup(popup_02ac5086fc2e5a1ef432307f58322279)
+        ;
+
+        
+    
+    
+            circle_marker_131ea51288c2afbb1cab62b1159ac40e.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Canton)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_0d7c860dc89fb70de9efd4af87ddba0c = L.circleMarker(
+                [39.460478, -76.633543],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_a919cde3686b06847bfdbacb6bdcc8d0 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_39f088467b58f1c56fd52dc7b7121988 = $(`&lt;div id=&quot;html_39f088467b58f1c56fd52dc7b7121988&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.4605, -76.6335&lt;br&gt;Nearest: Hampden (14.4 km)&lt;/div&gt;`)[0];
+                popup_a919cde3686b06847bfdbacb6bdcc8d0.setContent(html_39f088467b58f1c56fd52dc7b7121988);
+            
+        
+
+        circle_marker_0d7c860dc89fb70de9efd4af87ddba0c.bindPopup(popup_a919cde3686b06847bfdbacb6bdcc8d0)
+        ;
+
+        
+    
+    
+            circle_marker_0d7c860dc89fb70de9efd4af87ddba0c.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Hampden)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_9e60d8c3451d706b1003100fc1dddb6f = L.circleMarker(
+                [39.310833, -76.474444],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_b4b6b19d1d3e0e601c2ff5826e054b41 = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_57197cbf862c7b99b61de6de59ab899d = $(`&lt;div id=&quot;html_57197cbf862c7b99b61de6de59ab899d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.3108, -76.4744&lt;br&gt;Nearest: Rossville (3.0 km)&lt;/div&gt;`)[0];
+                popup_b4b6b19d1d3e0e601c2ff5826e054b41.setContent(html_57197cbf862c7b99b61de6de59ab899d);
+            
+        
+
+        circle_marker_9e60d8c3451d706b1003100fc1dddb6f.bindPopup(popup_b4b6b19d1d3e0e601c2ff5826e054b41)
+        ;
+
+        
+    
+    
+            circle_marker_9e60d8c3451d706b1003100fc1dddb6f.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Rossville)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_aa6fc46e90a928d0d7bfd4ee0ff3ec12 = L.circleMarker(
+                [39.371679, -76.746814],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3b82f6&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3b82f6&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_fea278dee39cd0214730855b4a7e1120);
+        
+    
+        var popup_f7e6e6bbb95a63d5c32a63071c3c3aac = L.popup({
+  &quot;maxWidth&quot;: &quot;100%&quot;,
+});
+
+        
+            
+                var html_880a4900bc5d8d306356961ec96ba3b2 = $(`&lt;div id=&quot;html_880a4900bc5d8d306356961ec96ba3b2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;EPA AQS Monitor&lt;/b&gt;&lt;br&gt;39.3717, -76.7468&lt;br&gt;Nearest: Hampden (10.5 km)&lt;/div&gt;`)[0];
+                popup_f7e6e6bbb95a63d5c32a63071c3c3aac.setContent(html_880a4900bc5d8d306356961ec96ba3b2);
+            
+        
+
+        circle_marker_aa6fc46e90a928d0d7bfd4ee0ff3ec12.bindPopup(popup_f7e6e6bbb95a63d5c32a63071c3c3aac)
+        ;
+
+        
+    
+    
+            circle_marker_aa6fc46e90a928d0d7bfd4ee0ff3ec12.bindTooltip(
+                `&lt;div&gt;
+                     AQS Monitor (near Hampden)
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
