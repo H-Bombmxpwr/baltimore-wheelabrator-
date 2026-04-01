@@ -1,0 +1,38 @@
+# Claude Code
+.claude/
+
+# Environment
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Data (large CSVs are cached locally, not committed)
+data/wind_bwi.csv
+
+# Output (generated files, reproducible via run_all.py)
+output/*.png
+output/*.html

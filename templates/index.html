@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baltimore Air Quality Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1d2e 0%, #2d1f3d 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 2rem 2rem 1.5rem;
+        }
+
+        header h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+        header p { color: #9ca3af; font-size: 0.95rem; max-width: 700px; line-height: 1.5; }
+
+        nav { display: flex; gap: 0.5rem; margin-top: 1.2rem; flex-wrap: wrap; }
+
+        nav a {
+            color: #c4b5fd; text-decoration: none; padding: 0.4rem 1rem; border-radius: 6px;
+            font-size: 0.85rem; background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.2);
+            transition: all 0.2s;
+        }
+        nav a:hover { background: rgba(139,92,246,0.25); border-color: rgba(139,92,246,0.5); color: #fff; }
+
+        main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        .section-title {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: #6b7280; margin-bottom: 0.4rem; margin-top: 2.5rem;
+        }
+        .section-title:first-of-type { margin-top: 0; }
+
+        .section-desc { color: #9ca3af; font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem; }
+
+        /* Stat cards */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem; margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: #1a1d2e; border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px; padding: 1.2rem;
+        }
+        .stat-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin-bottom: 0.4rem; }
+        .stat-card .value { font-size: 1.6rem; font-weight: 700; color: #fff; }
+        .stat-card .unit { font-size: 0.8rem; color: #9ca3af; font-weight: 400; }
+        .stat-card .change { font-size: 0.75rem; margin-top: 0.3rem; }
+        .change.up { color: #f87171; }
+        .change.down { color: #34d399; }
+
+        /* Grid */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        .card {
+            background: #1a1d2e; border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+        .card.full-width { grid-column: 1 / -1; }
+
+        .card-header {
+            padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .card-header h2 { font-size: 1.05rem; font-weight: 600; color: #fff; }
+
+        .badge {
+            font-size: 0.7rem; padding: 0.25rem 0.6rem; border-radius: 20px;
+            font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .badge-chart { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-wind { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .badge-data { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .badge-danger { background: rgba(239,68,68,0.15); color: #f87171; }
+        .badge-map { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+
+        .card-body { padding: 1.5rem; }
+        .card-body p { color: #9ca3af; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .data-table th {
+            text-align: left; padding: 0.6rem 0.8rem;
+            border-bottom: 2px solid rgba(255,255,255,0.1); color: #9ca3af;
+            font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .data-table td { padding: 0.5rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: #e0e0e0; }
+        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+        .tag { display: inline-block; font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-right: 0.3rem; }
+        .tag-both { background: rgba(239,68,68,0.2); color: #f87171; }
+        .tag-i95 { background: rgba(245,158,11,0.2); color: #fbbf24; }
+        .tag-control { background: rgba(107,114,128,0.2); color: #9ca3af; }
+
+        /* Wind rose grid */
+        .wind-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+        .wind-item {
+            text-align: center; text-decoration: none; color: #9ca3af; font-size: 0.8rem;
+            padding: 0.6rem; border-radius: 8px; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s; display: block;
+        }
+        .wind-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+        .wind-item img { width: 100%; border-radius: 6px; margin-bottom: 0.4rem; }
+
+        /* Iframe */
+        .embed-frame { width: 100%; height: 500px; border: none; border-radius: 0 0 12px 12px; background: #fff; }
+        .embed-frame-short { width: 100%; height: 400px; border: none; border-radius: 0 0 12px 12px; background: #fff; }
+
+        /* Callout */
+        .callout {
+            background: rgba(239,68,68,0.08); border-left: 3px solid #ef4444;
+            padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem;
+        }
+        .callout p { color: #fca5a5; font-size: 0.85rem; line-height: 1.5; margin: 0; }
+        .callout strong { color: #f87171; }
+
+        .muted-note { font-size: 0.8rem; color: #6b7280; margin-top: 1rem; margin-bottom: 0; }
+
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+            .wind-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Baltimore Air Quality Analysis</h1>
+        <p>Investigating the impact of Wheelabrator Baltimore (WIN Waste) on local
+           air quality compared to the I-95 corridor. Data from EPA NEI, AQS, and
+           Iowa Environmental Mesonet (2019-2024).</p>
+        <nav>
+            <a href="#map">Study Area</a>
+            <a href="#emissions">Emissions</a>
+            <a href="#wind">Wind Patterns</a>
+            {% if monitors %}
+            <a href="#pollution-roses">Pollution Roses</a>
+            <a href="#directional">Directional</a>
+            <a href="#timeseries">Time Series</a>
+            <a href="#seasonal">Seasonal</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ============================================================ -->
+        <!-- 1. MAP — Where everything is                                 -->
+        <!-- ============================================================ -->
+        <p class="section-title" id="map">1. Study Area Map</p>
+        <p class="section-desc">Where the study neighborhoods are located, color-coded by exposure group.
+           Red = near both Wheelabrator and I-95. Amber = I-95 corridor only. Gray = control areas.</p>
+        <div class="card">
+            <div class="card-header">
+                <h2>Study Locations</h2>
+                <span class="badge badge-map">{{ neighborhoods | length }} Neighborhoods</span>
+            </div>
+            <iframe class="embed-frame" src="/study-map" loading="lazy"></iframe>
+        </div>
+
+        <!-- Neighborhood table below map -->
+        <div class="card" style="margin-top:1rem;">
+            <div class="card-header">
+                <h2>Exposure Classification</h2>
+                <span class="badge badge-data">Study Groups</span>
+            </div>
+            <div class="card-body">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Neighborhood</th><th>Group</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for name, info in neighborhoods.items() %}
+                        <tr>
+                            <td style="color:#fff; font-weight:500;">{{ name }}</td>
+                            <td>
+                                {% if info.near_wheelabrator and info.near_i95 %}
+                                    <span class="tag tag-both">Near Both</span>
+                                {% elif info.near_i95 %}
+                                    <span class="tag tag-i95">I-95 Only</span>
+                                {% else %}
+                                    <span class="tag tag-control">Control</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. FACILITY EMISSIONS — What the incinerator emits           -->
+        <!-- ============================================================ -->
+        <p class="section-title" id="emissions">2. Facility Emissions</p>
+        <p class="section-desc">What Wheelabrator Baltimore reports emitting, from EPA National Emissions Inventory data (2014 and 2017).</p>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="label">NOx Emissions</div>
+                <div class="value">1,101 <span class="unit">tons/yr</span></div>
+                <div class="change up">+2.4% from 2014</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">SO2 Emissions</div>
+                <div class="value">308 <span class="unit">tons/yr</span></div>
+                <div class="change down">-0.9% from 2014</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">PM2.5 Emissions</div>
+                <div class="value">27.3 <span class="unit">tons/yr</span></div>
+                <div class="change up">+18% from 2014</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">CO2 Equivalent</div>
+                <div class="value">762,683 <span class="unit">metric tons</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Emissions</div>
+                <div class="value">{{ "{:,.0f}".format(total_lbs_2017) }} <span class="unit">lbs/yr</span></div>
+                <div class="change up">
+                    {% set pct = ((total_lbs_2017 - total_lbs_2014) / total_lbs_2014 * 100) %}
+                    {% if pct > 0 %}+{% endif %}{{ "%.1f"|format(pct) }}% from 2014
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <p><strong>Wheelabrator Baltimore is the city's single largest stationary source
+            of air pollution.</strong> Its SO2 emissions account for roughly half of all SO2
+            emitted in Baltimore City. The facility produces more mercury, lead, and greenhouse
+            gases per hour than each of Maryland's four largest coal plants.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Major Pollutants</h2>
+                    <span class="badge badge-danger">EPA NEI</span>
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pollutant</th>
+                                <th class="num">2014 (tons/yr)</th>
+                                <th class="num">2017 (tons/yr)</th>
+                                <th class="num">Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set pollutant_names = {
+                                'NOx':          'Nitrogen Oxides (NOx)',
+                                'SO2':          'Sulfur Dioxide (SO2)',
+                                'HCl':          'Hydrochloric Acid (HCl)',
+                                'CO':           'Carbon Monoxide (CO)',
+                                'PM':           'Particulate Matter (PM)',
+                                'PM2.5':        'Fine Particulate Matter (PM2.5)',
+                                'Formaldehyde': 'Formaldehyde (CH2O)',
+                                'VOC':          'Volatile Organic Compounds (VOC)',
+                            } %}
+                            {% for name in ['NOx', 'SO2', 'HCl', 'CO', 'PM', 'PM2.5', 'Formaldehyde', 'VOC'] %}
+                            <tr>
+                                <td>{{ pollutant_names[name] }}</td>
+                                <td class="num">{{ "{:,.1f}".format(emissions_2014[name].tons_per_year) }}</td>
+                                <td class="num">{{ "{:,.1f}".format(emissions_2017[name].tons_per_year) }}</td>
+                                <td class="num">
+                                    {% set diff = emissions_2017[name].tons_per_year - emissions_2014[name].tons_per_year %}
+                                    {% set pct = (diff / emissions_2014[name].tons_per_year * 100) if emissions_2014[name].tons_per_year > 0 else 0 %}
+                                    <span style="color: {{ '#f87171' if diff > 0 else '#34d399' }}">
+                                        {% if diff > 0 %}+{% endif %}{{ "%.1f"|format(pct) }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Trace Pollutants</h2>
+                    <span class="badge badge-danger">Heavy Metals &amp; Toxics</span>
+                </div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pollutant</th>
+                                <th class="num">2014 (lbs/yr)</th>
+                                <th class="num">2017 (lbs/yr)</th>
+                                <th class="num">Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set trace_names = {
+                                'HF':           'Hydrogen Fluoride (HF)',
+                                'Lead':         'Lead (Pb)',
+                                'Mercury':      'Mercury (Hg)',
+                                'Nickel':       'Nickel (Ni)',
+                                'Chromium_VI':  'Hexavalent Chromium (Cr VI)',
+                            } %}
+                            {% for name in ['HF', 'Lead', 'Mercury', 'Nickel', 'Chromium_VI'] %}
+                            <tr>
+                                <td>{{ trace_names[name] }}</td>
+                                <td class="num">{{ "{:,.0f}".format(emissions_2014[name].lbs_per_year) }}</td>
+                                <td class="num">{{ "{:,.0f}".format(emissions_2017[name].lbs_per_year) }}</td>
+                                <td class="num">
+                                    {% set diff = emissions_2017[name].lbs_per_year - emissions_2014[name].lbs_per_year %}
+                                    {% set pct = (diff / emissions_2014[name].lbs_per_year * 100) if emissions_2014[name].lbs_per_year > 0 else 0 %}
+                                    <span style="color: {{ '#f87171' if diff > 0 else '#34d399' }}">
+                                        {% if diff > 0 %}+{% endif %}{{ "%.1f"|format(pct) }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p class="muted-note">Source: EPA National Emissions Inventory, 2014 &amp; 2017</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Plotly emissions charts -->
+        <div class="grid" style="margin-top:1.5rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Major Emissions Chart</h2>
+                    <span class="badge badge-chart">Interactive</span>
+                </div>
+                <iframe class="embed-frame" src="/emissions" loading="lazy"></iframe>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Trace Pollutants Chart</h2>
+                    <span class="badge badge-chart">Interactive</span>
+                </div>
+                <iframe class="embed-frame" src="/emissions-trace" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. WIND ROSES — Where pollution is likely transported         -->
+        <!-- ============================================================ -->
+        <p class="section-title" id="wind">3. Wind Patterns</p>
+        <p class="section-desc">Wind direction and speed distributions from BWI airport (2019-2024).
+           These show where emissions are likely carried. Click any rose to view full size.</p>
+        <div class="card">
+            <div class="card-header">
+                <h2>Wind Roses</h2>
+                <span class="badge badge-wind">Hourly Observations</span>
+            </div>
+            <div class="card-body">
+                <div class="wind-grid">
+                    <a href="/wind-rose" target="_blank" class="wind-item">
+                        <img src="/wind-rose" alt="Overall" loading="lazy">Overall
+                    </a>
+                    <a href="/wind-rose/winter" target="_blank" class="wind-item">
+                        <img src="/wind-rose/winter" alt="Winter" loading="lazy">Winter
+                    </a>
+                    <a href="/wind-rose/spring" target="_blank" class="wind-item">
+                        <img src="/wind-rose/spring" alt="Spring" loading="lazy">Spring
+                    </a>
+                    <a href="/wind-rose/summer" target="_blank" class="wind-item">
+                        <img src="/wind-rose/summer" alt="Summer" loading="lazy">Summer
+                    </a>
+                    <a href="/wind-rose/fall" target="_blank" class="wind-item">
+                        <img src="/wind-rose/fall" alt="Fall" loading="lazy">Fall
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4-7. PER-MONITOR AQS CHARTS (shown after full pipeline run)  -->
+        <!-- ============================================================ -->
+        {% if monitors %}
+
+        <!-- 4. POLLUTION ROSES — Directional dependence of measured pollution -->
+        <p class="section-title" id="pollution-roses">4. Pollution Roses</p>
+        <p class="section-desc">Mean measured pollutant concentration by wind direction at each EPA monitor.
+           If pollution is higher from one direction, these roses will show it.</p>
+        <div class="grid">
+            {% for label, charts in monitors.items() %}
+            {% if charts.get('pollution_rose') %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Monitor {{ label.replace('_', ', ') }}</h2>
+                    <span class="badge badge-wind">PM2.5</span>
+                </div>
+                <iframe class="embed-frame" src="/output/{{ charts.pollution_rose }}" loading="lazy"></iframe>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- 5. DIRECTIONAL COMPARISON — Wheelabrator vs I-95 -->
+        <p class="section-title" id="directional">5. Directional Comparison</p>
+        <p class="section-desc">Side-by-side comparison of pollutant levels when monitors are downwind
+           of Wheelabrator, downwind of I-95, downwind of both, or downwind of neither.</p>
+        <div class="grid">
+            {% for label, charts in monitors.items() %}
+            {% if charts.get('directional') %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Monitor {{ label.replace('_', ', ') }}</h2>
+                    <span class="badge badge-chart">WB vs I-95</span>
+                </div>
+                <iframe class="embed-frame" src="/output/{{ charts.directional }}" loading="lazy"></iframe>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- 6. TIME SERIES — When differences occur -->
+        <p class="section-title" id="timeseries">6. Time Series</p>
+        <p class="section-desc">Daily pollutant readings over time, colored by whether the monitor was
+           downwind of Wheelabrator, I-95, both, or neither that day. Includes 30-day rolling averages.</p>
+        <div class="grid">
+            {% for label, charts in monitors.items() %}
+            {% if charts.get('timeseries') %}
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2>Monitor {{ label.replace('_', ', ') }}</h2>
+                    <span class="badge badge-chart">Daily Values</span>
+                </div>
+                <iframe class="embed-frame" src="/output/{{ charts.timeseries }}" loading="lazy"></iframe>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- 7. SEASONAL — Whether patterns change by season -->
+        <p class="section-title" id="seasonal">7. Seasonal Breakdown</p>
+        <p class="section-desc">The same directional comparison broken down by season, to see
+           if the Wheelabrator vs I-95 pattern varies with weather and wind shifts.</p>
+        <div class="grid">
+            {% for label, charts in monitors.items() %}
+            {% if charts.get('seasonal') %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Monitor {{ label.replace('_', ', ') }}</h2>
+                    <span class="badge badge-wind">By Season</span>
+                </div>
+                <iframe class="embed-frame" src="/output/{{ charts.seasonal }}" loading="lazy"></iframe>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Placeholder when AQS data hasn't been generated yet -->
+        <p class="section-title">4-7. Monitor Analysis</p>
+        <div class="card">
+            <div class="card-body">
+                <p style="color:#6b7280; margin:0;">Pollution roses, directional comparisons, time series, and seasonal
+                   breakdowns will appear here after running <code style="color:#c4b5fd;">python run_all.py</code>
+                   with an AQS API key. These charts are generated per EPA monitor station.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <p style="text-align:center; color:#4b5563; font-size:0.75rem; margin-top:3rem; padding-bottom:2rem;">
+            Data: EPA National Emissions Inventory, EPA AQS, Iowa Environmental Mesonet &mdash;
+            Wheelabrator Baltimore / WIN Waste, 1801 Annapolis Rd, Baltimore MD 21230
+        </p>
+    </main>
+</body>
+</html>

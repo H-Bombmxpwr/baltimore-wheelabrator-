@@ -1,0 +1,162 @@
+BALTIMORE AIR QUALITY ANALYSIS — PRESENTATION SCRIPT
+=====================================================
+
+This script walks through each section of the dashboard in order.
+No analysis or conclusions — just what each visualization is showing.
+
+
+1. STUDY AREA MAP
+-----------------
+This map shows the 16 neighborhoods included in the study, color-coded
+into three groups:
+
+  RED dots   — Near both Wheelabrator AND I-95
+               (Westport, Cherry Hill, Brooklyn, Curtis Bay,
+                South Baltimore, Federal Hill)
+
+  AMBER dots — Along the I-95 corridor ONLY, far from Wheelabrator
+               South: Elkridge, Savage, Laurel
+               North: Rossville, White Marsh, Aberdeen
+
+  GRAY dots  — Control areas, away from both sources
+               (Canton, Fells Point, Dundalk, Hampden)
+
+The dark-red factory icon marks the Wheelabrator Baltimore incinerator
+at 1801 Annapolis Rd.
+
+The three groups exist so we can compare:
+  - "Near Both" neighborhoods get highway AND incinerator pollution
+  - "I-95 Only" neighborhoods get highway pollution but no incinerator
+  - "Control" neighborhoods get neither at significant levels
+Any difference between the first two groups points to Wheelabrator's
+contribution above and beyond normal highway pollution.
+
+
+2. FACILITY EMISSIONS
+---------------------
+This section shows what Wheelabrator Baltimore officially reports
+emitting, based on EPA National Emissions Inventory filings for 2014
+and 2017.
+
+The stat cards at the top are the headline numbers:
+  - NOx (nitrogen oxides): 1,101 tons/year
+  - SO2 (sulfur dioxide): 308 tons/year
+  - PM2.5 (fine particulate matter): 27.3 tons/year
+  - CO2 equivalent: 762,683 metric tons/year
+  - Total reported emissions: ~3.2 million lbs/year
+
+The two tables break it down further:
+  - Major pollutants (measured in tons/year): NOx, SO2, HCl,
+    CO, PM, PM2.5, Formaldehyde, VOC
+  - Trace pollutants (measured in pounds/year): HF (hydrogen fluoride),
+    Lead, Mercury, Nickel, Chromium VI
+
+Each row shows the 2014 value, the 2017 value, and the percentage
+change between the two years. Red percentages mean the pollutant
+increased; green means it decreased.
+
+The two interactive Plotly bar charts below the tables are the same
+data in visual form — hover over any bar for exact values.
+
+The red callout box provides context: Wheelabrator is the single
+largest stationary source of air pollution in Baltimore City.
+
+
+3. WIND ROSES
+-------------
+Wind roses show how often the wind blows FROM each direction, and
+how fast. They are based on 6 years of hourly wind observations
+(2019-2024) from BWI airport.
+
+How to read them:
+  - Each spoke points in the direction the wind is coming FROM
+  - The length of a spoke = how often wind comes from that direction
+  - The color bands within each spoke = wind speed classes
+  - Longer spoke = more frequent wind from that direction
+
+There are five roses:
+  - Overall: all years combined
+  - Winter, Spring, Summer, Fall: seasonal breakdowns
+
+These matter because wind direction determines which neighborhoods
+are downwind of Wheelabrator on any given day. If the wind is
+blowing from the south, neighborhoods to the north receive the
+emissions.
+
+
+4. POLLUTION ROSES
+------------------
+(Visible after running the full pipeline with AQS data)
+
+These look like wind roses but show something different. Instead of
+wind frequency, each spoke shows the AVERAGE measured pollutant
+concentration (PM2.5) when wind comes from that direction.
+
+How to read them:
+  - Each spoke points in the direction the wind is coming FROM
+  - The length of a spoke = mean PM2.5 concentration when wind
+    blows from that direction
+  - If one spoke is much longer than others, pollution is worse
+    when wind comes from that direction
+
+There is one pollution rose per EPA monitoring station. The station's
+coordinates are shown in the chart title (latitude, longitude).
+
+
+5. DIRECTIONAL COMPARISON
+-------------------------
+(Visible after running the full pipeline with AQS data)
+
+These bar charts directly compare pollutant levels across four
+conditions:
+  - Downwind of Wheelabrator only
+  - Downwind of I-95 only
+  - Downwind of both
+  - Downwind of neither
+
+For each condition the chart shows the mean, median, and 90th
+percentile PM2.5 concentration, plus the number of days in
+that category.
+
+One chart per monitoring station.
+
+
+6. TIME SERIES
+--------------
+(Visible after running the full pipeline with AQS data)
+
+These are scatter plots of daily PM2.5 readings over the full
+date range, with each dot colored by which downwind category
+that day fell into:
+  - Red = downwind of Wheelabrator only
+  - Orange = downwind of I-95 only
+  - Purple = downwind of both
+  - Gray = downwind of neither
+
+Overlaid on the scatter are 30-day rolling average lines for
+each category, making trends easier to see.
+
+One chart per monitoring station. Time series are shown full-width
+because the x-axis (years of daily data) needs the space.
+
+
+7. SEASONAL BREAKDOWN
+---------------------
+(Visible after running the full pipeline with AQS data)
+
+These are the same directional comparison as section 5, but split
+into four panels — Winter, Spring, Summer, Fall.
+
+This matters because wind patterns shift by season (as shown in the
+wind roses), so the relationship between wind direction and pollution
+levels may also change seasonally.
+
+One chart per monitoring station.
+
+
+DATA SOURCES
+------------
+  - Wind data: Iowa Environmental Mesonet, BWI ASOS station
+  - Facility emissions: EPA National Emissions Inventory (2014, 2017)
+  - Air quality readings: EPA Air Quality System (AQS) monitors
+  - Toxics: EPA Toxics Release Inventory via Envirofacts API
