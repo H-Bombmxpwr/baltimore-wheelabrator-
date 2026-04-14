@@ -1,6 +1,80 @@
 BALTIMORE AIR QUALITY PRESENTATION SCRIPT
 =========================================
 
+QUICK FAQ - TERMS USED IN THIS DECK
+-----------------------------------
+
+Wheelabrator: the trash-burning incinerator in South Baltimore.
+Officially WIN Waste Innovations. Baltimore's biggest single air
+pollution source by permitted emissions.
+
+I-95: the interstate highway that runs right past Wheelabrator.
+The other major pollution source in the same corner of the city.
+
+PM2.5: fine particulate matter. Tiny particles 2.5 micrometers or
+smaller, small enough to get deep into the lungs. Measured in
+micrograms per cubic meter of air (ug/m3). This is the pollutant
+I focused on.
+
+Monitor: an EPA air quality station that reports a daily PM2.5
+reading. I used four of them in the Baltimore area.
+
+Monitor-day: one day of readings from one monitor. So four
+monitors times roughly 2,000 days is the total amount of evidence
+I am working with.
+
+Wheelabrator-only day: a day at a monitor when the wind was
+blowing from the incinerator toward that monitor (inside a 45
+degree cone on either side of the straight line between them) for
+more than half the hours of the day, AND the wind was NOT also
+doing that for I-95.
+
+I-95-only day: same idea, but wind pointed from the highway
+toward the monitor and not also from Wheelabrator.
+
+Both day: a day when the wind qualified as pointed from BOTH
+Wheelabrator and I-95 at that monitor. Happens when the two
+sources are close to the same direction from that monitor.
+
+Neither day: a day when the wind qualified as pointed from
+NEITHER. Either the wind was from a totally different direction,
+or the direction was unstable across the day.
+
+Downwind: wind is blowing FROM the source TOWARD you. If the wind
+is from the southwest, the monitor to the northeast is downwind.
+
+Wind rose: a polar chart. Each spoke points in a compass
+direction, and the length of the spoke shows how often wind comes
+from that direction. Long spoke on the southwest means wind is
+often coming from the southwest.
+
+Southwesterly wind: wind blowing from the southwest. Relevant
+here because it is the same wind that carries Ohio Valley and
+mid-Atlantic regional pollution into Baltimore. Most Wheelabrator
+days at these monitors were also southwesterly days, which is the
+main confounder in this analysis.
+
+Regional transport: pollution that was produced somewhere else
+(like Ohio, Pennsylvania, or West Virginia) and blew into
+Baltimore on the wind. Not local to the city.
+
+Delta: the percent difference between the Wheelabrator-only
+average and the I-95-only average at a given monitor. Positive
+delta means Wheelabrator days were dirtier.
+
+Angular offset: the number of degrees between the direction to
+Wheelabrator and the direction to the nearest point on I-95, from
+a given monitor's point of view. Small offset means the method
+cannot really tell the two sources apart at that monitor.
+
+
+Note on the charts: every chart in this deck is interactive. You
+can click-and-drag to zoom in on any chart, and double-click
+anywhere inside it to reset back to the full view. A small
+toolbar also appears in the top-right corner of each chart with a
+"home" button for the same thing.
+
+
 SLIDE 1 - DIRECTIONAL ANALYSIS OF WHEELABRATOR AIR POLLUTION
 IN BALTIMORE
 I looked at whether the air gets dirtier in Baltimore
@@ -9,6 +83,13 @@ incinerator, compared to when the wind is blowing from the I-95
 highway. Both are big pollution sources sitting right next to
 each other in South Baltimore, and most of the city is downwind
 of them on a pretty regular basis.
+
+How to read this slide: the map on the right shows the Baltimore
+area with Wheelabrator and I-95 marked, along with the
+neighborhoods I grouped for comparison. You can pan and zoom the
+map. The chips across the top are the headline numbers for the
+whole study: how many monitors I used, how many hours of wind
+data, and so on.
 
 
 SLIDE 2 - RESEARCH QUESTION, OBJECTIVE, AND OUTLINE
@@ -29,6 +110,12 @@ from the incinerator toward that specific neighborhood for most
 of the day. Not a guess, not a general direction, an actual line
 from the source to the monitor.
 
+How to read this slide: no charts here, just the question and a
+photo of the Wheelabrator incinerator so you know what we are
+actually talking about. The card on the right is an outline of
+how the rest of the slides flow, context first, then numbers,
+then the stress-test, then what I think it means.
+
 
 SLIDE 3 - STUDY AREA AND EXPOSURE GROUPS
 I picked three kinds of neighborhoods. Six sit next to both
@@ -38,6 +125,12 @@ from both. That third group is basically a sanity check. The
 middle group is the important one, because it tells me what
 highway pollution alone looks like, without the incinerator in
 the mix.
+
+How to read this slide: the map is interactive. Wheelabrator is
+marked with an icon, I-95 runs through as a line, and the
+neighborhoods are color-coded by group: near both sources, I-95
+only, and the control group. Hover or click on a point for the
+neighborhood name.
 
 
 SLIDE 4 - DATASETS AND DIRECTIONAL METHOD
@@ -50,6 +143,13 @@ Putting those three together is what lets me say "on this day at
 this monitor, the wind was carrying Wheelabrator plume toward
 this neighborhood."
 
+How to read this slide: the photo on the right is an example of
+an EPA air monitor, the kind of station that produced the daily
+PM2.5 readings I used. The diagram across the bottom is the
+pipeline, left to right: the three data sources flow into the
+daily downwind classification, which flows into the source
+comparison. One monitor, one day, one bucket.
+
 
 SLIDE 5 - FACILITY EMISSIONS
 Wheelabrator is a serious polluter by the numbers. In 2017 it
@@ -61,6 +161,14 @@ but hydrogen fluoride and nickel climbed. None of this proves
 anyone's PM2.5 reading came from Wheelabrator, but it does show
 the facility is not a small source.
 
+How to read this slide: the bar chart on the left shows emissions
+by pollutant. Each pollutant has two bars: blue is 2014, red is
+2017. Taller bars mean more pounds or tons per year. Use the
+"Major Pollutants" tab for the big pollutants in tons per year,
+and the "Trace Pollutants" tab for metals and specialty
+pollutants in pounds per year. The stat boxes on the right are
+the four headline 2017 numbers.
+
 
 SLIDE 6 - WIND PATTERNS AND SEASONAL TRANSPORT
 Wind is the link between the smokestack and the monitor. Over
@@ -71,6 +179,19 @@ day to day, so the same neighborhood is not always downwind of
 the same thing, which is exactly what makes this kind of analysis
 work. Southwesterly wind is going to come back in a couple of
 slides because it matters more than I originally thought.
+
+How to read this slide: two charts. The polar bar chart on the
+left is a simple version: each spoke points in a compass
+direction, N at top, E at right, and the longer the spoke, the
+more often wind comes from that direction. The wind rose on the
+right shows the same idea but adds wind speed, colored rings
+inside each spoke. Tabs above it let you switch between the
+overall rose and each season. Photo below is BWI airport, the one
+weather station feeding all of this. Key point for the audience:
+a long spoke on the southwest means wind is coming from the
+southwest, which means it is blowing toward the northeast, which
+is where most of the monitors are. That is why southwesterly wind
+matters.
 
 
 SLIDE 7 - MAIN PM2.5 FINDING
@@ -86,6 +207,14 @@ on top of the highway background. But I want to say up front that
 a 43 percent gap is the first thing I saw, not the last. I spent
 the next few slides pressure-testing it.
 
+How to read this chart: four bars, one per wind bucket. The
+height of each bar is the average PM2.5 reading on days in that
+bucket, across every monitor. The small text above each bar is
+the sample size, how many monitor-days are in that bucket. Red is
+Wheelabrator-only, orange is I-95-only, purple is both, gray is
+neither. You are reading this bar chart for the ordering: red
+above orange, and by how much.
+
 
 SLIDE 8 - MONITOR-BY-MONITOR WHEELABRATOR SIGNAL
 The gap is not the same everywhere. Three of the four monitors
@@ -98,6 +227,15 @@ would expect at least a small positive gap at every monitor. The
 fact that Essex flips tells me something about how local or how
 consistent the signal really is.
 
+How to read this chart: the horizontal bar chart on the left
+shows each monitor's delta, the percent difference between
+Wheelabrator-only days and I-95-only days. Red bars going right
+mean Wheelabrator days were dirtier. Blue bars going left mean
+highway days were dirtier. The table on the right shows the raw
+numbers behind each bar: the WB-only mean, the I-95-only mean,
+and the delta. You want to see whether all four monitors lean the
+same direction. Three do, Essex does not.
+
 
 SLIDE 9 - SEASONAL PM2.5 PATTERN
 The gap also changes with the seasons. In spring, fall, and
@@ -109,6 +247,15 @@ own. It also hints that some of what I am seeing might not be
 Wheelabrator at all, because summer is also when regional
 pollution from outside Baltimore peaks.
 
+How to read this chart: the line chart has one line per wind
+bucket across the four seasons. Follow the red line, Wheelabrator
+only, against the orange line, I-95 only. In winter, spring, and
+fall the red line sits well above the orange line, that is the
+gap I am talking about. In summer the lines bunch together, that
+is the gap collapsing. You can also eyeball what summer does to
+the overall pollution level: every line climbs, which means
+summer is just dirty across the board.
+
 
 SLIDE 10 - MONITOR EVIDENCE DETAIL
 This is the deeper dive. For each monitor I have a pollution
@@ -119,6 +266,20 @@ Wheelabrator-wind days. Essex behaves differently. Padonia is
 somewhere in the middle. Rather than walk through each chart, I
 want you to know they are here and that none of them contradicted
 the headline number.
+
+How to read this slide: pick a monitor from the dropdown on the
+left. Then pick an "Evidence view" from the four buttons:
+- Pollution Rose: a compass chart where the petals show PM2.5 by
+  wind direction. Long red petal coming from the Wheelabrator
+  direction means dirtier air on winds from that source.
+- Directional: bar chart of the four wind buckets for just this
+  monitor, same idea as Slide 7 but one monitor at a time.
+- Time Series: daily PM2.5 over time, color-coded by wind bucket.
+  Useful for seeing whether the high readings cluster on specific
+  days or spread evenly.
+- Seasonal: the Slide 9 chart but for this monitor alone.
+The text card underneath the dropdown tells you what I read into
+that specific monitor.
 
 
 SLIDE 11 - DIRECTIONAL OVERLAP AND REGIONAL TRANSPORT
@@ -139,6 +300,19 @@ same wind as the incinerator plume. I do not know how big that
 chunk is without more work. But I cannot call the whole 43
 percent local Wheelabrator impact.
 
+How to read this chart: two small bar charts side by side, one
+row per monitor. The left panel shows the angular offset, how
+many degrees apart the direction to Wheelabrator and the
+direction to I-95 are, from that monitor's point of view. Bars to
+the right of the dashed red line at 45 degrees mean the two
+directions are distinct enough for the method to tell them apart.
+Bars to the left of that line mean the two categories are
+overlapping, the monitor cannot really separate them. The right
+panel shows the southwesterly share, what percent of Wheelabrator
+days at that monitor were on southwesterly wind. High bars mean
+most of that monitor's WB-only days are also regional-transport
+days. The table below gives you the raw numbers.
+
 
 SLIDE 12 - CONCLUSIONS
 The honest version of my conclusion: the air is worse in
@@ -152,6 +326,12 @@ neighborhoods that already live with highway exhaust, and wind
 carries its plume into the rest of the city regularly. That is
 enough to justify more monitoring. It is not enough, on its own,
 to say how much damage the facility is specifically doing.
+
+How to read this slide: two boxes side by side. The green box on
+the left is what I can defend from the data, the part I would
+stand behind. The red box on the right is what I did not prove,
+the weaknesses and the part I am not claiming. Read both before
+walking away with a conclusion.
 
 
 SLIDE 13 - LIMITATIONS AND RECOMMENDATIONS
@@ -167,3 +347,6 @@ neighborhoods, subtracting a regional background from the numbers
 before blaming Wheelabrator for the rest, and repeating the same
 directional approach for sulfur dioxide and nitrogen dioxide
 because those are more unique to local sources than PM2.5 is.
+
+How to read this slide: two columns of bullets, no charts. Left
+column is the weaknesses, right column is the next moves.
