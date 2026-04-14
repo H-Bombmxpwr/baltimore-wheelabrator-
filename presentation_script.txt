@@ -3,189 +3,167 @@ BALTIMORE AIR QUALITY PRESENTATION SCRIPT
 
 SLIDE 1 - DIRECTIONAL ANALYSIS OF WHEELABRATOR AIR POLLUTION
 IN BALTIMORE
-I examined whether PM2.5 was higher when Baltimore-area monitors
-were downwind of Wheelabrator Baltimore than when they were
-downwind of the I-95 corridor alone. To answer that question, I
-combined EPA emissions data, EPA AQS monitor data, and hourly
-wind observations from BWI. My goal was to separate the
-incinerator signal from the broader highway background instead of
-treating all urban pollution as the same, while being honest
-about what a wind-based screening method can and cannot prove.
+I looked at whether the air gets dirtier in Baltimore
+neighborhoods when the wind is blowing from the Wheelabrator
+incinerator, compared to when the wind is blowing from the I-95
+highway. Both are big pollution sources sitting right next to
+each other in South Baltimore, and most of the city is downwind
+of them on a pretty regular basis.
 
 
 SLIDE 2 - RESEARCH QUESTION, OBJECTIVE, AND OUTLINE
-My research question was straightforward: was ambient PM2.5
-higher when monitors were downwind of Wheelabrator than when they
-were downwind of I-95 alone? My objective was to use a
-GIS-informed directional method to compare Wheelabrator-only
-days, I-95-only days, both-source days, and neither-source days,
-and then to stress-test that contrast against the main
-confounders. I moved from source context, to study design and
-method, to the PM2.5 results, to a directional confound check,
-and then to my conclusions and recommendations.
+The question was simple: is Wheelabrator making the air worse on
+top of what I-95 is already doing? To answer it I sorted every
+day at every monitor into one of four buckets based on where the
+wind was coming from that day. Wind from Wheelabrator. Wind from
+the highway. Wind from both. Wind from neither. Then I compared
+the air quality numbers across those buckets. Quick note on what
+those buckets actually mean. For each monitor I drew a straight
+line to the incinerator. If the wind was blowing from that
+direction, inside a 45 degree cone on either side of that line,
+for more than half the hours of the day, that day counts as a
+Wheelabrator-wind day at that monitor. Same rule for the highway,
+using the closest point on I-95 to that monitor. So when I say
+"wind from Wheelabrator," I mean the wind was actually pointed
+from the incinerator toward that specific neighborhood for most
+of the day. Not a guess, not a general direction, an actual line
+from the source to the monitor.
 
 
 SLIDE 3 - STUDY AREA AND EXPOSURE GROUPS
-I divided the study area into three groups. Six neighborhoods
-were near both Wheelabrator and I-95, six neighborhoods were in
-the I-95 corridor only, and four neighborhoods acted as control
-areas. That design mattered because I treated the I-95-only
-communities as the transportation baseline. Instead of asking
-whether the incinerator area was simply more polluted than
-distant places, I asked whether it was more polluted than other
-communities exposed to highway traffic but not to Wheelabrator.
-The geographic grouping is the framing, while the numerical
-analysis used the four AQS PM2.5 monitors that happened to sit
-inside the study area.
+I picked three kinds of neighborhoods. Six sit next to both
+Wheelabrator and I-95. Six more sit along I-95 but far enough
+from the incinerator that it should not reach them. Four sit away
+from both. That third group is basically a sanity check. The
+middle group is the important one, because it tells me what
+highway pollution alone looks like, without the incinerator in
+the mix.
 
 
 SLIDE 4 - DATASETS AND DIRECTIONAL METHOD
-I compiled Wheelabrator emissions from EPA NEI and greenhouse gas
-reporting data. I used hourly wind observations from BWI between
-2019 and 2024 to classify which source each monitor was downwind
-of on each day. For I-95 I treated the highway as a line source
-and took the bearing to the closest point on the corridor
-polyline, rather than the nearest single vertex, which avoids
-biasing the bearing toward whichever waypoint I happened to
-sample. I also deduplicated the AQS PM2.5 data to one daily value
-per monitor and date before merging it with the wind record. That
-gave me a daily comparison across four source categories:
-Wheelabrator only, I-95 only, both, and neither.
+I used three sources. Wheelabrator's reported emissions, which
+tell me what the smokestack is putting out. Six years of hourly
+wind data from BWI airport, which tells me where that smoke is
+going. And daily PM2.5 readings from EPA air monitors in the
+Baltimore area, which tell me what people are actually breathing.
+Putting those three together is what lets me say "on this day at
+this monitor, the wind was carrying Wheelabrator plume toward
+this neighborhood."
 
 
 SLIDE 5 - FACILITY EMISSIONS
-The emissions inventory showed that Wheelabrator was a major
-stationary source by mass. In 2017 it reported about 1,101 tons
-of NOx, 308 tons of SO2, and 27.3 tons of PM2.5, along with
-762,683 metric tons of CO2 equivalent. Total reported emissions
-increased from 3,159,929 pounds in 2014 to 3,248,587 pounds in
-2017, or about 2.8 percent. NOx remained the largest reported
-pollutant by mass, while PM and PM2.5 both increased. Trace
-pollutants changed in mixed directions, with mercury and lead
-declining while hydrogen fluoride and nickel increased. I used
-this inventory to establish that the facility is a meaningful
-source by mass, not to attribute any specific PM2.5 reading to
-it.
+Wheelabrator is a serious polluter by the numbers. In 2017 it
+reported 1,101 tons of nitrogen oxides, 308 tons of sulfur
+dioxide, 27 tons of fine particulate matter, and 762,000 metric
+tons of greenhouse gases. Between 2014 and 2017, total reported
+emissions went up a little, not down. Mercury and lead dropped,
+but hydrogen fluoride and nickel climbed. None of this proves
+anyone's PM2.5 reading came from Wheelabrator, but it does show
+the facility is not a small source.
 
 
 SLIDE 6 - WIND PATTERNS AND SEASONAL TRANSPORT
-Wind direction was what connected the emissions inventory to
-neighborhood exposure. Across more than 40,000 hourly
-observations from 2019 through 2024, I found that westerly and
-northwesterly winds were common, with substantial contributions
-from easterly and southwesterly sectors as well. That mattered
-because downwind status changed from day to day. I did not assume
-that the same communities were exposed all the time. Instead, I
-let the wind determine when each monitor was more likely to
-capture emissions from Wheelabrator or from I-95. Southwesterly
-winds are also the classic mid-Atlantic regional PM2.5 transport
-pattern, which becomes important in the confound check later.
+Wind is the link between the smokestack and the monitor. Over
+40,000 hours of observations show Baltimore gets wind from pretty
+much every direction, but west and northwest are the most common,
+with a lot of southwesterly wind mixed in. The direction changes
+day to day, so the same neighborhood is not always downwind of
+the same thing, which is exactly what makes this kind of analysis
+work. Southwesterly wind is going to come back in a couple of
+slides because it matters more than I originally thought.
 
 
 SLIDE 7 - MAIN PM2.5 FINDING
-This was the core result of the project. Across all monitor-days
-in the deduplicated PM2.5 dataset, I found that Wheelabrator-only
-days averaged 9.00 micrograms per cubic meter, while I-95-only
-days averaged 6.31 micrograms per cubic meter, a 42.6 percent
-difference. Days downwind of both sources averaged 8.72
-micrograms per cubic meter, compared with 7.43 micrograms per
-cubic meter on neither days, which was 17.4 percent higher. I
-treated this as a directional association that is consistent with
-a facility contribution, not as proof of causation, because the
-same winds that bring Wheelabrator toward the northern monitors
-also bring regional transport into Baltimore.
+Here is the headline. On days when the wind was blowing from
+Wheelabrator but not from I-95, PM2.5 averaged 9.0 micrograms per
+cubic meter. On days when it was blowing from I-95 but not from
+Wheelabrator, it averaged 6.3. That is a 43 percent gap. When the
+wind was coming from both sources at once, the numbers were
+almost as high as the Wheelabrator-only days. When the wind was
+coming from neither, they dropped. The pattern points in the
+direction you would expect if Wheelabrator were adding something
+on top of the highway background. But I want to say up front that
+a 43 percent gap is the first thing I saw, not the last. I spent
+the next few slides pressure-testing it.
 
 
 SLIDE 8 - MONITOR-BY-MONITOR WHEELABRATOR SIGNAL
-The monitor-level comparison showed that the pattern was not
-identical everywhere, and that variation matters. I found that
-three of the four PM2.5 monitors showed higher mean PM2.5 on
-Wheelabrator-only days than on I-95-only days. The strongest
-positive signal appeared at Oldtown, where the Wheelabrator-only
-mean was 60.5 percent higher than the I-95-only mean. Lake
-Montebello also showed a strong positive signal at 42.2 percent,
-and Padonia showed a smaller positive signal at 17.7 percent.
-Essex went the other direction, with I-95-only days 33.9 percent
-higher than Wheelabrator-only days. I treated Essex as a real
-counter-example: if the method produced a clean Wheelabrator
-signal, I would expect at least a small positive delta there as
-well. The fact that it reverses is informative about how local
-the signal actually is.
+The gap is not the same everywhere. Three of the four monitors
+show higher PM2.5 on Wheelabrator days than on highway days.
+Oldtown has the biggest gap, 60 percent higher. Lake Montebello
+is 42 percent higher. Padonia is 18 percent higher. Essex goes
+the other way. There the highway days are 34 percent higher than
+the Wheelabrator days. That matters. If the method were clean, I
+would expect at least a small positive gap at every monitor. The
+fact that Essex flips tells me something about how local or how
+consistent the signal really is.
 
 
 SLIDE 9 - SEASONAL PM2.5 PATTERN
-The seasonal breakdown showed that the Wheelabrator-versus-I-95
-contrast was not equally strong all year. I found that in spring,
-fall, and winter combined, Wheelabrator-only days stayed about
-61.3 percent above I-95-only days. In summer, PM2.5 rose across
-every category, so the contrast between sources became less
-distinct. My reading is that the directional signal was clearest
-outside the summer season, when the regional PM2.5 background was
-lower, and that the summer wash-out is itself consistent with
-regional transport because summer is when that regional
-background is highest.
+The gap also changes with the seasons. In spring, fall, and
+winter, Wheelabrator-wind days average around 60 percent higher
+than highway-wind days. In summer the gap mostly disappears,
+because summer PM2.5 is high everywhere and it drowns out the
+source-specific difference. That is useful information on its
+own. It also hints that some of what I am seeing might not be
+Wheelabrator at all, because summer is also when regional
+pollution from outside Baltimore peaks.
 
 
 SLIDE 10 - MONITOR EVIDENCE DETAIL
-At this point I moved into the monitor-specific evidence. I
-compared pollution roses, directional comparisons, time series,
-and seasonal plots for each monitor. Oldtown and Lake Montebello
-showed the clearest central-city pattern on Wheelabrator-leaning
-winds, while Essex behaved differently and appeared to be more
-strongly shaped by eastern corridor influences. This slide let me
-connect the summary statistics to the underlying spatial and
-temporal patterns at each site.
+This is the deeper dive. For each monitor I have a pollution
+rose, a side-by-side comparison of the four wind buckets, a time
+series of daily readings, and a seasonal view. The story is the
+same at Oldtown and Lake Montebello: higher readings on the
+Wheelabrator-wind days. Essex behaves differently. Padonia is
+somewhere in the middle. Rather than walk through each chart, I
+want you to know they are here and that none of them contradicted
+the headline number.
 
 
 SLIDE 11 - DIRECTIONAL OVERLAP AND REGIONAL TRANSPORT
-I stress-tested the main finding against two confounders before
-reaching my conclusions. First, I checked how close the bearing
-from each monitor to Wheelabrator was to the bearing from that
-monitor to I-95. For the northern monitors the two bearings sit
-within the 45 degree tolerance that I used for the classifier,
-which means the Wheelabrator-only and I-95-only categories are
-not fully independent wind regimes. Second, I measured what
-fraction of Wheelabrator-only monitor-days had mean winds from
-the 180 to 270 degree southwesterly quadrant, which is the same
-quadrant that carries Ohio Valley and mid-Atlantic regional PM2.5
-into Baltimore. A large share of the Wheelabrator-only days fell
-into that quadrant, and a noticeably smaller share of the
-I-95-only days did. That tells me a real part of the raw 42.6
-percent gap is confounded with regional transport, not purely
-local facility impact. I do not treat the gap as zero, but I also
-do not treat it as clean source attribution.
+This is the slide that changed how I read my own results. Two
+things jumped out when I pressure-tested the 43 percent gap.
+First, at several monitors, the direction "toward Wheelabrator"
+and the direction "toward I-95" are basically the same direction,
+because the incinerator and the highway are right next to each
+other. So the Wheelabrator-wind days and the highway-wind days
+are not always different weather. Second, most of the
+Wheelabrator-wind days happen on southwesterly wind, and
+southwesterly wind is also what brings dirty air into Baltimore
+from the Ohio Valley and the rest of the mid-Atlantic. Roughly
+seven out of ten Wheelabrator-wind days were southwesterly. Only
+about four out of ten highway-wind days were. That means a chunk
+of the headline gap is probably regional pollution riding the
+same wind as the incinerator plume. I do not know how big that
+chunk is without more work. But I cannot call the whole 43
+percent local Wheelabrator impact.
 
 
 SLIDE 12 - CONCLUSIONS
-My main conclusion was that the directional PM2.5 pattern is
-consistent with a facility contribution at several Baltimore-area
-monitors, but I cannot separate that contribution from regional
-southwesterly transport with this method. I found a positive
-Wheelabrator-leaning delta at three of the four PM2.5 monitors,
-and days downwind of both sources were higher than days downwind
-of neither source. At the same time, I treated Essex as a real
-counter-example and I treated the southwesterly-wind confound as
-a live alternative explanation. The honest read is that this
-screening analysis points toward a facility signal that warrants
-follow-up monitoring, not that it settles the attribution
-question.
+The honest version of my conclusion: the air is worse in
+Baltimore on Wheelabrator-wind days than on highway-only days.
+That much is real. Whether Wheelabrator is the whole reason, a
+big reason, or a small reason on top of regional pollution, this
+method cannot say. Three of four monitors lean the way you would
+expect if the incinerator is contributing. One monitor does not.
+The facility emits a lot of stuff by the numbers, it sits next to
+neighborhoods that already live with highway exhaust, and wind
+carries its plume into the rest of the city regularly. That is
+enough to justify more monitoring. It is not enough, on its own,
+to say how much damage the facility is specifically doing.
 
 
 SLIDE 13 - LIMITATIONS AND RECOMMENDATIONS
-I treated this study as a screening analysis, not a source
-attribution model. I could not fully separate Wheelabrator from
-regional southwesterly transport because both arrive on the same
-winds at the northern monitors. I relied on wind data from the
-BWI airport station rather than neighborhood-scale meteorology,
-and I used daily PM2.5 averages that smoothed short-duration
-spikes. I did not control for wind speed, mixing height, or
-synoptic weather patterns. The AQS network was also sparse near
-the closest fence-line communities. If I had continued this work,
-I would have added fence-line monitoring in Westport, Cherry
-Hill, and Curtis Bay, subtracted a regional background from an
-upwind rural monitor or a chemical-transport-model baseline
-before attributing the remaining signal to Wheelabrator, expanded
-the directional method to pollutants like SO2 and NO2 where the
-local fingerprint is more distinct than PM2.5, and paired this
-analysis with local wind fields or dispersion modeling to
-strengthen attribution.
+A few things I could not fix. I could not fully separate the
+incinerator from regional pollution, because they ride the same
+wind. I used one wind station at BWI for the whole metro area,
+even though wind can be different a few miles away. I used daily
+averages, which miss short spikes. And there are no EPA monitors
+in Westport, Cherry Hill, or Curtis Bay, which are the
+neighborhoods right up against the facility. If I were continuing
+this, the next moves would be fence-line monitors in those
+neighborhoods, subtracting a regional background from the numbers
+before blaming Wheelabrator for the rest, and repeating the same
+directional approach for sulfur dioxide and nitrogen dioxide
+because those are more unique to local sources than PM2.5 is.

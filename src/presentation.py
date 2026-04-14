@@ -40,6 +40,9 @@ GROUP_COLORS = {
 }
 PRESENTATION_IMAGES = {
     "study_area": "presentation_study_area.png",
+    "wheelabrator_photo": "wheelabrator.jpg",
+    "aqs_photo": "aqs_monitor.jpg",
+    "bwi_photo": "bwi.jpg",
     "workflow": "presentation_method_flow.png",
     "emissions": "presentation_emissions_summary.png",
     "pm25_summary": "presentation_pm25_summary.png",
@@ -437,12 +440,12 @@ def get_presentation_context():
             {"label": f"{positive_monitor_count} of {len(monitor_summary)} monitors", "value": "WB > I-95"},
         ],
         "outline": [
-            "I began with the problem statement and project objective",
-            "I explained the study design, datasets, and directional method",
-            "I reviewed facility emissions and wind patterns",
-            "I presented the PM2.5 results, seasonal patterns, and monitor-level detail",
-            "I stress-tested the result against directional overlap and regional transport",
-            "I closed with conclusions, limitations, and recommendations",
+            "The question and why it matters",
+            "The neighborhoods and the data",
+            "What Wheelabrator emits, and how the wind moves it",
+            "The main PM2.5 finding and what each monitor says",
+            "The pressure-test: what else could explain the gap",
+            "What I think it means, what I could not answer, what comes next",
         ],
         "study_groups": [
             {"name": "Near both Wheelabrator and I-95", "count": 6, "color": GROUP_COLORS["Near both"]},
@@ -450,11 +453,11 @@ def get_presentation_context():
             {"name": "Control neighborhoods", "count": 4, "color": GROUP_COLORS["Control"]},
         ],
         "method_steps": [
-            "I compiled Wheelabrator emissions from EPA NEI and GHG reporting data.",
-            "I used 2019-2024 hourly wind data from BWI to classify which source each monitor was downwind of on each day.",
-            "I deduplicated AQS PM2.5 records to one daily value per monitor and date.",
-            "I compared PM2.5 on Wheelabrator-only, I-95-only, both-source, and neither-source days.",
-            "I checked seasonal patterns to see whether the directional signal changed through the year.",
+            "Pulled Wheelabrator's reported emissions from EPA records.",
+            "Pulled six years of hourly wind data from BWI airport.",
+            "Pulled daily PM2.5 readings from EPA monitors around Baltimore.",
+            "For every monitor-day, tagged the wind as coming from Wheelabrator, I-95, both, or neither.",
+            "Compared the PM2.5 numbers across those four buckets, and then looked at seasons and at each monitor on its own.",
         ],
         "emissions_headlines": {
             "nox_tons_2017": 1101.2,
@@ -489,19 +492,19 @@ def get_presentation_context():
             "quadrant": REGIONAL_TRANSPORT_QUADRANT,
         },
         "limitations": [
-            "I could not fully separate Wheelabrator from regional southwesterly transport, because the same winds that carry incinerator plume toward the northern monitors also carry Ohio Valley and mid-Atlantic PM2.5 into Baltimore.",
-            "I modeled I-95 as a line source by taking the bearing to the closest point on the corridor, but for monitors north of Wheelabrator the I-95 bearing and the Wheelabrator bearing still overlap within the 45 degree tolerance.",
-            "I used wind direction from the BWI airport station rather than neighborhood-level meteorology at each monitor.",
-            "I based the directional results on daily PM2.5 averages and did not control for wind speed, mixing height, temperature, or synoptic weather patterns.",
-            "I worked with a sparse AQS network near the facility, so the closest fence-line communities were not directly monitored every day.",
-            "I compared facility emissions from 2014 and 2017 inventories with directional PM2.5 patterns from 2019-2024 ambient data.",
+            "I couldn't separate Wheelabrator from regional pollution. The same southwesterly wind that brings the incinerator's plume to most monitors also carries Ohio Valley and mid-Atlantic PM2.5 into Baltimore.",
+            "At some monitors, the direction toward Wheelabrator and the direction toward I-95 are basically the same. So the two buckets aren't fully different weather.",
+            "I used one weather station at BWI for the whole metro area. Wind can be different a few miles away.",
+            "I used daily averages, which smooth out short PM2.5 spikes.",
+            "There are no EPA monitors in Westport, Cherry Hill, or Curtis Bay — the neighborhoods right up against the facility.",
+            "The facility emissions I compared against are from 2014 and 2017 inventories, while the air quality readings are from 2019-2024.",
         ],
         "recommendations": [
-            "I recommended adding or comparing against fence-line monitoring in Westport, Cherry Hill, and Curtis Bay.",
-            "I recommended controlling for regional transport by subtracting a regional background (for example, an upwind rural monitor or a chemical-transport-model baseline) before attributing the remaining signal to Wheelabrator.",
-            "I recommended extending the directional method to SO2 and NO2 where daily monitor coverage was adequate, since those pollutants have a more distinct local fingerprint than PM2.5.",
-            "I recommended pairing this screening analysis with local wind fields or dispersion modeling for stronger causal attribution.",
-            "I recommended updating the emissions comparison with the most recent NEI and permit reporting data available.",
+            "Put fence-line monitors in Westport, Cherry Hill, and Curtis Bay, so the neighborhoods closest to the facility are actually being measured.",
+            "Subtract a regional pollution background (from an upwind rural monitor, or a transport model) before blaming Wheelabrator for the remainder.",
+            "Run this same directional method on sulfur dioxide and nitrogen dioxide. Those pollutants are more unique to local sources than PM2.5, so the fingerprint would be cleaner.",
+            "Pair this with a dispersion model or with local wind fields for stronger source attribution.",
+            "Refresh the emissions comparison with the most recent reporting data available.",
         ],
         "references": [
             "EPA National Emissions Inventory (2014 and 2017) for facility emissions.",
@@ -637,44 +640,43 @@ def _plot_study_area(context):
 
 def _plot_method_flow():
     path = os.path.join(CACHE_DIR, PRESENTATION_IMAGES["workflow"])
-    fig, ax = plt.subplots(figsize=(8, 12), dpi=150)
+    fig, ax = plt.subplots(figsize=(16, 3.4), dpi=150)
     ax.axis("off")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
 
     boxes = [
-        (0.83, "EPA emissions\n2014 / 2017", "#e8d8c3"),
-        (0.66, "BWI hourly wind\n2019-2024", "#cfe0ec"),
-        (0.49, "AQS PM2.5 daily\nmonitor data", "#d6ead8"),
-        (0.32, "Daily downwind\nclassification", "#f3dfc1"),
-        (0.15, "Source comparison\nand conclusions", "#e4d7ef"),
+        (0.08, "EPA emissions\n2014 / 2017", "#e8d8c3"),
+        (0.28, "BWI hourly wind\n2019-2024", "#cfe0ec"),
+        (0.48, "AQS PM2.5 daily\nmonitor data", "#d6ead8"),
+        (0.70, "Daily downwind\nclassification", "#f3dfc1"),
+        (0.92, "Source comparison\nand conclusions", "#e4d7ef"),
     ]
 
-    for y, label, color in boxes:
+    for x, label, color in boxes:
         ax.text(
-            0.5,
-            y,
+            x,
+            0.55,
             label,
             ha="center",
             va="center",
-            fontsize=15,
+            fontsize=13,
             fontweight="bold",
             color="#2b2b2b",
-            bbox=dict(boxstyle="round,pad=0.9", facecolor=color, edgecolor="#3b3b3b", linewidth=1.2),
+            bbox=dict(boxstyle="round,pad=0.75", facecolor=color, edgecolor="#3b3b3b", linewidth=1.2),
         )
 
-    for start, end in [(0.76, 0.72), (0.59, 0.55), (0.42, 0.38), (0.25, 0.21)]:
+    for start, end in [(0.14, 0.22), (0.34, 0.42), (0.54, 0.64), (0.76, 0.86)]:
         ax.annotate(
             "",
-            xy=(0.5, end),
-            xytext=(0.5, start),
+            xy=(end, 0.55),
+            xytext=(start, 0.55),
             arrowprops=dict(arrowstyle="->", linewidth=2, color="#6b7280"),
         )
 
-    ax.set_title("Presentation workflow", fontsize=18, fontweight="bold", pad=14)
     ax.text(
         0.5,
-        0.03,
+        0.08,
         "Each monitor-day was assigned to Wheelabrator only, I-95 only, both, or neither based on the dominant wind direction.",
         ha="center",
         fontsize=11,
