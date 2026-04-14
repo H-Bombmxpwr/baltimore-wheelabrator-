@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baltimore Air Quality Interactive Deck</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+        :root{--bg:#0f1720;--panel:#14212b;--panel-2:#182937;--paper:#eef3f7;--ink:#f8fbfd;--muted:#98adbc;--line:rgba(255,255,255,.12);--red:#cf5548;--amber:#e2a33d;--blue:#5fa6d8;--plum:#9b78c5;--slate:#7f93a2;--green:#4fc084;--shadow:0 22px 60px rgba(0,0,0,.28)}
+        *{box-sizing:border-box}html,body{height:100%;margin:0;background:radial-gradient(circle at top left,rgba(207,85,72,.16),transparent 26%),radial-gradient(circle at top right,rgba(95,166,216,.13),transparent 22%),linear-gradient(180deg,#0f1720 0%,#11202d 55%,#0b131a 100%);color:var(--ink);font-family:"Segoe UI",Tahoma,sans-serif;overflow:hidden}
+        button,input,select{font:inherit}
+        .progress{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(255,255,255,.06);z-index:50}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--red))}
+        .rail{position:fixed;top:0;left:0;bottom:0;width:270px;padding:1.25rem 1rem 1rem;border-right:1px solid var(--line);background:rgba(7,12,18,.62);backdrop-filter:blur(16px);z-index:30;display:flex;flex-direction:column;gap:1rem}
+        .brand small,.rail p,.chip,.copy,.meta,.table td,.table th,.legend,.note{color:var(--muted)}
+        .brand{padding:.6rem .65rem;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}.brand strong{display:block;font-size:1rem}.brand small{display:block;margin-top:.35rem;line-height:1.55}
+        .nav{display:grid;gap:.45rem;overflow:auto;padding-right:.2rem}.nav button{background:transparent;border:1px solid transparent;color:var(--muted);text-align:left;padding:.7rem .8rem;border-radius:14px;cursor:pointer;transition:.2s}.nav button span{display:block;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase}.nav button strong{display:block;margin-top:.18rem;font-size:.93rem;line-height:1.35}.nav button.active{color:var(--ink);border-color:rgba(226,163,61,.35);background:rgba(226,163,61,.10)}
+        .rail-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.rail-actions button{border:none;border-radius:999px;padding:.8rem .9rem;background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}.rail-actions button:hover,.tab:hover,.control:hover{background:rgba(255,255,255,.14)}
+        .deck-shell{margin-left:270px;height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+        .slide{min-height:100vh;scroll-snap-align:start;padding:1.3rem 1.3rem 1.6rem;display:flex;align-items:center}.slide-inner{width:min(1450px,100%);margin:0 auto;background:linear-gradient(180deg,rgba(20,33,43,.95),rgba(24,41,55,.92));border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:1.35rem;display:grid;gap:1rem}
+        .hero .slide-inner{background:linear-gradient(135deg,rgba(18,29,39,.98),rgba(29,50,66,.96) 60%,rgba(40,62,79,.96))}
+        .slide-top{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.kicker{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:700}.hero .kicker{color:#f7c36b}.slide-top h1,.slide-top h2{margin:.25rem 0 0;font-family:Georgia,"Times New Roman",serif;line-height:1.08}.slide-top h1{font-size:2.7rem}.slide-top h2{font-size:2.1rem}.slide-top p{margin:.4rem 0 0;color:var(--muted);line-height:1.7;max-width:820px}
+        .chips{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:flex-end}.chip{padding:.55rem .75rem;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:.86rem}
+        .grid-2,.grid-3,.grid-stage{display:grid;gap:1rem}.grid-2{grid-template-columns:1.05fr .95fr}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-stage{grid-template-columns:1.1fr .9fr}
+        .card,.stage,.copy,.table-wrap{border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.035)}.card,.copy,.table-wrap{padding:1rem 1.05rem}.card h3,.copy h3{margin:0 0 .55rem;font-size:1rem}.card p,.copy p,.copy li,.card li{line-height:1.7}
+        .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem}.stat{padding:1rem;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}.stat strong{display:block;font-size:1.7rem}.stat span{display:block;margin-top:.35rem;color:var(--muted);line-height:1.5;font-size:.92rem}
+        .stage{padding:.55rem}.stage iframe,.stage img{width:100%;height:100%;min-height:430px;border:none;border-radius:18px;background:#fff;display:block}.stage.tall iframe,.stage.tall img{min-height:620px}
+        .canvas{height:430px;border-radius:18px;background:#f7fafc}.canvas.tall{height:520px}
+        .tabs,.controls,.season-tabs{display:flex;gap:.6rem;flex-wrap:wrap}.tab,.control{border:none;border-radius:999px;padding:.65rem .9rem;background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}.tab.active,.season-tabs button.active{background:linear-gradient(90deg,rgba(226,163,61,.95),rgba(207,85,72,.95));color:#0d1117}.season-tabs button{border:none;border-radius:999px;padding:.55rem .82rem;background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}
+        .legend{font-size:.88rem;line-height:1.6}.callout{padding:1rem 1.05rem;border-left:3px solid var(--amber);background:rgba(226,163,61,.09);border-radius:0 16px 16px 0}
+        .table{width:100%;border-collapse:collapse}.table th,.table td{padding:.72rem .5rem;text-align:left;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}.table th{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}.table td.num{text-align:right;font-variant-numeric:tabular-nums}
+        .explorer{display:grid;grid-template-columns:340px 1fr;gap:1rem}.explorer .stage iframe{min-height:560px}.detail-list{display:grid;gap:.8rem}.detail{padding:.9rem;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}.detail strong{display:block;font-size:1.02rem;margin-bottom:.25rem}
+        .links{display:flex;gap:.65rem;flex-wrap:wrap}.links a{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem .88rem;border-radius:999px;background:rgba(255,255,255,.08);color:var(--ink);text-decoration:none}.links a:hover{background:rgba(255,255,255,.14)}
+        @media (max-width:1180px){html,body{overflow:auto}.rail{position:sticky;top:0;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--line)}.deck-shell{margin-left:0;height:auto;overflow:visible;scroll-snap-type:none}.slide{min-height:auto;padding:1rem}.grid-2,.grid-3,.grid-stage,.explorer{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.canvas,.canvas.tall,.stage iframe,.stage img,.explorer .stage iframe{height:420px;min-height:420px}}
+        @media (max-width:720px){.slide-top h1{font-size:2rem}.slide-top h2{font-size:1.6rem}.slide-inner{padding:1rem}.stat-grid{grid-template-columns:1fr}.stage iframe,.stage img,.explorer .stage iframe{min-height:360px;height:360px}}
+    </style>
+</head>
+<body>
+    <div class="progress"><span id="progress-bar"></span></div>
+    <aside class="rail">
+        <div class="brand">
+            <strong>Baltimore Air Quality Presentation</strong>
+            <small>Wheelabrator Baltimore, the I-95 corridor, and directional PM2.5 patterns across the Baltimore area.</small>
+        </div>
+        <div class="rail-actions">
+            <button type="button" id="prev-slide">Previous</button>
+            <button type="button" id="next-slide">Next</button>
+        </div>
+        <nav class="nav" id="slide-nav"></nav>
+        <div class="links">
+            <a href="/">Back to Dashboard</a>
+            <a href="/presentation-assets/{{ images.study_area }}" target="_blank">Open Study Area Figure</a>
+        </div>
+    </aside>
+    <div class="deck-shell" id="deck-shell">
+        <main id="deck">
+            <section class="slide hero" data-title="Title">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 1</div>
+                            <h1>Directional Analysis of Wheelabrator Air Pollution in Baltimore</h1>
+                            <p>In this project, I compared wind-linked PM2.5 patterns from Wheelabrator Baltimore and the I-95 corridor using EPA emissions, AQS monitor data, and BWI wind observations.</p>
+                        </div>
+                        <div class="chips">
+                            {% for stat in hero_stats %}
+                            <div class="chip">{{ stat.label }}: {{ stat.value }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="grid-stage">
+                        <div class="copy">
+                            <h3>Project framing</h3>
+                            <ul>
+                                <li>I asked whether PM2.5 rose when monitors were downwind of Wheelabrator compared with I-95-only days.</li>
+                                <li>I used emissions inventories, hourly wind data, and daily PM2.5 monitor data to answer that question.</li>
+                                <li>I focused on whether a facility-specific signal remained visible after I separated it from the broader highway background.</li>
+                            </ul>
+                            <div class="callout">I framed this project as a directional screening analysis of source influence rather than as a full atmospheric attribution model.</div>
+                        </div>
+                        <div class="stage tall">
+                            <iframe src="/study-map" title="Interactive study map" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Question">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 2</div>
+                            <h2>Research Question, Objective, and Outline</h2>
+                            <p>I focused on whether PM2.5 was higher downwind of Wheelabrator than downwind of the I-95 corridor alone.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="copy">
+                            <h3>My research question</h3>
+                            <p>I asked whether ambient PM2.5 was higher when Baltimore-area monitors were downwind of Wheelabrator than when they were downwind of the I-95 corridor alone.</p>
+                            <h3>My objective</h3>
+                            <ul>
+                                <li>I used a GIS-informed directional method to separate incinerator influence from highway influence.</li>
+                                <li>I compared Wheelabrator-only, I-95-only, both-source, and neither-source days.</li>
+                                <li>I summarized the result as a screening analysis that could support future monitoring and decision-making.</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>My outline</h3>
+                            <ul>
+                                {% for item in outline %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                            <p class="legend">I moved from the source context, to the directional method, to the PM2.5 evidence, and then to my conclusions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Study Area">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 3</div>
+                            <h2>Study Area and Exposure Groups</h2>
+                            <p>I used this study area to compare the facility, the highway corridor, and the monitor locations that supported the PM2.5 analysis.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="stage tall">
+                            <iframe src="/study-map" title="Study area map" loading="lazy"></iframe>
+                        </div>
+                        <div class="copy">
+                            <h3>Why I used this geographic design</h3>
+                            <ul>
+                                {% for group in study_groups %}
+                                <li>I assigned {{ group.count }} neighborhoods to {{ group.name|lower }}.</li>
+                                {% endfor %}
+                                <li>I treated the I-95-only communities as a highway baseline instead of comparing the facility only to distant controls.</li>
+                                <li>I used the control neighborhoods to show what PM2.5 looked like when neither source was dominant.</li>
+                            </ul>
+                            <div class="callout">I considered this design stronger than a simple near-versus-far comparison because it built in a transportation comparison group from the start.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Methods">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 4</div>
+                            <h2>Datasets and Directional Method</h2>
+                            <p>I combined emissions, wind, and monitor data to classify each day into source-based exposure categories.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="copy">
+                            <h3>My method</h3>
+                            <ul>
+                                {% for step in method_steps %}
+                                <li>{{ step }}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="callout">I treated deduplication as a key quality step, because I reduced the PM2.5 dataset to one daily value per monitor and date before I merged it with the wind record.</div>
+                        </div>
+                        <div class="stage">
+                            <img src="/presentation-assets/{{ images.workflow }}" alt="Presentation workflow" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Emissions">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 5</div>
+                            <h2>Facility Emissions</h2>
+                            <p>I reviewed the emissions inventory by separating major pollutants from trace pollutants and metals.</p>
+                        </div>
+                        <div class="tabs" id="emissions-tabs">
+                            <button class="tab active" data-view="major" type="button">Major Pollutants</button>
+                            <button class="tab" data-view="trace" type="button">Trace Pollutants</button>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="emissions-chart" class="canvas tall"></div>
+                            <p class="note" id="emissions-note">I showed major pollutants in tons per year for 2014 and 2017.</p>
+                        </div>
+                        <div class="copy">
+                            <h3>My headline findings</h3>
+                            <div class="stat-grid">
+                                <div class="stat"><strong>{{ "{:,.1f}".format(emissions_headlines.nox_tons_2017) }}</strong><span>tons of NOx in 2017</span></div>
+                                <div class="stat"><strong>{{ "{:,.1f}".format(emissions_headlines.so2_tons_2017) }}</strong><span>tons of SO2 in 2017</span></div>
+                                <div class="stat"><strong>{{ "{:,.1f}".format(emissions_headlines.pm25_tons_2017) }}</strong><span>tons of PM2.5 in 2017</span></div>
+                                <div class="stat"><strong>{{ "{:,.0f}".format(emissions_headlines.ghg_2017) }}</strong><span>metric tons CO2e in 2017</span></div>
+                            </div>
+                            <ul>
+                                <li>Total reported emissions increased from {{ "{:,.0f}".format(emissions_headlines.total_lbs_2014) }} lbs in 2014 to {{ "{:,.0f}".format(emissions_headlines.total_lbs_2017) }} lbs in 2017 ({{ "%+.1f"|format(emissions_headlines.total_pct_change) }}%).</li>
+                                <li>NOx remained the largest reported pollutant by mass, while PM and PM2.5 both increased between inventory years.</li>
+                                <li>Trace pollutant changes were mixed: mercury and lead declined, while hydrogen fluoride and nickel increased.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Wind">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 6</div>
+                            <h2>Wind Patterns and Seasonal Transport</h2>
+                            <p>I used wind patterns to show which neighborhoods were likely to be downwind of the facility or the highway on a given day.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="wind-chart" class="canvas"></div>
+                            <p class="note">Wind dataset: {{ "{:,.0f}".format(wind_summary.records) }} hourly observations from {{ wind_summary.start }} to {{ wind_summary.end }}, average speed {{ "%.2f"|format(wind_summary.mean_speed_ms) }} m/s.</p>
+                        </div>
+                        <div class="card">
+                            <div class="season-tabs" id="season-tabs">
+                                <button type="button" class="active" data-src="/output/wind_rose.png">Overall</button>
+                                <button type="button" data-src="/output/wind_rose_winter.png">Winter</button>
+                                <button type="button" data-src="/output/wind_rose_spring.png">Spring</button>
+                                <button type="button" data-src="/output/wind_rose_summer.png">Summer</button>
+                                <button type="button" data-src="/output/wind_rose_fall.png">Fall</button>
+                            </div>
+                            <div class="stage">
+                                <img id="wind-image" src="/output/wind_rose.png" alt="Wind rose" loading="lazy">
+                            </div>
+                            <p class="legend">I treated wind direction as the link between the emissions inventory and the ambient PM2.5 readings.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="PM2.5 Result">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 7</div>
+                            <h2>Main PM2.5 Finding</h2>
+                            <p>I summarized the deduplicated PM2.5 dataset by downwind category to compare Wheelabrator, I-95, both, and neither.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="pm25-chart" class="canvas"></div>
+                        </div>
+                        <div class="copy">
+                            <h3>How I read this result</h3>
+                            <ul>
+                                {% if conclusions %}
+                                <li>{{ conclusions[0] }}</li>
+                                <li>{{ conclusions[2] }}</li>
+                                {% endif %}
+                                <li>I treated the gap as directionally consistent with a facility contribution, but I held off on causal language until I stress-tested the result against regional transport and bearing overlap in the next slides.</li>
+                            </ul>
+                            <div class="callout">I did not read this as proof of causation. A large share of Wheelabrator-only days coincided with southwesterly winds that also carry regional PM2.5 into Baltimore, so part of the gap is confounded.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Monitor Deltas">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 8</div>
+                            <h2>Monitor-by-Monitor Wheelabrator Signal</h2>
+                            <p>I compared the directional pattern at each monitor to see where the Wheelabrator signal was strongest and where it weakened.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="monitor-delta-chart" class="canvas"></div>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Monitor</th>
+                                        <th class="num">WB only</th>
+                                        <th class="num">I-95 only</th>
+                                        <th class="num">Delta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in interactive_monitors %}
+                                    <tr>
+                                        <td>{{ row.site_name }}</td>
+                                        <td class="num">{{ "%.2f"|format(row.wb_mean) if row.wb_mean is not none else "n/a" }}</td>
+                                        <td class="num">{{ "%.2f"|format(row.i95_mean) if row.i95_mean is not none else "n/a" }}</td>
+                                        <td class="num">{{ "%+.1f"|format(row.wb_vs_i95_pct) if row.wb_vs_i95_pct is not none else "n/a" }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <p class="legend">I saw a positive Wheelabrator-leaning delta at three monitors and a reversed delta at the fourth, which I treated as a real counter-example rather than a dismissible exception.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Seasonal">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 9</div>
+                            <h2>Seasonal PM2.5 Pattern</h2>
+                            <p>I used the seasonal comparison to show when the Wheelabrator-versus-I-95 contrast was clearest and when it became less distinct.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="seasonal-chart" class="canvas"></div>
+                        </div>
+                        <div class="copy">
+                            <h3>My seasonal interpretation</h3>
+                            <ul>
+                                {% if conclusions|length > 4 %}
+                                <li>{{ conclusions[4] }}</li>
+                                {% endif %}
+                                <li>I saw summer PM2.5 rise across every category, so source-specific differences compressed.</li>
+                                <li>I saw a clearer Wheelabrator-only versus I-95-only gap in spring, fall, and winter.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Explorer">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 10</div>
+                            <h2>Monitor Evidence Detail</h2>
+                            <p>I compared pollution roses, directional comparisons, time series, and seasonal patterns for each monitor.</p>
+                        </div>
+                    </div>
+                    {% if interactive_monitors %}
+                    <div class="explorer">
+                        <div class="detail-list">
+                            <div class="detail">
+                                <strong>Monitor</strong>
+                                <select id="monitor-select"></select>
+                            </div>
+                            <div class="detail">
+                                <strong>Evidence view</strong>
+                                <div class="controls" id="chart-type-controls">
+                                    <button class="control" type="button" data-chart="pollution_rose">Pollution Rose</button>
+                                    <button class="control" type="button" data-chart="directional">Directional</button>
+                                    <button class="control" type="button" data-chart="timeseries">Time Series</button>
+                                    <button class="control" type="button" data-chart="seasonal">Seasonal</button>
+                                </div>
+                            </div>
+                            <div class="detail" id="monitor-meta"></div>
+                            <div class="detail">
+                                <strong>My interpretation</strong>
+                                <div id="monitor-note" class="legend"></div>
+                            </div>
+                            <div class="links">
+                                <a id="open-chart-link" href="#" target="_blank">Open current chart</a>
+                            </div>
+                        </div>
+                        <div class="stage">
+                            <iframe id="explorer-frame" src="about:blank" title="Monitor chart explorer" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="copy"><p>No monitor-specific charts were available in the cached output.</p></div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="slide" data-title="Confounders">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 11</div>
+                            <h2>Directional Overlap and Regional Transport</h2>
+                            <p>I stress-tested the PM2.5 gap against two confounders: bearing overlap between Wheelabrator and I-95, and the share of Wheelabrator-only days that also had southwesterly winds carrying regional PM2.5.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div id="confounder-chart" class="canvas tall"></div>
+                        </div>
+                        <div class="copy">
+                            <h3>What I found in the stress test</h3>
+                            <ul>
+                                {% if confounders.overall_regional_share is not none %}
+                                <li>I found that {{ "%.1f"|format(confounders.overall_regional_share) }}% of Wheelabrator-only monitor-days had mean winds from 180-270 degrees, the same quadrant that brings Ohio Valley and mid-Atlantic transport into Baltimore.</li>
+                                {% endif %}
+                                {% if confounders.i95_regional_share is not none %}
+                                <li>I compared that with {{ "%.1f"|format(confounders.i95_regional_share) }}% on I-95-only days, which shows that southwesterly regional transport is concentrated in the Wheelabrator-only category rather than spread evenly.</li>
+                                {% endif %}
+                                <li>I found that bearing-to-Wheelabrator and bearing-to-I-95 differ by less than the 45 degree tolerance at several monitors, so the WB-only and I-95-only labels are not fully independent categories.</li>
+                            </ul>
+                            <div class="callout">I could not cleanly separate a local Wheelabrator signal from regional southwesterly transport with this method. The directional gap is consistent with a facility contribution, but the transport confound is a real alternative explanation that I do not rule out.</div>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Monitor</th>
+                                    <th class="num">Bearing to WB</th>
+                                    <th class="num">Bearing to I-95</th>
+                                    <th class="num">Angular offset</th>
+                                    <th class="num">WB-only SW share</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in confounders.rows %}
+                                <tr>
+                                    <td>{{ row.site_name }}</td>
+                                    <td class="num">{{ "%.0f"|format(row.bearing_to_wheelabrator) }}°</td>
+                                    <td class="num">{{ "%.0f"|format(row.bearing_to_i95) }}°</td>
+                                    <td class="num">{{ "%.0f"|format(row.angular_offset_deg) }}°</td>
+                                    <td class="num">{{ "%.0f"|format(row.regional_share_pct) }}% ({{ row.regional_n }}/{{ row.wb_only_n }})</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="legend">Angular offsets at or below 45 degrees mean the WB-only and I-95-only wind categories overlap inside the tolerance window used by the classifier.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Conclusions">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 12</div>
+                            <h2>Conclusions</h2>
+                            <p>I summarized the strongest patterns that emerged from the directional analysis here.</p>
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        {% for item in conclusions %}
+                        <div class="card">
+                            <h3>Conclusion {{ loop.index }}</h3>
+                            <p>{{ item }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-title="Limits and Next Steps">
+                <div class="slide-inner">
+                    <div class="slide-top">
+                        <div>
+                            <div class="kicker">Slide 13</div>
+                            <h2>Limitations and Recommendations</h2>
+                            <p>I acknowledged the main limits of this analysis and the next steps I would have taken to strengthen it.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="copy">
+                            <h3>My limitations</h3>
+                            <ul>
+                                {% for item in limitations %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="copy">
+                            <h3>My recommended next steps</h3>
+                            <ul>
+                                {% for item in recommendations %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                            <h3>References</h3>
+                            <ul>
+                                {% for item in references %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        const overallSummary = {{ overall_summary|tojson }};
+        const seasonalSummary = {{ seasonal_summary|tojson }};
+        const monitorSummary = {{ interactive_monitors|tojson }};
+        const windSummary = {{ wind_summary|tojson }};
+        const majorPollutants = {{ major_pollutants|tojson }};
+        const tracePollutants = {{ trace_pollutants|tojson }};
+        const confounders = {{ confounders|tojson }};
+        const colors = {wheelabrator:"#cf5548",i95:"#e2a33d",both:"#9b78c5",neither:"#7f93a2",year2014:"#5fa6d8",year2017:"#cf5548",blue:"#5fa6d8"};
+
+        const slides = [...document.querySelectorAll(".slide")];
+        const slideNav = document.getElementById("slide-nav");
+        const deckShell = document.getElementById("deck-shell");
+        const progressBar = document.getElementById("progress-bar");
+        let activeSlideIndex = 0;
+
+        function buildNav(){slides.forEach((slide,index)=>{const button=document.createElement("button");button.type="button";button.innerHTML=`<span>${String(index+1).padStart(2,"0")}</span><strong>${slide.dataset.title}</strong>`;button.addEventListener("click",()=>scrollToSlide(index));slideNav.appendChild(button)});updateNav()}
+        function scrollToSlide(index){const target=slides[Math.max(0,Math.min(index,slides.length-1))];target.scrollIntoView({behavior:"smooth",block:"start"})}
+        function updateNav(){[...slideNav.children].forEach((button,index)=>button.classList.toggle("active",index===activeSlideIndex));progressBar.style.width=`${((activeSlideIndex+1)/slides.length)*100}%`}
+        function setupSlideObserver(){const observer=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){activeSlideIndex=slides.indexOf(entry.target);updateNav()}})},{root:deckShell,threshold:.55});slides.forEach((slide)=>observer.observe(slide))}
+        document.getElementById("prev-slide").addEventListener("click",()=>scrollToSlide(activeSlideIndex-1));
+        document.getElementById("next-slide").addEventListener("click",()=>scrollToSlide(activeSlideIndex+1));
+        window.addEventListener("keydown",(event)=>{if(["ArrowDown","PageDown"," "].includes(event.key)){event.preventDefault();scrollToSlide(activeSlideIndex+1)}if(["ArrowUp","PageUp"].includes(event.key)){event.preventDefault();scrollToSlide(activeSlideIndex-1)}});
+
+        function plotCommonLayout(title){return{title:{text:title,font:{color:"#10202d",size:20}},paper_bgcolor:"#f7fafc",plot_bgcolor:"#f7fafc",margin:{l:55,r:20,t:52,b:55},font:{family:"Segoe UI, sans-serif",color:"#20303d"},hoverlabel:{bgcolor:"#10202d",font:{color:"#f8fbfd"}}}}
+        function renderEmissions(view){const isMajor=view==="major";const dataset=isMajor?majorPollutants:tracePollutants;const y2014=isMajor?dataset.map(d=>d.tons_2014):dataset.map(d=>d.lbs_2014);const y2017=isMajor?dataset.map(d=>d.tons_2017):dataset.map(d=>d.lbs_2017);const labels=dataset.map(d=>d.pollutant);Plotly.react("emissions-chart",[{type:"bar",name:"2014",x:labels,y:y2014,marker:{color:colors.year2014}},{type:"bar",name:"2017",x:labels,y:y2017,marker:{color:colors.year2017}}],{...plotCommonLayout(isMajor?"Wheelabrator emissions by major pollutant":"Wheelabrator emissions by trace pollutant"),barmode:"group",yaxis:{title:isMajor?"Tons per year":"Pounds per year",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-25}},{displayModeBar:false,responsive:true});document.getElementById("emissions-note").textContent=isMajor?"I showed major pollutants in tons per year for 2014 and 2017.":"I showed trace pollutants in pounds per year for 2014 and 2017.";document.querySelectorAll("#emissions-tabs .tab").forEach((button)=>button.classList.toggle("active",button.dataset.view===view))}
+        function renderWind(){const order=["N","NE","E","SE","S","SW","W","NW"];const r=order.map((sector)=>windSummary.sector_share[sector]);Plotly.newPlot("wind-chart",[{type:"barpolar",theta:order,r,marker:{color:r,colorscale:[[0,"#5fa6d8"],[1,"#cf5548"]],line:{color:"#f7fafc",width:1}},hovertemplate:"%{theta}: %{r:.1f}% of hourly observations<extra></extra>"}],{...plotCommonLayout("Wind direction frequency from BWI"),polar:{angularaxis:{direction:"clockwise",rotation:90},radialaxis:{ticksuffix:"%",gridcolor:"rgba(16,32,45,.12)"}},margin:{l:30,r:30,t:52,b:25}},{displayModeBar:false,responsive:true})}
+        function renderPm25Summary(){Plotly.newPlot("pm25-chart",[{type:"bar",x:overallSummary.map(d=>d.category),y:overallSummary.map(d=>d.mean),text:overallSummary.map(d=>`n=${d.count}`),textposition:"outside",marker:{color:[colors.wheelabrator,colors.i95,colors.both,colors.neither]},hovertemplate:"%{x}<br>Mean PM2.5: %{y:.2f} ug/m3<extra></extra>"}],{...plotCommonLayout("Mean PM2.5 by downwind category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-10}},{displayModeBar:false,responsive:true})}
+        function renderMonitorDeltas(){const rows=monitorSummary.filter(d=>d.wb_vs_i95_pct!==null);Plotly.newPlot("monitor-delta-chart",[{type:"bar",orientation:"h",y:rows.map(d=>d.site_name),x:rows.map(d=>d.wb_vs_i95_pct),marker:{color:rows.map(d=>d.wb_vs_i95_pct>=0?colors.wheelabrator:colors.blue)},customdata:rows.map(d=>[d.site_name,d.wb_mean,d.i95_mean]),hovertemplate:"%{customdata[0]}<br>WB only: %{customdata[1]:.2f}<br>I-95 only: %{customdata[2]:.2f}<br>Delta: %{x:.1f}%<extra></extra>"}],{...plotCommonLayout("Wheelabrator-only vs I-95-only delta"),xaxis:{title:"Percent difference",zeroline:true,zerolinecolor:"rgba(16,32,45,.30)",gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true}},{displayModeBar:false,responsive:true});document.getElementById("monitor-delta-chart").on("plotly_click",(event)=>{const siteName=event.points[0].customdata[0];const index=monitorSummary.findIndex((monitor)=>monitor.site_name===siteName);if(index>=0){updateExplorer(index,currentChartType);scrollToSlide(slides.findIndex((slide)=>slide.dataset.title==="Explorer"))}})}
+        function renderConfounders(){const rows=(confounders&&confounders.rows)||[];if(!rows.length){return}const sites=rows.map(r=>r.site_name);const offsets=rows.map(r=>r.angular_offset_deg);const shares=rows.map(r=>r.regional_share_pct===null?0:r.regional_share_pct);Plotly.newPlot("confounder-chart",[{type:"bar",orientation:"h",name:"Bearing offset (°)",x:offsets,y:sites,marker:{color:colors.both},xaxis:"x",hovertemplate:"%{y}<br>Offset: %{x:.0f}°<extra></extra>"},{type:"bar",orientation:"h",name:"WB-only SW share (%)",x:shares,y:sites,marker:{color:colors.wheelabrator},xaxis:"x2",hovertemplate:"%{y}<br>SW share: %{x:.0f}%<extra></extra>"}],{...plotCommonLayout("Directional overlap and regional transport"),grid:{rows:1,columns:2,pattern:"independent"},xaxis:{title:"Bearing offset (°)",domain:[0,.45],gridcolor:"rgba(16,32,45,.10)"},xaxis2:{title:"SW-quadrant share of WB-only days (%)",domain:[.55,1],gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true},yaxis2:{automargin:true,matches:"y",showticklabels:false},showlegend:false,shapes:[{type:"line",xref:"x",x0:45,x1:45,yref:"paper",y0:0,y1:1,line:{color:"#cf5548",dash:"dash",width:1.4}}],annotations:[{xref:"x",yref:"paper",x:45,y:1.02,text:"45° tolerance",showarrow:false,font:{size:11,color:"#cf5548"}}]},{displayModeBar:false,responsive:true})}
+        function renderSeasonal(){const seasonOrder=["Winter","Spring","Summer","Fall"];const categoryMap={"Wheelabrator only":colors.wheelabrator,"I-95 only":colors.i95,"Both":colors.both,"Neither":colors.neither};const traces=Object.entries(categoryMap).map(([label,color])=>({type:"scatter",mode:"lines+markers",name:label,x:seasonOrder,y:seasonOrder.map((season)=>{const row=seasonalSummary.find((item)=>item.season===season);return row?row[label]:null}),line:{width:3,color},marker:{size:8,color}}));Plotly.newPlot("seasonal-chart",traces,{...plotCommonLayout("Seasonal PM2.5 pattern by category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},legend:{orientation:"h",y:-.18}},{displayModeBar:false,responsive:true})}
+
+        document.querySelectorAll("#emissions-tabs .tab").forEach((button)=>button.addEventListener("click",()=>renderEmissions(button.dataset.view)));
+        document.querySelectorAll("#season-tabs button").forEach((button)=>button.addEventListener("click",()=>{document.querySelectorAll("#season-tabs button").forEach((btn)=>btn.classList.toggle("active",btn===button));document.getElementById("wind-image").src=button.dataset.src}));
+
+        let currentMonitorIndex=0;let currentChartType="directional";
+        function availableChartFor(monitor,preferredType){const priority=[preferredType,"directional","pollution_rose","timeseries","seasonal"];return priority.find((type)=>monitor.charts&&monitor.charts[type])}
+        function refreshExplorerControls(monitor){document.querySelectorAll("#chart-type-controls .control").forEach((button)=>{const available=monitor.charts&&monitor.charts[button.dataset.chart];button.disabled=!available;button.style.opacity=available?"1":".42";button.classList.toggle("active",button.dataset.chart===currentChartType)})}
+        function updateExplorer(index,preferredType=currentChartType){if(!monitorSummary.length)return;currentMonitorIndex=index;const monitor=monitorSummary[index];const chartType=availableChartFor(monitor,preferredType);currentChartType=chartType;const frame=document.getElementById("explorer-frame");const meta=document.getElementById("monitor-meta");const note=document.getElementById("monitor-note");const link=document.getElementById("open-chart-link");const select=document.getElementById("monitor-select");if(select)select.value=String(index);refreshExplorerControls(monitor);frame.src=monitor.charts[chartType];link.href=monitor.charts[chartType];meta.innerHTML=`<strong>${monitor.site_name}</strong><div class="meta">Distance from Wheelabrator: ${monitor.distance_from_wheelabrator_km.toFixed(1)} km</div><div class="meta">Nearest neighborhood: ${monitor.nearest_neighborhood} (${monitor.nearest_distance_km.toFixed(1)} km)</div><div class="meta">WB only: ${monitor.wb_mean!==null?monitor.wb_mean.toFixed(2):"n/a"} ug/m3</div><div class="meta">I-95 only: ${monitor.i95_mean!==null?monitor.i95_mean.toFixed(2):"n/a"} ug/m3</div><div class="meta">Delta: ${monitor.wb_vs_i95_pct!==null?monitor.wb_vs_i95_pct.toFixed(1)+"%":"n/a"}</div>`;note.textContent=monitor.note}
+        function setupExplorer(){if(!monitorSummary.length)return;const select=document.getElementById("monitor-select");monitorSummary.forEach((monitor,index)=>{const option=document.createElement("option");option.value=index;option.textContent=monitor.site_name;select.appendChild(option)});select.addEventListener("change",(event)=>updateExplorer(Number(event.target.value),currentChartType));document.querySelectorAll("#chart-type-controls .control").forEach((button)=>button.addEventListener("click",()=>updateExplorer(currentMonitorIndex,button.dataset.chart)));updateExplorer(0,"directional")}
+
+        buildNav();setupSlideObserver();renderEmissions("major");renderWind();renderPm25Summary();renderMonitorDeltas();renderSeasonal();renderConfounders();setupExplorer();
+    </script>
+</body>
+</html>

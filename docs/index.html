@@ -127,11 +127,83 @@
 
         .muted-note { font-size: 0.8rem; color: #6b7280; margin-top: 1rem; margin-bottom: 0; }
 
+        /* Presentation CTA — deliberately distinct from the technical dashboard links */
+        .present-cta {
+            display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center;
+            padding: 1.4rem 1.8rem; margin-bottom: 2rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #dc2626 55%, #7c3aed 100%);
+            border-radius: 16px; box-shadow: 0 18px 48px rgba(220,38,38,.28);
+            text-decoration: none; color: #fff; transition: transform .15s, box-shadow .15s;
+            border: 1px solid rgba(255,255,255,.18);
+        }
+        .present-cta:hover { transform: translateY(-2px); box-shadow: 0 22px 56px rgba(220,38,38,.36); }
+        .present-cta .cta-mark {
+            width: 64px; height: 64px; border-radius: 18px;
+            background: rgba(0,0,0,.28); display: grid; place-items: center;
+            font-size: 2rem; font-weight: 800;
+        }
+        .present-cta .cta-body h3 {
+            margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: .02em; color: #fff;
+        }
+        .present-cta .cta-body small {
+            display: block; margin-top: .3rem; font-size: .85rem; line-height: 1.5;
+            color: rgba(255,255,255,.85);
+        }
+        .present-cta .cta-button {
+            padding: .7rem 1.1rem; border-radius: 999px;
+            background: #fff; color: #7c1d6f; font-weight: 700; font-size: .9rem;
+            white-space: nowrap;
+        }
+
+        /* Technical detail panel */
+        .tech-card {
+            background: #14192a; border: 1px solid rgba(124,58,237,.22);
+            border-radius: 12px; padding: 1.3rem 1.5rem; margin-bottom: 1.2rem;
+        }
+        .tech-card h3 {
+            font-size: .82rem; text-transform: uppercase; letter-spacing: .12em;
+            color: #c4b5fd; margin-bottom: .7rem;
+        }
+        .tech-card h4 {
+            color: #fff; font-size: .95rem; margin: .9rem 0 .35rem;
+        }
+        .tech-card p, .tech-card li { color: #c7cad3; font-size: .86rem; line-height: 1.65; }
+        .tech-card ul, .tech-card ol { padding-left: 1.2rem; margin-bottom: .5rem; }
+        .tech-card code {
+            background: rgba(124,58,237,.14); color: #e9d5ff;
+            padding: .08rem .35rem; border-radius: 4px; font-size: .82rem;
+        }
+        .tech-card .pipeline-row {
+            display: grid; grid-template-columns: 32px 1fr; gap: .85rem; margin-bottom: .9rem;
+        }
+        .tech-card .pipeline-row .step {
+            width: 32px; height: 32px; border-radius: 999px;
+            background: rgba(124,58,237,.28); color: #fff; font-weight: 700; font-size: .9rem;
+            display: grid; place-items: center;
+        }
+        .tech-card .pipeline-row .body strong { color: #fff; display: block; margin-bottom: .15rem; }
+        .tech-card .pipeline-row .body code { font-size: .78rem; }
+
+        details.tech-note {
+            margin-top: 1rem; background: rgba(124,58,237,.05);
+            border: 1px solid rgba(124,58,237,.18); border-radius: 8px; padding: .4rem .9rem;
+        }
+        details.tech-note summary {
+            cursor: pointer; color: #c4b5fd; font-size: .8rem;
+            text-transform: uppercase; letter-spacing: .08em; font-weight: 600;
+            padding: .4rem 0;
+        }
+        details.tech-note[open] summary { margin-bottom: .4rem; }
+        details.tech-note p, details.tech-note li { color: #c7cad3; font-size: .84rem; line-height: 1.6; }
+        details.tech-note code { background: rgba(124,58,237,.14); color: #e9d5ff; padding: 0 .3rem; border-radius: 3px; }
+
         @media (max-width: 900px) {
             .grid { grid-template-columns: 1fr; }
             .wind-grid { grid-template-columns: repeat(3, 1fr); }
             .stats-row { grid-template-columns: repeat(2, 1fr); }
             main { padding: 1rem; }
+            .present-cta { grid-template-columns: 1fr; text-align: center; }
+            .present-cta .cta-mark { margin: 0 auto; }
         }
     </style>
 </head>
@@ -142,6 +214,7 @@
            air quality compared to the I-95 corridor. Data from EPA NEI, AQS, and
            Iowa Environmental Mesonet (2019-2024).</p>
         <nav>
+            <a href="#pipeline">Data Pipeline</a>
             <a href="#map">Study Area</a>
             <a href="#emissions">Emissions</a>
             <a href="#wind">Wind Patterns</a>
@@ -155,6 +228,95 @@
     </header>
 
     <main>
+
+        <!-- Prominent Presentation entry point — separate from the technical dashboard -->
+        <a href="presentation.html" class="present-cta">
+            <div class="cta-mark">&#9658;</div>
+            <div class="cta-body">
+                <h3>Open the Narrative Presentation</h3>
+                <small>A 13-slide directional analysis of Wheelabrator vs the I-95 corridor, with stress-tested conclusions. The dashboard below is the technical build log; the presentation is the story that sits on top of it.</small>
+            </div>
+            <div class="cta-button">Launch Presentation &rarr;</div>
+        </a>
+
+        <!-- ============================================================ -->
+        <!-- 0. DATA PIPELINE — How everything below was produced          -->
+        <!-- ============================================================ -->
+        <p class="section-title" id="pipeline">0. Data Pipeline &amp; Technical Architecture</p>
+        <p class="section-desc">Every number and chart on this dashboard is produced by the same ordered pipeline. This section documents what runs, in what order, from which source, and where each artifact lands on disk.</p>
+
+        <div class="tech-card">
+            <h3>Processing Order</h3>
+            <div class="pipeline-row">
+                <div class="step">1</div>
+                <div class="body">
+                    <strong>Hourly wind — Iowa Environmental Mesonet ASOS feed</strong>
+                    <p>Fetched by <code>src/fetch_wind.py</code> from the IEM <code>asos.py</code> endpoint for BWI (<code>station=BWI</code>, 2019-2024, hourly METAR reports). Columns kept: <code>timestamp</code>, <code>wind_dir</code> (degrees, meteorological convention: direction the wind comes <em>from</em>), <code>wind_speed_kt</code>, <code>wind_gust_kt</code>. Speed is converted to m/s on load. Cached to <code>data/wind_bwi.csv</code>.</p>
+                </div>
+            </div>
+            <div class="pipeline-row">
+                <div class="step">2</div>
+                <div class="body">
+                    <strong>Facility emissions — EPA NEI 2014 &amp; 2017 plus GHG Reporting Program</strong>
+                    <p>Compiled in <code>src/fetch_emissions.py</code> from the EPA National Emissions Inventory (major &amp; trace pollutants in lbs/yr) and the EPA Greenhouse Gas Reporting Program (facility ID 1004094, CO2e metric tons). Values live inline in the module because NEI downloads are annual snapshots. Converted to tons/yr at load. Written to <code>data/wheelabrator_emissions.csv</code> and <code>data/wheelabrator_ghg.csv</code>.</p>
+                </div>
+            </div>
+            <div class="pipeline-row">
+                <div class="step">3</div>
+                <div class="body">
+                    <strong>AQS monitor data — EPA Air Quality System API</strong>
+                    <p>Fetched by <code>src/fetch_aqs.py</code> with an AQS API key (<code>AQS_EMAIL</code>, <code>AQS_KEY</code> in <code>.env</code>). Pulls daily summary data for PM2.5 (parameter <code>88101</code>), plus PM10, SO2, NO2, Ozone, CO for Maryland FIPS <code>24</code>, Baltimore City county <code>510</code>, and Baltimore County county <code>005</code>. Deduplicated to one daily value per monitor-date before downstream merges. Cached to <code>data/aqs_*.csv</code>.</p>
+                </div>
+            </div>
+            <div class="pipeline-row">
+                <div class="step">4</div>
+                <div class="body">
+                    <strong>Directional classification — per monitor, per hour, per day</strong>
+                    <p>For each AQS monitor, <code>src/analyze.py:classify_wind_for_monitor</code> computes the bearing from the monitor to Wheelabrator and flags each hour as "downwind of WB" when wind comes from that bearing &plusmn; 45&deg;. <code>classify_wind_for_i95</code> treats the highway as a line source: it finds the closest point on the I-95 polyline (<code>I95_WAYPOINTS</code> in <code>src/config.py</code>) using perpendicular projection onto each segment, then applies the same &plusmn; 45&deg; rule. Hourly flags are aggregated to daily shares by <code>merge_aqi_wind</code>, and a day is tagged WB-only, I-95-only, Both, or Neither when its shares cross 50%.</p>
+                </div>
+            </div>
+            <div class="pipeline-row">
+                <div class="step">5</div>
+                <div class="body">
+                    <strong>Aggregation &amp; comparison</strong>
+                    <p><code>directional_analysis</code> and <code>seasonal_directional_analysis</code> compute mean, median, and 90th-percentile PM2.5 by category for each monitor and season. <code>src/presentation.py</code> then rolls those into the deck-level summary, the confounder stress-test (bearing overlap and SW-quadrant share of WB-only days), and the static PNG figures in <code>presentation_assets/</code>.</p>
+                </div>
+            </div>
+            <div class="pipeline-row">
+                <div class="step">6</div>
+                <div class="body">
+                    <strong>Visualization &amp; serving</strong>
+                    <p><code>src/visualize.py</code> emits the interactive per-monitor HTML (pollution roses, directional bar charts, time series, seasonal plots) and the static wind-rose PNGs into <code>output/</code>. <code>app.py</code> serves the dashboard, the presentation, the study map (a Folium render), and the cached artifacts. <code>build.py</code> captures the rendered Flask routes into <code>docs/</code> for static hosting.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h3>Module Map</h3>
+            <ul>
+                <li><code>src/config.py</code> &mdash; facility coordinates, I-95 waypoints, neighborhood groups, pollutant parameter codes, the 45&deg; tolerance window.</li>
+                <li><code>src/fetch_wind.py</code> &mdash; Iowa Mesonet request, parsing, kt&rarr;m/s conversion, CSV cache.</li>
+                <li><code>src/fetch_emissions.py</code> &mdash; inline NEI inventories, GHG values, long/wide helper frames.</li>
+                <li><code>src/fetch_aqs.py</code> &mdash; AQS REST calls, monitor discovery, multi-pollutant fetch with retry.</li>
+                <li><code>src/analyze.py</code> &mdash; bearings, angular differences, line-source projection, downwind classification, directional and seasonal aggregations.</li>
+                <li><code>src/visualize.py</code> &mdash; Plotly and matplotlib figures for the dashboard and the exported PNGs.</li>
+                <li><code>src/presentation.py</code> &mdash; deck context builder, confounder computation, PNG figure generator.</li>
+                <li><code>run_all.py</code> &mdash; the canonical pipeline runner. <code>--wind-only</code> and <code>--no-aqs</code> flags let you rebuild without the AQS API key.</li>
+                <li><code>app.py</code> &mdash; Flask routes for dashboard, presentation, study map, interactive charts, API endpoints.</li>
+                <li><code>build.py</code> &mdash; renders the Flask app to static HTML under <code>docs/</code> for GitHub Pages.</li>
+            </ul>
+        </div>
+
+        <div class="tech-card">
+            <h3>Reproducing the Pipeline</h3>
+            <ol>
+                <li>Register for an EPA AQS API key at <code>https://aqs.epa.gov/data/api/signup</code> and put <code>AQS_EMAIL</code>/<code>AQS_KEY</code> in <code>.env</code>.</li>
+                <li>Install dependencies from <code>requirements.txt</code>.</li>
+                <li>Run <code>python run_all.py</code> to pull wind + AQS, recompute the directional tables, and regenerate every chart in <code>output/</code>.</li>
+                <li>Run <code>python app.py</code> to serve the dashboard and presentation locally, or <code>python build.py</code> to freeze them into <code>docs/</code>.</li>
+            </ol>
+            <p>Re-running is idempotent: cached CSVs in <code>data/</code> are used when available, and the <code>get_presentation_context</code> cache is keyed per-process so the presentation rebuilds its figures from the current CSVs on first render.</p>
+        </div>
 
         <!-- ============================================================ -->
         <!-- 1. MAP — Where everything is                                 -->
@@ -337,6 +499,10 @@
         <!-- ============================================================ -->
         <p class="section-title" id="emissions">2. Facility Emissions</p>
         <p class="section-desc">What Wheelabrator Baltimore reports emitting, from EPA National Emissions Inventory data (2014 and 2017).</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p>The NEI values live inline in <code>src/fetch_emissions.py</code> as a <code>{year: {pollutant: lbs_per_year}}</code> dictionary, then flattened into a long-form DataFrame by <code>get_emissions_df()</code>. Tons/yr is just <code>lbs_per_year / 2000</code>. The GHG number comes from the EPA Greenhouse Gas Reporting Program (facility ID <code>1004094</code>) via <code>get_ghg_df()</code>. The year-over-year deltas in the table above are computed client-side in the Jinja template from the same frame; the Plotly charts below are written by <code>src/visualize.py:plot_facility_emissions</code> into <code>output/facility_emissions.html</code> and <code>output/facility_emissions_trace.html</code>.</p>
+        </details>
 
         <div class="stats-row">
             <div class="stat-card">
@@ -617,6 +783,10 @@
         <p class="section-title" id="wind">3. Wind Patterns</p>
         <p class="section-desc">Wind direction and speed distributions from BWI airport (2019-2024).
            These show where emissions are likely carried. Click any rose to view full size.</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p>Hourly observations are pulled by <code>src/fetch_wind.py:fetch_wind_data</code> from <code>https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py</code> for station <code>BWI</code>, report type <code>3</code> (routine METAR), for each year between <code>DEFAULT_START_YEAR</code> and <code>DEFAULT_END_YEAR</code>. The response is parsed into columns <code>timestamp</code>, <code>wind_dir</code> (degrees, direction wind comes <em>from</em>), and <code>wind_speed_kt</code>; speed is converted to m/s on load. The 16-sector wind rose PNGs are rendered by <code>src/visualize.py:plot_wind_rose</code> and <code>plot_seasonal_wind_roses</code> using matplotlib with polar projection; the per-sector shares are also exposed to the presentation via <code>wind_summary.sector_share</code> in <code>src/presentation.py</code>.</p>
+        </details>
         <div class="card">
             <div class="card-header">
                 <h2>Wind Roses</h2>
@@ -652,6 +822,10 @@
         <p class="section-title" id="pollution-roses">4. Pollution Roses</p>
         <p class="section-desc">Mean measured pollutant concentration by wind direction at each EPA monitor.
            If pollution is higher from one direction, these roses will show it.</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p>For each AQS monitor discovered in <code>data/aqs_monitors.csv</code>, <code>src/visualize.py:plot_pollution_rose</code> bins the merged monitor-day records (from <code>merge_aqi_wind</code>) by the daily mean wind direction and plots mean PM2.5 per 22.5&deg; sector as a Plotly polar bar chart. One HTML is emitted per monitor at <code>output/pollution_rose_&lt;lat&gt;_&lt;lon&gt;.html</code> and iframed in the cards below.</p>
+        </details>
         <div class="grid">
             
             
@@ -700,6 +874,10 @@
         <p class="section-title" id="directional">5. Directional Comparison</p>
         <p class="section-desc">Side-by-side comparison of pollutant levels when monitors are downwind
            of Wheelabrator, downwind of I-95, downwind of both, or downwind of neither.</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p>Each monitor-day is tagged using the <code>pct_downwind_wheelabrator</code> and <code>pct_downwind_i95</code> shares from <code>merge_aqi_wind</code>: a day is WB-only when the WB share &gt; 0.5 and the I-95 share &le; 0.5, and symmetrically for the other three categories. <code>src/analyze.py:directional_analysis</code> aggregates mean/median/p90 PM2.5 in each bucket, and <code>src/visualize.py:plot_directional_comparison</code> renders the four-bar Plotly chart per monitor. The presentation-level version of this comparison, plus the confounder stress-test (bearing overlap + SW-quadrant share) lives in the presentation deck.</p>
+        </details>
         <div class="grid">
             
             
@@ -748,6 +926,10 @@
         <p class="section-title" id="timeseries">6. Time Series</p>
         <p class="section-desc">Daily pollutant readings over time, colored by whether the monitor was
            downwind of Wheelabrator, I-95, both, or neither that day. Includes 30-day rolling averages.</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p><code>src/visualize.py:plot_time_series</code> takes the merged monitor-day frame, applies the same four-way categorization used in the directional charts, and plots daily PM2.5 as a scatter with category-colored markers plus a 30-day rolling mean as an overlay. Gaps correspond to monitor-days dropped during AQS deduplication or to dates missing from the BWI wind record.</p>
+        </details>
         <div class="grid">
             
             
@@ -796,6 +978,10 @@
         <p class="section-title" id="seasonal">7. Seasonal Breakdown</p>
         <p class="section-desc">The same directional comparison broken down by season, to see
            if the Wheelabrator vs I-95 pattern varies with weather and wind shifts.</p>
+        <details class="tech-note">
+            <summary>How this section is built</summary>
+            <p><code>src/analyze.py:seasonal_directional_analysis</code> tags each monitor-day with a season (DJF / MAM / JJA / SON) and re-runs <code>directional_analysis</code> inside each season. <code>src/visualize.py:plot_seasonal_comparison</code> renders the resulting grouped bar chart per monitor. The presentation-level seasonal line chart on Slide 9 is the same data aggregated across monitors.</p>
+        </details>
         <div class="grid">
             
             

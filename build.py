@@ -18,6 +18,28 @@ from app import app
 
 DOCS_DIR = "docs"
 OUTPUT_SRC = "output"
+PRESENTATION_SRC = "presentation_assets"
+
+
+def rewrite_site_html(html):
+    """Rewrite Flask URLs to relative paths for static hosting."""
+    replacements = [
+        ('href="/presentation"',    'href="presentation.html"'),
+        ('href="/"',                'href="index.html"'),
+        ('"/presentation-assets/',  '"presentation-assets/'),
+        ('src="/study-map"',        'src="study-map.html"'),
+        ('src="/emissions-trace"',  'src="output/facility_emissions_trace.html"'),
+        ('src="/emissions"',        'src="output/facility_emissions.html"'),
+        ('"/wind-rose/winter"',     '"output/wind_rose_winter.png"'),
+        ('"/wind-rose/spring"',     '"output/wind_rose_spring.png"'),
+        ('"/wind-rose/summer"',     '"output/wind_rose_summer.png"'),
+        ('"/wind-rose/fall"',       '"output/wind_rose_fall.png"'),
+        ('"/wind-rose"',            '"output/wind_rose.png"'),
+        ('"/output/',               '"output/'),
+    ]
+    for old, new in replacements:
+        html = html.replace(old, new)
+    return html
 
 
 def build():
@@ -25,48 +47,30 @@ def build():
     if os.path.exists(DOCS_DIR):
         shutil.rmtree(DOCS_DIR)
     os.makedirs(os.path.join(DOCS_DIR, "output"))
+    os.makedirs(os.path.join(DOCS_DIR, "presentation-assets"))
 
     with app.test_client() as client:
-        # 1. Render the main dashboard (Jinja2 bakes in all data)
         print("Rendering index.html ...")
-        resp = client.get("/")
-        index_html = resp.data.decode("utf-8")
+        index_html = client.get("/").data.decode("utf-8")
 
-        # 2. Render the study map (Folium generates self-contained HTML)
+        print("Rendering presentation.html ...")
+        presentation_html = client.get("/presentation").data.decode("utf-8")
+
         print("Rendering study-map.html ...")
-        resp = client.get("/study-map")
-        study_map_html = resp.data.decode("utf-8")
+        study_map_html = client.get("/study-map").data.decode("utf-8")
 
-    # 3. Rewrite Flask route URLs to relative file paths
-    #    Order matters: more specific patterns first
-    replacements = [
-        # Study map iframe
-        ('src="/study-map"',         'src="study-map.html"'),
-        # Emissions charts (trace first — it's more specific)
-        ('src="/emissions-trace"',   'src="output/facility_emissions_trace.html"'),
-        ('src="/emissions"',         'src="output/facility_emissions.html"'),
-        # Seasonal wind roses (before generic /wind-rose)
-        ('"/wind-rose/winter"',      '"output/wind_rose_winter.png"'),
-        ('"/wind-rose/spring"',      '"output/wind_rose_spring.png"'),
-        ('"/wind-rose/summer"',      '"output/wind_rose_summer.png"'),
-        ('"/wind-rose/fall"',        '"output/wind_rose_fall.png"'),
-        # Overall wind rose
-        ('"/wind-rose"',             '"output/wind_rose.png"'),
-        # Per-monitor chart iframes (remove leading slash)
-        ('"/output/',                '"output/'),
-    ]
+    index_html = rewrite_site_html(index_html)
+    presentation_html = rewrite_site_html(presentation_html)
 
-    for old, new in replacements:
-        index_html = index_html.replace(old, new)
-
-    # 4. Write rendered HTML files
     with open(os.path.join(DOCS_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
+
+    with open(os.path.join(DOCS_DIR, "presentation.html"), "w", encoding="utf-8") as f:
+        f.write(presentation_html)
 
     with open(os.path.join(DOCS_DIR, "study-map.html"), "w", encoding="utf-8") as f:
         f.write(study_map_html)
 
-    # 5. Copy all output files (Plotly charts, wind rose PNGs)
     print("Copying output files ...")
     count = 0
     for fname in os.listdir(OUTPUT_SRC):
@@ -76,15 +80,26 @@ def build():
             print(f"  {fname}")
             count += 1
 
-    # 6. Add .nojekyll so GitHub Pages serves files as-is
+    print("Copying presentation assets ...")
+    asset_count = 0
+    if os.path.exists(PRESENTATION_SRC):
+        for fname in os.listdir(PRESENTATION_SRC):
+            src = os.path.join(PRESENTATION_SRC, fname)
+            if os.path.isfile(src):
+                shutil.copy2(src, os.path.join(DOCS_DIR, "presentation-assets", fname))
+                print(f"  {fname}")
+                asset_count += 1
+
     open(os.path.join(DOCS_DIR, ".nojekyll"), "w").close()
 
     print(f"\nDone! Static site built in {DOCS_DIR}/")
-    print(f"  index.html")
-    print(f"  study-map.html")
+    print("  index.html")
+    print("  presentation.html")
+    print("  study-map.html")
     print(f"  output/ ({count} files)")
+    print(f"  presentation-assets/ ({asset_count} files)")
     print(f"\nPreview locally:  python -m http.server 8000 -d {DOCS_DIR}")
-    print(f"Then open:        http://localhost:8000")
+    print("Then open:        http://localhost:8000")
 
 
 if __name__ == "__main__":

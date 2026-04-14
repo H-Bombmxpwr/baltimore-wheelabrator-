@@ -54,20 +54,40 @@ def classify_wind_for_monitor(wind_df, monitor_lat, monitor_lon, tolerance_deg=4
     return df
 
 
+def nearest_point_on_segment(lat, lon, a, b):
+    """Closest point on segment a-b (each as (lat, lon)) to (lat, lon), planar approximation."""
+    ay, ax = a[0], a[1]
+    by, bx = b[0], b[1]
+    dx, dy = bx - ax, by - ay
+    if dx == 0 and dy == 0:
+        return a
+    t = ((lon - ax) * dx + (lat - ay) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    return (ay + t * dy, ax + t * dx)
+
+
+def nearest_point_on_polyline(lat, lon, waypoints):
+    """Closest point on a polyline to (lat, lon). Returns (lat, lon)."""
+    best = waypoints[0]
+    best_d = float("inf")
+    for i in range(len(waypoints) - 1):
+        pt = nearest_point_on_segment(lat, lon, waypoints[i], waypoints[i + 1])
+        d = (lat - pt[0]) ** 2 + (lon - pt[1]) ** 2
+        if d < best_d:
+            best_d = d
+            best = pt
+    return best
+
+
 def classify_wind_for_i95(wind_df, monitor_lat, monitor_lon, tolerance_deg=45):
     """
-    Similar to above, but for I-95. Uses the nearest I-95 waypoint.
+    Classify each wind observation as 'downwind of I-95' by treating the
+    highway as a line source: bearing is computed from the monitor to the
+    closest point on the I-95 polyline, not the nearest vertex. That avoids
+    biasing the bearing toward whichever waypoint happened to be sampled.
     """
-    # Find nearest I-95 waypoint
-    min_dist = float("inf")
-    nearest_wp = I95_WAYPOINTS[0]
-    for wp in I95_WAYPOINTS:
-        d = math.sqrt((monitor_lat - wp[0])**2 + (monitor_lon - wp[1])**2)
-        if d < min_dist:
-            min_dist = d
-            nearest_wp = wp
-
-    bearing_to_i95 = bearing_from(monitor_lat, monitor_lon, nearest_wp[0], nearest_wp[1])
+    nearest = nearest_point_on_polyline(monitor_lat, monitor_lon, I95_WAYPOINTS)
+    bearing_to_i95 = bearing_from(monitor_lat, monitor_lon, nearest[0], nearest[1])
 
     df = wind_df.copy()
     df["downwind_of_i95"] = df["wind_dir"].apply(

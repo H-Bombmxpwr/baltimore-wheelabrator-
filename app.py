@@ -12,6 +12,7 @@ import pandas as pd
 
 from src.fetch_emissions import get_emissions_df, get_ghg_df, EMISSIONS_DATA
 from src.config import NEIGHBORHOODS, WHEELABRATOR, DATA_DIR
+from src.presentation import get_presentation_context
 
 app = Flask(
     __name__,
@@ -20,6 +21,7 @@ app = Flask(
 )
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
+PRESENTATION_ASSETS_DIR = os.path.join(os.path.dirname(__file__), "presentation_assets")
 
 
 def discover_monitor_charts():
@@ -66,6 +68,25 @@ def index():
     return render_template("index.html", **context)
 
 
+@app.route("/presentation")
+def presentation():
+    """Presentation-style page with copy-ready text and images."""
+    context = get_presentation_context()
+    chart_lookup = discover_monitor_charts()
+    interactive_monitors = []
+    for row in context.get("monitor_summary", []):
+        raw = chart_lookup.get(row["chart_label"], {})
+        charts = {}
+        for key, value in raw.items():
+            if key == "label":
+                charts[key] = value
+            else:
+                charts[key] = f"/output/{value}"
+        interactive_monitors.append({**row, "charts": charts})
+    context["interactive_monitors"] = interactive_monitors
+    return render_template("presentation.html", **context)
+
+
 @app.route("/emissions")
 def emissions():
     """Facility emissions chart."""
@@ -82,6 +103,12 @@ def emissions_trace():
 def serve_output(filename):
     """Serve any file from the output directory."""
     return send_from_directory(OUTPUT_DIR, filename)
+
+
+@app.route("/presentation-assets/<path:filename>")
+def serve_presentation_assets(filename):
+    """Serve generated presentation PNGs."""
+    return send_from_directory(PRESENTATION_ASSETS_DIR, filename)
 
 
 @app.route("/wind-rose")
