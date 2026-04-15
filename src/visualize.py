@@ -78,7 +78,7 @@ def plot_seasonal_wind_roses(wind_df, filename_prefix="wind_rose"):
         subset = df[df["season"] == season].dropna(subset=["wind_dir", "wind_speed_ms"])
         if len(subset) < 10:
             continue
-        path = plot_wind_rose(subset, title=f"BWI Wind Rose — {season}", filename=f"{filename_prefix}_{season.lower()}.png")
+        path = plot_wind_rose(subset, title=f"BWI Wind Rose: {season}", filename=f"{filename_prefix}_{season.lower()}.png")
         paths.append(path)
     return paths
 
@@ -118,7 +118,7 @@ def plot_pollution_rose(merged_df, value_col="arithmetic_mean", pollutant="PM2.5
     ))
 
     fig.update_layout(
-        title=f"{pollutant} Pollution Rose — Mean Concentration by Wind Direction",
+        title=f"{pollutant} Pollution Rose: Mean Concentration by Wind Direction",
         polar=dict(
             angularaxis=dict(direction="clockwise", rotation=90),
             radialaxis=dict(showticklabels=True),
@@ -326,7 +326,7 @@ def plot_time_series(merged_df, value_col="arithmetic_mean", pollutant="PM2.5",
         df, x="date_local", y=value_col, color="category",
         color_discrete_map=color_map,
         opacity=0.4,
-        title=f"{pollutant} Daily Values — Colored by Downwind Category",
+        title=f"{pollutant} Daily Values: Colored by Downwind Category",
         labels={value_col: f"{pollutant} (µg/m³)", "date_local": "Date"},
     )
 
@@ -369,7 +369,7 @@ def plot_facility_emissions(emissions_df, filename="facility_emissions.html"):
     fig = px.bar(
         major, x="pollutant", y="tons_per_year", color="year",
         barmode="group",
-        title="Wheelabrator Baltimore — Reported Emissions by Pollutant (EPA NEI)",
+        title="Wheelabrator Baltimore: Reported Emissions by Pollutant (EPA NEI)",
         labels={"tons_per_year": "Tons per Year", "pollutant": "Pollutant", "year": "Year"},
         color_discrete_sequence=["#2196F3", "#F44336"],
     )
@@ -385,7 +385,7 @@ def plot_facility_emissions(emissions_df, filename="facility_emissions.html"):
         fig2 = px.bar(
             trace, x="pollutant", y="lbs_per_year", color="year",
             barmode="group",
-            title="Wheelabrator Baltimore — Trace Pollutant Emissions (EPA NEI)",
+            title="Wheelabrator Baltimore: Trace Pollutant Emissions (EPA NEI)",
             labels={"lbs_per_year": "Pounds per Year", "pollutant": "Pollutant", "year": "Year"},
             color_discrete_sequence=["#2196F3", "#F44336"],
         )

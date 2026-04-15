@@ -105,7 +105,7 @@
                                 <li>Compared PM2.5 readings across the four buckets.</li>
                                 <li>Pressure-tested the gap I found before calling it a real Wheelabrator effect.</li>
                             </ul>
-                            <div class="callout">What I mean by "wind from Wheelabrator": for each monitor I drew a straight line to the incinerator. If the wind was blowing from that direction — within a 45-degree cone on either side of that line — for more than half of the hours in a day, that day counts as a Wheelabrator-wind day at that monitor. Same rule for I-95, using the closest point on the highway to that monitor. So "wind from Wheelabrator" always means wind pointed from the incinerator toward that specific monitor.</div>
+                            <div class="callout">What I mean by "wind from Wheelabrator": for each monitor I drew a straight line to the incinerator. If the wind was blowing from that direction, within a 45-degree cone on either side of that line, for more than half of the hours in a day, that day counts as a Wheelabrator-wind day at that monitor. Same rule for I-95, using the closest point on the highway to that monitor. So "wind from Wheelabrator" always means wind pointed from the incinerator toward that specific monitor.</div>
                         </div>
                         <div>
                             <div class="stage">
@@ -160,7 +160,7 @@
                         <div>
                             <div class="kicker">Slide 4</div>
                             <h2>Data and Approach</h2>
-                            <p>Three sources, one simple question for every day in the dataset.</p>
+                            <p>Three data sources, and the same question asked of every day in the dataset.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -172,7 +172,7 @@
                                 <li>Daily PM2.5 readings from EPA air monitors around Baltimore, to show what people are actually breathing.</li>
                                 <li>For every monitor and every day, I asked: was the wind carrying Wheelabrator plume toward this neighborhood? Was it carrying I-95 exhaust toward this neighborhood? Both? Neither?</li>
                             </ul>
-                            <div class="callout">One day, one monitor, one answer. That is the unit of evidence for everything that follows.</div>
+                            <div class="callout">Each monitor-day gets a single classification. That is the unit of evidence behind every number in this deck.</div>
                         </div>
                         <div>
                             <div class="stage">
@@ -239,7 +239,7 @@
                             <div class="stage" style="margin-top:.75rem">
                                 <img src="/presentation-assets/{{ images.bwi_photo }}" alt="BWI weather station" loading="lazy">
                             </div>
-                            <p class="legend" style="margin-top:.5rem">BWI airport — the single weather station whose hourly wind data feeds this whole analysis.</p>
+                            <p class="legend" style="margin-top:.5rem">BWI airport, the single weather station whose hourly wind data feeds this whole analysis.</p>
                         </div>
                         <div class="card">
                             <div class="season-tabs" id="season-tabs">
@@ -253,7 +253,7 @@
                                 <img id="wind-image" src="/output/wind_rose.png" alt="Wind rose" loading="lazy">
                             </div>
                             <div class="callout" style="margin-top:.6rem">
-                                <strong>How to read a wind rose.</strong> Each spoke points in a compass direction (N at top, E at right). The length of the spoke is how often wind comes <em>from</em> that direction. So a long spoke on the southwest side means the wind is <em>from the southwest</em> a lot — blowing toward the northeast. In Baltimore, the rose leans west and southwest, which is exactly the direction that carries Wheelabrator's plume and Ohio Valley regional pollution into the city at the same time.
+                                <strong>How to read a wind rose.</strong> Each spoke points in a compass direction (N at top, E at right). The length of the spoke is how often wind comes <em>from</em> that direction. So a long spoke on the southwest side means the wind is <em>from the southwest</em> a lot, blowing toward the northeast. In Baltimore, the rose leans west and southwest, which is exactly the direction that carries Wheelabrator's plume and Ohio Valley regional pollution into the city at the same time.
                             </div>
                         </div>
                     </div>
@@ -412,7 +412,7 @@
                             <h3>What the stress test turned up</h3>
                             <ul>
                                 {% if confounders.overall_regional_share is not none %}
-                                <li>{{ "%.0f"|format(confounders.overall_regional_share) }}% of Wheelabrator-wind days also had southwesterly wind — the same wind that carries Ohio Valley and mid-Atlantic pollution into Baltimore.</li>
+                                <li>{{ "%.0f"|format(confounders.overall_regional_share) }}% of Wheelabrator-wind days also had southwesterly wind, the same wind that carries Ohio Valley and mid-Atlantic pollution into Baltimore.</li>
                                 {% endif %}
                                 {% if confounders.i95_regional_share is not none %}
                                 <li>Only about {{ "%.0f"|format(confounders.i95_regional_share) }}% of highway-wind days were southwesterly. So regional pollution is stacking up on the Wheelabrator side of the comparison, not split evenly.</li>
@@ -456,7 +456,7 @@
                         <div>
                             <div class="kicker">Slide 12</div>
                             <h2>What this actually tells you</h2>
-                            <p>The honest version: here is the part I can defend, and here is the part I cannot.</p>
+                            <p>Here is the part I can defend from the data, and here is the part I cannot.</p>
                         </div>
                     </div>
                     <div class="verdict">
@@ -481,7 +481,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="callout">Bottom line: the air is worse on Wheelabrator-wind days than on highway-only days. That much is real. Whether Wheelabrator is the whole reason, a big reason, or a small reason on top of regional pollution, this method cannot say. That is enough to justify more monitoring. It is not enough, on its own, to say how much damage the facility is specifically doing.</div>
+                    <div class="callout">So where does that leave us. The air is worse on Wheelabrator-wind days than on highway-only days, and that much is real. But whether Wheelabrator is the whole reason, a big reason, or a small reason on top of regional pollution, this method cannot say. That is enough to justify more monitoring. It is not enough, on its own, to quantify how much damage the facility is specifically doing.</div>
                 </div>
             </section>
 

@@ -1,6 +1,6 @@
 """
 Fetch Toxics Release Inventory (TRI) data for Wheelabrator Baltimore / WIN Waste.
-Uses EPA Envirofacts REST API — no API key required.
+Uses EPA Envirofacts REST API. No API key required.
 """
 
 import os

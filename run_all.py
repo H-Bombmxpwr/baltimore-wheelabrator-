@@ -100,7 +100,7 @@ def run_analysis_and_viz(wind_df, emissions_df=None, monitors_df=None, aqs_data=
                 lat, lon = site["latitude"], site["longitude"]
                 site_data = pm25[(pm25["latitude"] == lat) & (pm25["longitude"] == lon)]
 
-                print(f"\n  Monitor at ({lat:.3f}, {lon:.3f}) — {len(site_data)} days")
+                print(f"\n  Monitor at ({lat:.3f}, {lon:.3f}): {len(site_data)} days")
 
                 # Classify wind for this monitor
                 classified = classify_wind_for_monitor(wind_df, lat, lon)

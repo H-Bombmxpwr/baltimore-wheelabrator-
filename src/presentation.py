@@ -496,7 +496,7 @@ def get_presentation_context():
             "At some monitors, the direction toward Wheelabrator and the direction toward I-95 are basically the same. So the two buckets aren't fully different weather.",
             "I used one weather station at BWI for the whole metro area. Wind can be different a few miles away.",
             "I used daily averages, which smooth out short PM2.5 spikes.",
-            "There are no EPA monitors in Westport, Cherry Hill, or Curtis Bay — the neighborhoods right up against the facility.",
+            "There are no EPA monitors in Westport, Cherry Hill, or Curtis Bay, the neighborhoods right up against the facility.",
             "The facility emissions I compared against are from 2014 and 2017 inventories, while the air quality readings are from 2019-2024.",
         ],
         "recommendations": [

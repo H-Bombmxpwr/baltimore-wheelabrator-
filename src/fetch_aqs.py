@@ -1,6 +1,6 @@
 """
 Fetch air quality monitoring data from EPA AQS API.
-Requires a free API key — register at https://aqs.epa.gov/data/api/signup?email=YOUR_EMAIL
+Requires a free API key. Register at https://aqs.epa.gov/data/api/signup?email=YOUR_EMAIL
 
 Also discovers nearby monitors and classifies them relative to Wheelabrator and I-95.
 """

@@ -3,10 +3,10 @@ Core analysis: combine wind data with air quality measurements to assess
 Wheelabrator vs I-95 impact on surrounding neighborhoods.
 
 Key analyses:
-1. Wind rose — what directions does wind come from in Baltimore?
-2. Directional AQ — when wind blows FROM Wheelabrator toward a monitor, is AQ worse?
-3. I-95 control — compare monitors near I-95 but NOT downwind of Wheelabrator
-4. Temporal trends — have emissions/AQ changed over time?
+1. Wind rose: what directions does wind come from in Baltimore?
+2. Directional AQ: when wind blows FROM Wheelabrator toward a monitor, is AQ worse?
+3. I-95 control: compare monitors near I-95 but NOT downwind of Wheelabrator
+4. Temporal trends: have emissions/AQ changed over time?
 """
 
 import math

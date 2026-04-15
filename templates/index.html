@@ -127,7 +127,7 @@
 
         .muted-note { font-size: 0.8rem; color: #6b7280; margin-top: 1rem; margin-bottom: 0; }
 
-        /* Presentation CTA — deliberately distinct from the technical dashboard links */
+        /* Presentation CTA:deliberately distinct from the technical dashboard links */
         .present-cta {
             display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center;
             padding: 1.4rem 1.8rem; margin-bottom: 2rem;
@@ -229,7 +229,7 @@
 
     <main>
 
-        <!-- Prominent Presentation entry point — separate from the technical dashboard -->
+        <!-- Prominent Presentation entry point:separate from the technical dashboard -->
         <a href="/presentation" class="present-cta">
             <div class="cta-mark">&#9658;</div>
             <div class="cta-body">
@@ -240,7 +240,7 @@
         </a>
 
         <!-- ============================================================ -->
-        <!-- 0. DATA PIPELINE — How everything below was produced          -->
+        <!-- 0. DATA PIPELINE:How everything below was produced          -->
         <!-- ============================================================ -->
         <p class="section-title" id="pipeline">0. Data Pipeline &amp; Technical Architecture</p>
         <p class="section-desc">Every number and chart on this dashboard is produced by the same ordered pipeline. This section documents what runs, in what order, from which source, and where each artifact lands on disk.</p>
@@ -250,28 +250,28 @@
             <div class="pipeline-row">
                 <div class="step">1</div>
                 <div class="body">
-                    <strong>Hourly wind — Iowa Environmental Mesonet ASOS feed</strong>
+                    <strong>Hourly wind: Iowa Environmental Mesonet ASOS feed</strong>
                     <p>Fetched by <code>src/fetch_wind.py</code> from the IEM <code>asos.py</code> endpoint for BWI (<code>station=BWI</code>, 2019-2024, hourly METAR reports). Columns kept: <code>timestamp</code>, <code>wind_dir</code> (degrees, meteorological convention: direction the wind comes <em>from</em>), <code>wind_speed_kt</code>, <code>wind_gust_kt</code>. Speed is converted to m/s on load. Cached to <code>data/wind_bwi.csv</code>.</p>
                 </div>
             </div>
             <div class="pipeline-row">
                 <div class="step">2</div>
                 <div class="body">
-                    <strong>Facility emissions — EPA NEI 2014 &amp; 2017 plus GHG Reporting Program</strong>
+                    <strong>Facility emissions: EPA NEI 2014 &amp; 2017 plus GHG Reporting Program</strong>
                     <p>Compiled in <code>src/fetch_emissions.py</code> from the EPA National Emissions Inventory (major &amp; trace pollutants in lbs/yr) and the EPA Greenhouse Gas Reporting Program (facility ID 1004094, CO2e metric tons). Values live inline in the module because NEI downloads are annual snapshots. Converted to tons/yr at load. Written to <code>data/wheelabrator_emissions.csv</code> and <code>data/wheelabrator_ghg.csv</code>.</p>
                 </div>
             </div>
             <div class="pipeline-row">
                 <div class="step">3</div>
                 <div class="body">
-                    <strong>AQS monitor data — EPA Air Quality System API</strong>
+                    <strong>AQS monitor data: EPA Air Quality System API</strong>
                     <p>Fetched by <code>src/fetch_aqs.py</code> with an AQS API key (<code>AQS_EMAIL</code>, <code>AQS_KEY</code> in <code>.env</code>). Pulls daily summary data for PM2.5 (parameter <code>88101</code>), plus PM10, SO2, NO2, Ozone, CO for Maryland FIPS <code>24</code>, Baltimore City county <code>510</code>, and Baltimore County county <code>005</code>. Deduplicated to one daily value per monitor-date before downstream merges. Cached to <code>data/aqs_*.csv</code>.</p>
                 </div>
             </div>
             <div class="pipeline-row">
                 <div class="step">4</div>
                 <div class="body">
-                    <strong>Directional classification — per monitor, per hour, per day</strong>
+                    <strong>Directional classification: per monitor, per hour, per day</strong>
                     <p>For each AQS monitor, <code>src/analyze.py:classify_wind_for_monitor</code> computes the bearing from the monitor to Wheelabrator and flags each hour as "downwind of WB" when wind comes from that bearing &plusmn; 45&deg;. <code>classify_wind_for_i95</code> treats the highway as a line source: it finds the closest point on the I-95 polyline (<code>I95_WAYPOINTS</code> in <code>src/config.py</code>) using perpendicular projection onto each segment, then applies the same &plusmn; 45&deg; rule. Hourly flags are aggregated to daily shares by <code>merge_aqi_wind</code>, and a day is tagged WB-only, I-95-only, Both, or Neither when its shares cross 50%.</p>
                 </div>
             </div>
@@ -319,7 +319,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 1. MAP — Where everything is                                 -->
+        <!-- 1. MAP:Where everything is                                 -->
         <!-- ============================================================ -->
         <p class="section-title" id="map">1. Study Area Map</p>
         <p class="section-desc">Where the study neighborhoods are located, color-coded by exposure group.
@@ -364,7 +364,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 2. FACILITY EMISSIONS — What the incinerator emits           -->
+        <!-- 2. FACILITY EMISSIONS:What the incinerator emits           -->
         <!-- ============================================================ -->
         <p class="section-title" id="emissions">2. Facility Emissions</p>
         <p class="section-desc">What Wheelabrator Baltimore reports emitting, from EPA National Emissions Inventory data (2014 and 2017).</p>
@@ -519,7 +519,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 3. WIND ROSES — Where pollution is likely transported         -->
+        <!-- 3. WIND ROSES:Where pollution is likely transported         -->
         <!-- ============================================================ -->
         <p class="section-title" id="wind">3. Wind Patterns</p>
         <p class="section-desc">Wind direction and speed distributions from BWI airport (2019-2024).
@@ -559,7 +559,7 @@
         <!-- ============================================================ -->
         {% if monitors %}
 
-        <!-- 4. POLLUTION ROSES — Directional dependence of measured pollution -->
+        <!-- 4. POLLUTION ROSES:Directional dependence of measured pollution -->
         <p class="section-title" id="pollution-roses">4. Pollution Roses</p>
         <p class="section-desc">Mean measured pollutant concentration by wind direction at each EPA monitor.
            If pollution is higher from one direction, these roses will show it.</p>
@@ -581,7 +581,7 @@
             {% endfor %}
         </div>
 
-        <!-- 5. DIRECTIONAL COMPARISON — Wheelabrator vs I-95 -->
+        <!-- 5. DIRECTIONAL COMPARISON:Wheelabrator vs I-95 -->
         <p class="section-title" id="directional">5. Directional Comparison</p>
         <p class="section-desc">Side-by-side comparison of pollutant levels when monitors are downwind
            of Wheelabrator, downwind of I-95, downwind of both, or downwind of neither.</p>
@@ -603,7 +603,7 @@
             {% endfor %}
         </div>
 
-        <!-- 6. TIME SERIES — When differences occur -->
+        <!-- 6. TIME SERIES:When differences occur -->
         <p class="section-title" id="timeseries">6. Time Series</p>
         <p class="section-desc">Daily pollutant readings over time, colored by whether the monitor was
            downwind of Wheelabrator, I-95, both, or neither that day. Includes 30-day rolling averages.</p>
@@ -625,7 +625,7 @@
             {% endfor %}
         </div>
 
-        <!-- 7. SEASONAL — Whether patterns change by season -->
+        <!-- 7. SEASONAL:Whether patterns change by season -->
         <p class="section-title" id="seasonal">7. Seasonal Breakdown</p>
         <p class="section-desc">The same directional comparison broken down by season, to see
            if the Wheelabrator vs I-95 pattern varies with weather and wind shifts.</p>
