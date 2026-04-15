@@ -27,6 +27,8 @@
         .canvas{height:430px;border-radius:18px;background:#f7fafc}.canvas.tall{height:520px}
         .tabs,.controls,.season-tabs{display:flex;gap:.6rem;flex-wrap:wrap}.tab,.control{border:none;border-radius:999px;padding:.65rem .9rem;background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}.tab.active,.season-tabs button.active{background:linear-gradient(90deg,rgba(226,163,61,.95),rgba(207,85,72,.95));color:#0d1117}.season-tabs button{border:none;border-radius:999px;padding:.55rem .82rem;background:rgba(255,255,255,.08);color:var(--ink);cursor:pointer}
         .legend{font-size:.88rem;line-height:1.6}.callout{padding:1rem 1.05rem;border-left:3px solid var(--amber);background:rgba(226,163,61,.09);border-radius:0 16px 16px 0}
+        .verdict{display:grid;gap:1rem;grid-template-columns:1fr 1fr}.verdict .box{padding:1.15rem 1.2rem;border-radius:20px;border:1px solid var(--line)}.verdict .proved{background:linear-gradient(135deg,rgba(79,192,132,.18),rgba(79,192,132,.06));border-color:rgba(79,192,132,.45)}.verdict .not-proved{background:linear-gradient(135deg,rgba(207,85,72,.18),rgba(207,85,72,.06));border-color:rgba(207,85,72,.45)}.verdict .tag{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}.verdict .proved .tag{color:var(--green)}.verdict .not-proved .tag{color:var(--red)}.verdict h3{margin:.35rem 0 .6rem;font-family:Georgia,"Times New Roman",serif;font-size:1.35rem}.verdict ul{margin:.25rem 0 0;padding-left:1.1rem}.verdict li{margin:.35rem 0;line-height:1.6}
+        @media (max-width:900px){.verdict{grid-template-columns:1fr}}
         .table{width:100%;border-collapse:collapse}.table th,.table td{padding:.72rem .5rem;text-align:left;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}.table th{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}.table td.num{text-align:right;font-variant-numeric:tabular-nums}
         .explorer{display:grid;grid-template-columns:340px 1fr;gap:1rem}.explorer .stage iframe{min-height:560px}.detail-list{display:grid;gap:.8rem}.detail{padding:.9rem;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}.detail strong{display:block;font-size:1.02rem;margin-bottom:.25rem}
         .links{display:flex;gap:.65rem;flex-wrap:wrap}.links a{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem .88rem;border-radius:999px;background:rgba(255,255,255,.08);color:var(--ink);text-decoration:none}.links a:hover{background:rgba(255,255,255,.14)}
@@ -59,7 +61,7 @@
                         <div>
                             <div class="kicker">Slide 1</div>
                             <h1>Directional Analysis of Wheelabrator Air Pollution in Baltimore</h1>
-                            <p>In this project, I compared wind-linked PM2.5 patterns from Wheelabrator Baltimore and the I-95 corridor using EPA emissions, AQS monitor data, and BWI wind observations.</p>
+                            <p>Is the air dirtier in Baltimore neighborhoods when the wind is blowing from the Wheelabrator incinerator, compared to when it is blowing from the I-95 highway next door? That is the question driving this project.</p>
                         </div>
                         <div class="chips">
                             
@@ -75,13 +77,13 @@
                     </div>
                     <div class="grid-stage">
                         <div class="copy">
-                            <h3>Project framing</h3>
+                            <h3>The project in one minute</h3>
                             <ul>
-                                <li>I asked whether PM2.5 rose when monitors were downwind of Wheelabrator compared with I-95-only days.</li>
-                                <li>I used emissions inventories, hourly wind data, and daily PM2.5 monitor data to answer that question.</li>
-                                <li>I focused on whether a facility-specific signal remained visible after I separated it from the broader highway background.</li>
+                                <li>Wheelabrator is Baltimore's biggest single air-pollution source. I-95 sits right next to it. Most of the city ends up downwind of both.</li>
+                                <li>I used six years of wind data to sort every day at every nearby air monitor by where the wind was coming from: the incinerator, the highway, both, or neither.</li>
+                                <li>Then I compared the air quality numbers across those buckets to see if Wheelabrator is doing something on top of what the highway is already doing.</li>
                             </ul>
-                            <div class="callout">I framed this project as a directional screening analysis of source influence rather than as a full atmospheric attribution model.</div>
+                            <div class="callout">This is a screening study, not a full source-attribution model. The goal is to see whether there is a signal worth chasing, not to pin down exactly how many micrograms came from where.</div>
                         </div>
                         <div class="stage tall">
                             <iframe src="study-map.html" title="Interactive study map" loading="lazy"></iframe>
@@ -95,39 +97,46 @@
                     <div class="slide-top">
                         <div>
                             <div class="kicker">Slide 2</div>
-                            <h2>Research Question, Objective, and Outline</h2>
-                            <p>I focused on whether PM2.5 was higher downwind of Wheelabrator than downwind of the I-95 corridor alone.</p>
+                            <h2>The Question and What I Did</h2>
+                            <p>A straight question with a simple setup behind it.</p>
                         </div>
                     </div>
                     <div class="grid-2">
                         <div class="copy">
-                            <h3>My research question</h3>
-                            <p>I asked whether ambient PM2.5 was higher when Baltimore-area monitors were downwind of Wheelabrator than when they were downwind of the I-95 corridor alone.</p>
-                            <h3>My objective</h3>
+                            <h3>The question</h3>
+                            <p>Is Wheelabrator making Baltimore's air worse, on top of what the highway is already doing?</p>
+                            <h3>What I did</h3>
                             <ul>
-                                <li>I used a GIS-informed directional method to separate incinerator influence from highway influence.</li>
-                                <li>I compared Wheelabrator-only, I-95-only, both-source, and neither-source days.</li>
-                                <li>I summarized the result as a screening analysis that could support future monitoring and decision-making.</li>
+                                <li>Sorted every day at every air monitor into four wind buckets: wind from Wheelabrator, wind from I-95, wind from both, wind from neither.</li>
+                                <li>Compared PM2.5 readings across the four buckets.</li>
+                                <li>Pressure-tested the gap I found before calling it a real Wheelabrator effect.</li>
                             </ul>
+                            <div class="callout">What I mean by "wind from Wheelabrator": for each monitor I drew a straight line to the incinerator. If the wind was blowing from that direction, within a 45-degree cone on either side of that line, for more than half of the hours in a day, that day counts as a Wheelabrator-wind day at that monitor. Same rule for I-95, using the closest point on the highway to that monitor. So "wind from Wheelabrator" always means wind pointed from the incinerator toward that specific monitor.</div>
                         </div>
-                        <div class="card">
-                            <h3>My outline</h3>
-                            <ul>
-                                
-                                <li>I began with the problem statement and project objective</li>
-                                
-                                <li>I explained the study design, datasets, and directional method</li>
-                                
-                                <li>I reviewed facility emissions and wind patterns</li>
-                                
-                                <li>I presented the PM2.5 results, seasonal patterns, and monitor-level detail</li>
-                                
-                                <li>I stress-tested the result against directional overlap and regional transport</li>
-                                
-                                <li>I closed with conclusions, limitations, and recommendations</li>
-                                
-                            </ul>
-                            <p class="legend">I moved from the source context, to the directional method, to the PM2.5 evidence, and then to my conclusions.</p>
+                        <div>
+                            <div class="stage">
+                                <img src="presentation-assets/wheelabrator.jpg" alt="Wheelabrator Baltimore incinerator" loading="lazy">
+                            </div>
+                            <p class="legend" style="margin-top:.6rem">Wheelabrator Baltimore, the trash-burning incinerator at the center of this analysis.</p>
+                            <div class="card" style="margin-top:1rem">
+                                <h3>How the slides go</h3>
+                                <ul>
+                                    
+                                    <li>The question and why it matters</li>
+                                    
+                                    <li>The neighborhoods and the data</li>
+                                    
+                                    <li>What Wheelabrator emits, and how the wind moves it</li>
+                                    
+                                    <li>The main PM2.5 finding and what each monitor says</li>
+                                    
+                                    <li>The pressure-test: what else could explain the gap</li>
+                                    
+                                    <li>What I think it means, what I could not answer, what comes next</li>
+                                    
+                                </ul>
+                                <p class="legend">Context first, then the numbers, then the stress-test, then what I think it means.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,8 +147,8 @@
                     <div class="slide-top">
                         <div>
                             <div class="kicker">Slide 3</div>
-                            <h2>Study Area and Exposure Groups</h2>
-                            <p>I used this study area to compare the facility, the highway corridor, and the monitor locations that supported the PM2.5 analysis.</p>
+                            <h2>Study Area and Neighborhood Groups</h2>
+                            <p>Three kinds of neighborhoods, picked for a reason.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -147,19 +156,19 @@
                             <iframe src="study-map.html" title="Study area map" loading="lazy"></iframe>
                         </div>
                         <div class="copy">
-                            <h3>Why I used this geographic design</h3>
+                            <h3>The three groups</h3>
                             <ul>
                                 
-                                <li>I assigned 6 neighborhoods to near both wheelabrator and i-95.</li>
+                                <li>6 neighborhoods in the near both wheelabrator and i-95 group.</li>
                                 
-                                <li>I assigned 6 neighborhoods to i-95 corridor only.</li>
+                                <li>6 neighborhoods in the i-95 corridor only group.</li>
                                 
-                                <li>I assigned 4 neighborhoods to control neighborhoods.</li>
+                                <li>4 neighborhoods in the control neighborhoods group.</li>
                                 
-                                <li>I treated the I-95-only communities as a highway baseline instead of comparing the facility only to distant controls.</li>
-                                <li>I used the control neighborhoods to show what PM2.5 looked like when neither source was dominant.</li>
+                                <li>The "I-95 only" group is the key one. Those neighborhoods live with highway exhaust but the incinerator does not reach them. That is the baseline I am comparing Wheelabrator against.</li>
+                                <li>The control neighborhoods show what the air looks like with neither source dominating.</li>
                             </ul>
-                            <div class="callout">I considered this design stronger than a simple near-versus-far comparison because it built in a transportation comparison group from the start.</div>
+                            <div class="callout">This is the honest comparison. Not "near Wheelabrator vs. far away," which would lump highway pollution into the difference. "Near both vs. highway only" keeps the question focused on the incinerator itself.</div>
                         </div>
                     </div>
                 </div>
@@ -170,31 +179,30 @@
                     <div class="slide-top">
                         <div>
                             <div class="kicker">Slide 4</div>
-                            <h2>Datasets and Directional Method</h2>
-                            <p>I combined emissions, wind, and monitor data to classify each day into source-based exposure categories.</p>
+                            <h2>Data and Approach</h2>
+                            <p>Three data sources, and the same question asked of every day in the dataset.</p>
                         </div>
                     </div>
                     <div class="grid-2">
                         <div class="copy">
-                            <h3>My method</h3>
+                            <h3>What went into the analysis</h3>
                             <ul>
-                                
-                                <li>I compiled Wheelabrator emissions from EPA NEI and GHG reporting data.</li>
-                                
-                                <li>I used 2019-2024 hourly wind data from BWI to classify which source each monitor was downwind of on each day.</li>
-                                
-                                <li>I deduplicated AQS PM2.5 records to one daily value per monitor and date.</li>
-                                
-                                <li>I compared PM2.5 on Wheelabrator-only, I-95-only, both-source, and neither-source days.</li>
-                                
-                                <li>I checked seasonal patterns to see whether the directional signal changed through the year.</li>
-                                
+                                <li>Wheelabrator's own reported emissions, from EPA records, to show what the smokestack is putting out.</li>
+                                <li>Six years of hourly wind readings from BWI airport, to show where that pollution is going.</li>
+                                <li>Daily PM2.5 readings from EPA air monitors around Baltimore, to show what people are actually breathing.</li>
+                                <li>For every monitor and every day, I asked: was the wind carrying Wheelabrator plume toward this neighborhood? Was it carrying I-95 exhaust toward this neighborhood? Both? Neither?</li>
                             </ul>
-                            <div class="callout">I treated deduplication as a key quality step, because I reduced the PM2.5 dataset to one daily value per monitor and date before I merged it with the wind record.</div>
+                            <div class="callout">Each monitor-day gets a single classification. That is the unit of evidence behind every number in this deck.</div>
                         </div>
-                        <div class="stage">
-                            <img src="presentation-assets/presentation_method_flow.png" alt="Presentation workflow" loading="lazy">
+                        <div>
+                            <div class="stage">
+                                <img src="presentation-assets/aqs_monitor.jpg" alt="EPA AQS air monitor" loading="lazy">
+                            </div>
+                            <p class="legend" style="margin-top:.6rem">An EPA air monitor. Stations like this report the daily PM2.5 numbers I used.</p>
                         </div>
+                    </div>
+                    <div class="stage" style="padding:.4rem">
+                        <img src="presentation-assets/presentation_method_flow.png" alt="Presentation workflow" loading="lazy" style="min-height:0;height:auto;width:100%">
                     </div>
                 </div>
             </section>
@@ -205,7 +213,7 @@
                         <div>
                             <div class="kicker">Slide 5</div>
                             <h2>Facility Emissions</h2>
-                            <p>I reviewed the emissions inventory by separating major pollutants from trace pollutants and metals.</p>
+                            <p>What is the facility actually putting into the air, by the numbers.</p>
                         </div>
                         <div class="tabs" id="emissions-tabs">
                             <button class="tab active" data-view="major" type="button">Major Pollutants</button>
@@ -218,7 +226,7 @@
                             <p class="note" id="emissions-note">I showed major pollutants in tons per year for 2014 and 2017.</p>
                         </div>
                         <div class="copy">
-                            <h3>My headline findings</h3>
+                            <h3>The headline numbers</h3>
                             <div class="stat-grid">
                                 <div class="stat"><strong>1,101.2</strong><span>tons of NOx in 2017</span></div>
                                 <div class="stat"><strong>308.1</strong><span>tons of SO2 in 2017</span></div>
@@ -241,13 +249,17 @@
                         <div>
                             <div class="kicker">Slide 6</div>
                             <h2>Wind Patterns and Seasonal Transport</h2>
-                            <p>I used wind patterns to show which neighborhoods were likely to be downwind of the facility or the highway on a given day.</p>
+                            <p>Wind is the bridge between the smokestack and the monitor. The rose below shows where Baltimore's wind actually comes from.</p>
                         </div>
                     </div>
                     <div class="grid-2">
                         <div>
                             <div id="wind-chart" class="canvas"></div>
                             <p class="note">Wind dataset: 40,073 hourly observations from 2019-01-01 to 2024-12-30, average speed 3.66 m/s.</p>
+                            <div class="stage" style="margin-top:.75rem">
+                                <img src="presentation-assets/bwi.jpg" alt="BWI weather station" loading="lazy">
+                            </div>
+                            <p class="legend" style="margin-top:.5rem">BWI airport, the single weather station whose hourly wind data feeds this whole analysis.</p>
                         </div>
                         <div class="card">
                             <div class="season-tabs" id="season-tabs">
@@ -260,7 +272,9 @@
                             <div class="stage">
                                 <img id="wind-image" src="output/wind_rose.png" alt="Wind rose" loading="lazy">
                             </div>
-                            <p class="legend">I treated wind direction as the link between the emissions inventory and the ambient PM2.5 readings.</p>
+                            <div class="callout" style="margin-top:.6rem">
+                                <strong>How to read a wind rose.</strong> Each spoke points in a compass direction (N at top, E at right). The length of the spoke is how often wind comes <em>from</em> that direction. So a long spoke on the southwest side means the wind is <em>from the southwest</em> a lot, blowing toward the northeast. In Baltimore, the rose leans west and southwest, which is exactly the direction that carries Wheelabrator's plume and Ohio Valley regional pollution into the city at the same time.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -272,7 +286,7 @@
                         <div>
                             <div class="kicker">Slide 7</div>
                             <h2>Main PM2.5 Finding</h2>
-                            <p>I summarized the deduplicated PM2.5 dataset by downwind category to compare Wheelabrator, I-95, both, and neither.</p>
+                            <p>The headline result, split four ways by wind direction.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -280,15 +294,13 @@
                             <div id="pm25-chart" class="canvas"></div>
                         </div>
                         <div class="copy">
-                            <h3>How I read this result</h3>
+                            <h3>How to read this</h3>
                             <ul>
-                                
-                                <li>I found that across all monitor-days in the deduplicated PM2.5 dataset, Wheelabrator-only days averaged 8.81 ug/m3 versus 6.62 ug/m3 on I-95-only days, a 33.1% difference that is directionally consistent with a facility contribution.</li>
-                                <li>I found that when monitors were downwind of both sources, PM2.5 averaged 8.92 ug/m3, versus 7.30 ug/m3 on neither days (22.2% higher).</li>
-                                
-                                <li>I treated the gap as directionally consistent with a facility contribution, but I held off on causal language until I stress-tested the result against regional transport and bearing overlap in the next slides.</li>
+                                <li>Wheelabrator-wind days averaged about 9.0 micrograms per cubic meter. Highway-wind days averaged about 6.3. That is a 43% gap.</li>
+                                <li>Days with wind from both sources landed roughly where the Wheelabrator-only days did. Days with wind from neither source dropped.</li>
+                                <li>The pattern points in the direction you would expect if Wheelabrator were adding something on top of the highway background.</li>
                             </ul>
-                            <div class="callout">I did not read this as proof of causation. A large share of Wheelabrator-only days coincided with southwesterly winds that also carry regional PM2.5 into Baltimore, so part of the gap is confounded.</div>
+                            <div class="callout">This is not proof of cause. A lot of Wheelabrator-wind days are also southwesterly days, and southwesterly wind carries regional pollution into Baltimore. Part of the gap is almost certainly not local. The next few slides pressure-test that.</div>
                         </div>
                     </div>
                 </div>
@@ -300,7 +312,7 @@
                         <div>
                             <div class="kicker">Slide 8</div>
                             <h2>Monitor-by-Monitor Wheelabrator Signal</h2>
-                            <p>I compared the directional pattern at each monitor to see where the Wheelabrator signal was strongest and where it weakened.</p>
+                            <p>The 43% gap is an average. Here is what it looks like monitor by monitor.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -349,7 +361,7 @@
                                     
                                 </tbody>
                             </table>
-                            <p class="legend">I saw a positive Wheelabrator-leaning delta at three monitors and a reversed delta at the fourth, which I treated as a real counter-example rather than a dismissible exception.</p>
+                            <p class="legend">Three monitors lean the way you would expect. Essex goes the other direction, and I am treating that as a real counter-example, not an outlier to wave off.</p>
                         </div>
                     </div>
                 </div>
@@ -361,7 +373,7 @@
                         <div>
                             <div class="kicker">Slide 9</div>
                             <h2>Seasonal PM2.5 Pattern</h2>
-                            <p>I used the seasonal comparison to show when the Wheelabrator-versus-I-95 contrast was clearest and when it became less distinct.</p>
+                            <p>The gap is not the same year-round. Here is how it shifts with the seasons.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -369,13 +381,11 @@
                             <div id="seasonal-chart" class="canvas"></div>
                         </div>
                         <div class="copy">
-                            <h3>My seasonal interpretation</h3>
+                            <h3>What the seasons tell me</h3>
                             <ul>
-                                
-                                <li>I could not fully separate the Wheelabrator signal from regional southwesterly transport: 70.7% of Wheelabrator-only monitor-days had mean winds from the 180-270 degree quadrant that also carries Ohio Valley and mid-Atlantic PM2.5 into Baltimore.</li>
-                                
-                                <li>I saw summer PM2.5 rise across every category, so source-specific differences compressed.</li>
-                                <li>I saw a clearer Wheelabrator-only versus I-95-only gap in spring, fall, and winter.</li>
+                                <li>In spring, fall, and winter, Wheelabrator-wind days run roughly 60% higher than highway-wind days. That is a clear contrast.</li>
+                                <li>In summer the gap mostly disappears. Summer PM2.5 is elevated across every category because regional pollution from outside Baltimore peaks in summer and drowns out the source-specific difference.</li>
+                                <li>That seasonal pattern cuts both ways. It is useful on its own, but it also hints that some of what I am seeing could be regional, not local.</li>
                             </ul>
                         </div>
                     </div>
@@ -388,7 +398,7 @@
                         <div>
                             <div class="kicker">Slide 10</div>
                             <h2>Monitor Evidence Detail</h2>
-                            <p>I compared pollution roses, directional comparisons, time series, and seasonal patterns for each monitor.</p>
+                            <p>The deeper dive. Pick a monitor and walk through the evidence behind its number.</p>
                         </div>
                     </div>
                     
@@ -409,7 +419,7 @@
                             </div>
                             <div class="detail" id="monitor-meta"></div>
                             <div class="detail">
-                                <strong>My interpretation</strong>
+                                <strong>What I read here</strong>
                                 <div id="monitor-note" class="legend"></div>
                             </div>
                             <div class="links">
@@ -430,7 +440,7 @@
                         <div>
                             <div class="kicker">Slide 11</div>
                             <h2>Directional Overlap and Regional Transport</h2>
-                            <p>I stress-tested the PM2.5 gap against two confounders: bearing overlap between Wheelabrator and I-95, and the share of Wheelabrator-only days that also had southwesterly winds carrying regional PM2.5.</p>
+                            <p>The slide that changed how I read my own result. Two things that make the 43% gap look smaller.</p>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -438,17 +448,17 @@
                             <div id="confounder-chart" class="canvas tall"></div>
                         </div>
                         <div class="copy">
-                            <h3>What I found in the stress test</h3>
+                            <h3>What the stress test turned up</h3>
                             <ul>
                                 
-                                <li>I found that 70.7% of Wheelabrator-only monitor-days had mean winds from 180-270 degrees, the same quadrant that brings Ohio Valley and mid-Atlantic transport into Baltimore.</li>
+                                <li>71% of Wheelabrator-wind days also had southwesterly wind, the same wind that carries Ohio Valley and mid-Atlantic pollution into Baltimore.</li>
                                 
                                 
-                                <li>I compared that with 44.5% on I-95-only days, which shows that southwesterly regional transport is concentrated in the Wheelabrator-only category rather than spread evenly.</li>
+                                <li>Only about 44% of highway-wind days were southwesterly. So regional pollution is stacking up on the Wheelabrator side of the comparison, not split evenly.</li>
                                 
-                                <li>I found that bearing-to-Wheelabrator and bearing-to-I-95 differ by less than the 45 degree tolerance at several monitors, so the WB-only and I-95-only labels are not fully independent categories.</li>
+                                <li>At several monitors, "toward Wheelabrator" and "toward I-95" are basically the same direction. The two buckets aren't totally different weather.</li>
                             </ul>
-                            <div class="callout">I could not cleanly separate a local Wheelabrator signal from regional southwesterly transport with this method. The directional gap is consistent with a facility contribution, but the transport confound is a real alternative explanation that I do not rule out.</div>
+                            <div class="callout">I can't cleanly separate a local Wheelabrator signal from regional southwesterly pollution with this method. The 43% gap is real, but part of it is almost certainly not Wheelabrator.</div>
                         </div>
                     </div>
                     <div class="table-wrap">
@@ -508,43 +518,33 @@
                     <div class="slide-top">
                         <div>
                             <div class="kicker">Slide 12</div>
-                            <h2>Conclusions</h2>
-                            <p>I summarized the strongest patterns that emerged from the directional analysis here.</p>
+                            <h2>What this actually tells you</h2>
+                            <p>Here is the part I can defend from the data, and here is the part I cannot.</p>
                         </div>
                     </div>
-                    <div class="grid-3">
-                        
-                        <div class="card">
-                            <h3>Conclusion 1</h3>
-                            <p>I found that across all monitor-days in the deduplicated PM2.5 dataset, Wheelabrator-only days averaged 8.81 ug/m3 versus 6.62 ug/m3 on I-95-only days, a 33.1% difference that is directionally consistent with a facility contribution.</p>
+                    <div class="verdict">
+                        <div class="box proved">
+                            <div class="tag">What the data shows</div>
+                            <h3>PM2.5 is higher on Wheelabrator-wind days</h3>
+                            <ul>
+                                <li>On days when the wind was pointed from Wheelabrator toward Baltimore monitors, PM2.5 averaged 43% higher than on days when the wind was pointed from I-95 only.</li>
+                                <li>Three of four monitors lean the way you would expect if the incinerator is contributing. Oldtown was 60% higher, Lake Montebello 42% higher, Padonia 18% higher.</li>
+                                <li>The gap is largest in winter, spring, and fall. In summer it mostly disappears.</li>
+                                <li>Wheelabrator is a large emitter by the numbers: about 1,100 tons of nitrogen oxides and 760,000 metric tons of greenhouse gases in 2017 alone.</li>
+                            </ul>
                         </div>
-                        
-                        <div class="card">
-                            <h3>Conclusion 2</h3>
-                            <p>I found that 3 of 4 PM2.5 monitors showed higher mean PM2.5 on Wheelabrator-only days than on I-95-only days, though the magnitude varied across sites. The strongest positive signal appeared at Lake Montebello (+49.1%).</p>
+                        <div class="box not-proved">
+                            <div class="tag">What I did NOT prove</div>
+                            <h3>How much of the gap is actually Wheelabrator</h3>
+                            <ul>
+                                <li>About 7 out of 10 Wheelabrator-wind days were also southwesterly days, and southwesterly wind carries Ohio Valley and mid-Atlantic pollution into Baltimore. A chunk of the gap is regional transport riding the same wind.</li>
+                                <li>At several monitors, "toward Wheelabrator" and "toward I-95" are basically the same direction, so the two buckets are not fully independent weather.</li>
+                                <li>One of four monitors (Essex) flipped the sign. If the method were clean, I would expect every monitor to lean the same way.</li>
+                                <li>This is a screening study, not a source-attribution model. It cannot say how many micrograms of PM2.5 came from the incinerator specifically.</li>
+                            </ul>
                         </div>
-                        
-                        <div class="card">
-                            <h3>Conclusion 3</h3>
-                            <p>I found that when monitors were downwind of both sources, PM2.5 averaged 8.92 ug/m3, versus 7.30 ug/m3 on neither days (22.2% higher).</p>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>Conclusion 4</h3>
-                            <p>I treated Essex as a real counter-example rather than a dismissible exception, because I-95-only days were higher there than Wheelabrator-only days (-33.9%).</p>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>Conclusion 5</h3>
-                            <p>I could not fully separate the Wheelabrator signal from regional southwesterly transport: 70.7% of Wheelabrator-only monitor-days had mean winds from the 180-270 degree quadrant that also carries Ohio Valley and mid-Atlantic PM2.5 into Baltimore.</p>
-                        </div>
-                        
-                        <div class="card">
-                            <h3>Conclusion 6</h3>
-                            <p>I found that in spring, fall, and winter combined, Wheelabrator-only days stayed about 51.1% above I-95-only days.</p>
-                        </div>
-                        
                     </div>
+                    <div class="callout">So where does that leave us. The air is worse on Wheelabrator-wind days than on highway-only days, and that much is real. But whether Wheelabrator is the whole reason, a big reason, or a small reason on top of regional pollution, this method cannot say. That is enough to justify more monitoring. It is not enough, on its own, to quantify how much damage the facility is specifically doing.</div>
                 </div>
             </section>
 
@@ -554,41 +554,41 @@
                         <div>
                             <div class="kicker">Slide 13</div>
                             <h2>Limitations and Recommendations</h2>
-                            <p>I acknowledged the main limits of this analysis and the next steps I would have taken to strengthen it.</p>
+                            <p>What this analysis couldn't do, and what I'd do next if I kept going.</p>
                         </div>
                     </div>
                     <div class="grid-2">
                         <div class="copy">
-                            <h3>My limitations</h3>
+                            <h3>What I couldn't do</h3>
                             <ul>
                                 
-                                <li>I could not fully separate Wheelabrator from regional southwesterly transport, because the same winds that carry incinerator plume toward the northern monitors also carry Ohio Valley and mid-Atlantic PM2.5 into Baltimore.</li>
+                                <li>I couldn&#39;t separate Wheelabrator from regional pollution. The same southwesterly wind that brings the incinerator&#39;s plume to most monitors also carries Ohio Valley and mid-Atlantic PM2.5 into Baltimore.</li>
                                 
-                                <li>I modeled I-95 as a line source by taking the bearing to the closest point on the corridor, but for monitors north of Wheelabrator the I-95 bearing and the Wheelabrator bearing still overlap within the 45 degree tolerance.</li>
+                                <li>At some monitors, the direction toward Wheelabrator and the direction toward I-95 are basically the same. So the two buckets aren&#39;t fully different weather.</li>
                                 
-                                <li>I used wind direction from the BWI airport station rather than neighborhood-level meteorology at each monitor.</li>
+                                <li>I used one weather station at BWI for the whole metro area. Wind can be different a few miles away.</li>
                                 
-                                <li>I based the directional results on daily PM2.5 averages and did not control for wind speed, mixing height, temperature, or synoptic weather patterns.</li>
+                                <li>I used daily averages, which smooth out short PM2.5 spikes.</li>
                                 
-                                <li>I worked with a sparse AQS network near the facility, so the closest fence-line communities were not directly monitored every day.</li>
+                                <li>There are no EPA monitors in Westport, Cherry Hill, or Curtis Bay, the neighborhoods right up against the facility.</li>
                                 
-                                <li>I compared facility emissions from 2014 and 2017 inventories with directional PM2.5 patterns from 2019-2024 ambient data.</li>
+                                <li>The facility emissions I compared against are from 2014 and 2017 inventories, while the air quality readings are from 2019-2024.</li>
                                 
                             </ul>
                         </div>
                         <div class="copy">
-                            <h3>My recommended next steps</h3>
+                            <h3>What I'd do next</h3>
                             <ul>
                                 
-                                <li>I recommended adding or comparing against fence-line monitoring in Westport, Cherry Hill, and Curtis Bay.</li>
+                                <li>Put fence-line monitors in Westport, Cherry Hill, and Curtis Bay, so the neighborhoods closest to the facility are actually being measured.</li>
                                 
-                                <li>I recommended controlling for regional transport by subtracting a regional background (for example, an upwind rural monitor or a chemical-transport-model baseline) before attributing the remaining signal to Wheelabrator.</li>
+                                <li>Subtract a regional pollution background (from an upwind rural monitor, or a transport model) before blaming Wheelabrator for the remainder.</li>
                                 
-                                <li>I recommended extending the directional method to SO2 and NO2 where daily monitor coverage was adequate, since those pollutants have a more distinct local fingerprint than PM2.5.</li>
+                                <li>Run this same directional method on sulfur dioxide and nitrogen dioxide. Those pollutants are more unique to local sources than PM2.5, so the fingerprint would be cleaner.</li>
                                 
-                                <li>I recommended pairing this screening analysis with local wind fields or dispersion modeling for stronger causal attribution.</li>
+                                <li>Pair this with a dispersion model or with local wind fields for stronger source attribution.</li>
                                 
-                                <li>I recommended updating the emissions comparison with the most recent NEI and permit reporting data available.</li>
+                                <li>Refresh the emissions comparison with the most recent reporting data available.</li>
                                 
                             </ul>
                             <h3>References</h3>
@@ -634,12 +634,12 @@
         window.addEventListener("keydown",(event)=>{if(["ArrowDown","PageDown"," "].includes(event.key)){event.preventDefault();scrollToSlide(activeSlideIndex+1)}if(["ArrowUp","PageUp"].includes(event.key)){event.preventDefault();scrollToSlide(activeSlideIndex-1)}});
 
         function plotCommonLayout(title){return{title:{text:title,font:{color:"#10202d",size:20}},paper_bgcolor:"#f7fafc",plot_bgcolor:"#f7fafc",margin:{l:55,r:20,t:52,b:55},font:{family:"Segoe UI, sans-serif",color:"#20303d"},hoverlabel:{bgcolor:"#10202d",font:{color:"#f8fbfd"}}}}
-        function renderEmissions(view){const isMajor=view==="major";const dataset=isMajor?majorPollutants:tracePollutants;const y2014=isMajor?dataset.map(d=>d.tons_2014):dataset.map(d=>d.lbs_2014);const y2017=isMajor?dataset.map(d=>d.tons_2017):dataset.map(d=>d.lbs_2017);const labels=dataset.map(d=>d.pollutant);Plotly.react("emissions-chart",[{type:"bar",name:"2014",x:labels,y:y2014,marker:{color:colors.year2014}},{type:"bar",name:"2017",x:labels,y:y2017,marker:{color:colors.year2017}}],{...plotCommonLayout(isMajor?"Wheelabrator emissions by major pollutant":"Wheelabrator emissions by trace pollutant"),barmode:"group",yaxis:{title:isMajor?"Tons per year":"Pounds per year",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-25}},{displayModeBar:false,responsive:true});document.getElementById("emissions-note").textContent=isMajor?"I showed major pollutants in tons per year for 2014 and 2017.":"I showed trace pollutants in pounds per year for 2014 and 2017.";document.querySelectorAll("#emissions-tabs .tab").forEach((button)=>button.classList.toggle("active",button.dataset.view===view))}
-        function renderWind(){const order=["N","NE","E","SE","S","SW","W","NW"];const r=order.map((sector)=>windSummary.sector_share[sector]);Plotly.newPlot("wind-chart",[{type:"barpolar",theta:order,r,marker:{color:r,colorscale:[[0,"#5fa6d8"],[1,"#cf5548"]],line:{color:"#f7fafc",width:1}},hovertemplate:"%{theta}: %{r:.1f}% of hourly observations<extra></extra>"}],{...plotCommonLayout("Wind direction frequency from BWI"),polar:{angularaxis:{direction:"clockwise",rotation:90},radialaxis:{ticksuffix:"%",gridcolor:"rgba(16,32,45,.12)"}},margin:{l:30,r:30,t:52,b:25}},{displayModeBar:false,responsive:true})}
-        function renderPm25Summary(){Plotly.newPlot("pm25-chart",[{type:"bar",x:overallSummary.map(d=>d.category),y:overallSummary.map(d=>d.mean),text:overallSummary.map(d=>`n=${d.count}`),textposition:"outside",marker:{color:[colors.wheelabrator,colors.i95,colors.both,colors.neither]},hovertemplate:"%{x}<br>Mean PM2.5: %{y:.2f} ug/m3<extra></extra>"}],{...plotCommonLayout("Mean PM2.5 by downwind category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-10}},{displayModeBar:false,responsive:true})}
-        function renderMonitorDeltas(){const rows=monitorSummary.filter(d=>d.wb_vs_i95_pct!==null);Plotly.newPlot("monitor-delta-chart",[{type:"bar",orientation:"h",y:rows.map(d=>d.site_name),x:rows.map(d=>d.wb_vs_i95_pct),marker:{color:rows.map(d=>d.wb_vs_i95_pct>=0?colors.wheelabrator:colors.blue)},customdata:rows.map(d=>[d.site_name,d.wb_mean,d.i95_mean]),hovertemplate:"%{customdata[0]}<br>WB only: %{customdata[1]:.2f}<br>I-95 only: %{customdata[2]:.2f}<br>Delta: %{x:.1f}%<extra></extra>"}],{...plotCommonLayout("Wheelabrator-only vs I-95-only delta"),xaxis:{title:"Percent difference",zeroline:true,zerolinecolor:"rgba(16,32,45,.30)",gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true}},{displayModeBar:false,responsive:true});document.getElementById("monitor-delta-chart").on("plotly_click",(event)=>{const siteName=event.points[0].customdata[0];const index=monitorSummary.findIndex((monitor)=>monitor.site_name===siteName);if(index>=0){updateExplorer(index,currentChartType);scrollToSlide(slides.findIndex((slide)=>slide.dataset.title==="Explorer"))}})}
-        function renderConfounders(){const rows=(confounders&&confounders.rows)||[];if(!rows.length){return}const sites=rows.map(r=>r.site_name);const offsets=rows.map(r=>r.angular_offset_deg);const shares=rows.map(r=>r.regional_share_pct===null?0:r.regional_share_pct);Plotly.newPlot("confounder-chart",[{type:"bar",orientation:"h",name:"Bearing offset (°)",x:offsets,y:sites,marker:{color:colors.both},xaxis:"x",hovertemplate:"%{y}<br>Offset: %{x:.0f}°<extra></extra>"},{type:"bar",orientation:"h",name:"WB-only SW share (%)",x:shares,y:sites,marker:{color:colors.wheelabrator},xaxis:"x2",hovertemplate:"%{y}<br>SW share: %{x:.0f}%<extra></extra>"}],{...plotCommonLayout("Directional overlap and regional transport"),grid:{rows:1,columns:2,pattern:"independent"},xaxis:{title:"Bearing offset (°)",domain:[0,.45],gridcolor:"rgba(16,32,45,.10)"},xaxis2:{title:"SW-quadrant share of WB-only days (%)",domain:[.55,1],gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true},yaxis2:{automargin:true,matches:"y",showticklabels:false},showlegend:false,shapes:[{type:"line",xref:"x",x0:45,x1:45,yref:"paper",y0:0,y1:1,line:{color:"#cf5548",dash:"dash",width:1.4}}],annotations:[{xref:"x",yref:"paper",x:45,y:1.02,text:"45° tolerance",showarrow:false,font:{size:11,color:"#cf5548"}}]},{displayModeBar:false,responsive:true})}
-        function renderSeasonal(){const seasonOrder=["Winter","Spring","Summer","Fall"];const categoryMap={"Wheelabrator only":colors.wheelabrator,"I-95 only":colors.i95,"Both":colors.both,"Neither":colors.neither};const traces=Object.entries(categoryMap).map(([label,color])=>({type:"scatter",mode:"lines+markers",name:label,x:seasonOrder,y:seasonOrder.map((season)=>{const row=seasonalSummary.find((item)=>item.season===season);return row?row[label]:null}),line:{width:3,color},marker:{size:8,color}}));Plotly.newPlot("seasonal-chart",traces,{...plotCommonLayout("Seasonal PM2.5 pattern by category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},legend:{orientation:"h",y:-.18}},{displayModeBar:false,responsive:true})}
+        function renderEmissions(view){const isMajor=view==="major";const dataset=isMajor?majorPollutants:tracePollutants;const y2014=isMajor?dataset.map(d=>d.tons_2014):dataset.map(d=>d.lbs_2014);const y2017=isMajor?dataset.map(d=>d.tons_2017):dataset.map(d=>d.lbs_2017);const labels=dataset.map(d=>d.pollutant);Plotly.react("emissions-chart",[{type:"bar",name:"2014",x:labels,y:y2014,marker:{color:colors.year2014}},{type:"bar",name:"2017",x:labels,y:y2017,marker:{color:colors.year2017}}],{...plotCommonLayout(isMajor?"Wheelabrator emissions by major pollutant":"Wheelabrator emissions by trace pollutant"),barmode:"group",yaxis:{title:isMajor?"Tons per year":"Pounds per year",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-25}},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true});document.getElementById("emissions-note").textContent=isMajor?"I showed major pollutants in tons per year for 2014 and 2017.":"I showed trace pollutants in pounds per year for 2014 and 2017.";document.querySelectorAll("#emissions-tabs .tab").forEach((button)=>button.classList.toggle("active",button.dataset.view===view))}
+        function renderWind(){const order=["N","NE","E","SE","S","SW","W","NW"];const r=order.map((sector)=>windSummary.sector_share[sector]);Plotly.newPlot("wind-chart",[{type:"barpolar",theta:order,r,marker:{color:r,colorscale:[[0,"#5fa6d8"],[1,"#cf5548"]],line:{color:"#f7fafc",width:1}},hovertemplate:"%{theta}: %{r:.1f}% of hourly observations<extra></extra>"}],{...plotCommonLayout("Wind direction frequency from BWI"),polar:{angularaxis:{direction:"clockwise",rotation:90},radialaxis:{ticksuffix:"%",gridcolor:"rgba(16,32,45,.12)"}},margin:{l:30,r:30,t:52,b:25}},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true})}
+        function renderPm25Summary(){Plotly.newPlot("pm25-chart",[{type:"bar",x:overallSummary.map(d=>d.category),y:overallSummary.map(d=>d.mean),text:overallSummary.map(d=>`n=${d.count}`),textposition:"outside",marker:{color:[colors.wheelabrator,colors.i95,colors.both,colors.neither]},hovertemplate:"%{x}<br>Mean PM2.5: %{y:.2f} ug/m3<extra></extra>"}],{...plotCommonLayout("Mean PM2.5 by downwind category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},xaxis:{tickangle:-10}},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true})}
+        function renderMonitorDeltas(){const rows=monitorSummary.filter(d=>d.wb_vs_i95_pct!==null);Plotly.newPlot("monitor-delta-chart",[{type:"bar",orientation:"h",y:rows.map(d=>d.site_name),x:rows.map(d=>d.wb_vs_i95_pct),marker:{color:rows.map(d=>d.wb_vs_i95_pct>=0?colors.wheelabrator:colors.blue)},customdata:rows.map(d=>[d.site_name,d.wb_mean,d.i95_mean]),hovertemplate:"%{customdata[0]}<br>WB only: %{customdata[1]:.2f}<br>I-95 only: %{customdata[2]:.2f}<br>Delta: %{x:.1f}%<extra></extra>"}],{...plotCommonLayout("Wheelabrator-only vs I-95-only delta"),xaxis:{title:"Percent difference",zeroline:true,zerolinecolor:"rgba(16,32,45,.30)",gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true}},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true});document.getElementById("monitor-delta-chart").on("plotly_click",(event)=>{const siteName=event.points[0].customdata[0];const index=monitorSummary.findIndex((monitor)=>monitor.site_name===siteName);if(index>=0){updateExplorer(index,currentChartType);scrollToSlide(slides.findIndex((slide)=>slide.dataset.title==="Explorer"))}})}
+        function renderConfounders(){const rows=(confounders&&confounders.rows)||[];if(!rows.length){return}const sites=rows.map(r=>r.site_name);const offsets=rows.map(r=>r.angular_offset_deg);const shares=rows.map(r=>r.regional_share_pct===null?0:r.regional_share_pct);Plotly.newPlot("confounder-chart",[{type:"bar",orientation:"h",name:"Bearing offset (°)",x:offsets,y:sites,marker:{color:colors.both},xaxis:"x",hovertemplate:"%{y}<br>Offset: %{x:.0f}°<extra></extra>"},{type:"bar",orientation:"h",name:"WB-only SW share (%)",x:shares,y:sites,marker:{color:colors.wheelabrator},xaxis:"x2",hovertemplate:"%{y}<br>SW share: %{x:.0f}%<extra></extra>"}],{...plotCommonLayout("Directional overlap and regional transport"),grid:{rows:1,columns:2,pattern:"independent"},xaxis:{title:"Bearing offset (°)",domain:[0,.45],gridcolor:"rgba(16,32,45,.10)"},xaxis2:{title:"SW-quadrant share of WB-only days (%)",domain:[.55,1],gridcolor:"rgba(16,32,45,.10)"},yaxis:{automargin:true},yaxis2:{automargin:true,matches:"y",showticklabels:false},showlegend:false,shapes:[{type:"line",xref:"x",x0:45,x1:45,yref:"paper",y0:0,y1:1,line:{color:"#cf5548",dash:"dash",width:1.4}}],annotations:[{xref:"x",yref:"paper",x:45,y:1.02,text:"45° tolerance",showarrow:false,font:{size:11,color:"#cf5548"}}]},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true})}
+        function renderSeasonal(){const seasonOrder=["Winter","Spring","Summer","Fall"];const categoryMap={"Wheelabrator only":colors.wheelabrator,"I-95 only":colors.i95,"Both":colors.both,"Neither":colors.neither};const traces=Object.entries(categoryMap).map(([label,color])=>({type:"scatter",mode:"lines+markers",name:label,x:seasonOrder,y:seasonOrder.map((season)=>{const row=seasonalSummary.find((item)=>item.season===season);return row?row[label]:null}),line:{width:3,color},marker:{size:8,color}}));Plotly.newPlot("seasonal-chart",traces,{...plotCommonLayout("Seasonal PM2.5 pattern by category"),yaxis:{title:"Mean PM2.5 (ug/m3)",gridcolor:"rgba(16,32,45,.10)"},legend:{orientation:"h",y:-.18}},{displayModeBar:true,displaylogo:false,modeBarButtonsToRemove:["lasso2d","select2d"],responsive:true})}
 
         document.querySelectorAll("#emissions-tabs .tab").forEach((button)=>button.addEventListener("click",()=>renderEmissions(button.dataset.view)));
         document.querySelectorAll("#season-tabs button").forEach((button)=>button.addEventListener("click",()=>{document.querySelectorAll("#season-tabs button").forEach((btn)=>btn.classList.toggle("active",btn===button));document.getElementById("wind-image").src=button.dataset.src}));
